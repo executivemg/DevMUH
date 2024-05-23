@@ -1,5 +1,5 @@
-import connect from '@/db/connect';
-import User from '@/models/UserModel';
+import connect from "@/db/connect";
+import User from "@/models/UserModel";
 import bcrypt from 'bcryptjs'
 import { NextResponse } from "next/server";
 
@@ -10,6 +10,9 @@ export async function POST(req) {
         const { name, email, password, phone } = reqBody
 
         const isUser = await User.findOne({ email })
+
+
+
 
         if (isUser) {
             return NextResponse.json({ success: false, message: "Email address already in use!" }, { status: 409 })

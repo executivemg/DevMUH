@@ -2,19 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
 import toast from "react-hot-toast";
-import { Button, Carousel } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import GoogleMap from "@/components/map/GoogleMap";
 import Quantity from "@/components/cart/Quantity";
 import { usePopup } from "@/context/PopupContext";
 import { useSearchParams } from "next/navigation";
 import { GetEvent } from "@/helper/Event";
-import { PropagateLoader } from "react-spinners";
-import Image from "next/image";
 
 const Page = ({ params }) => {
 	const { addToCart, proquantity, setProquantity } = useCart();
 	const { price, setPrice, variantsDes, setVariantsdes } = usePopup();
-	const [event, setEvent] = useState([]);
+	const [event, setEvent] = useState(null);
 	const searchParams = useSearchParams();
 
 	const prices = searchParams.get("price");
@@ -26,10 +24,10 @@ const Page = ({ params }) => {
 		toast.success("Added to cart successfully!");
 	};
 
-	useEffect(() => {
+	/* useEffect(() => {
 		const fetchEvents = async () => {
 			try {
-				const url = `/api/create-event?event_name=${id}`;
+				const url = `/api/create-event`;
 				const data = await GetEvent(url);
 				setEvent(data.data);
 			} catch (error) {
@@ -39,57 +37,55 @@ const Page = ({ params }) => {
 
 		fetchEvents();
 		setPrice(prices);
-	}, []);
+	}, []); */
 
 	const handleDetails = (price, des) => {
 		setPrice(price);
 		setVariantsdes(des);
 	};
 
-	const handleContactOrganizer = () => {
-		const emailAddress = `${event[0].email}`; // Replace with the organizer's email
-		const subject = "Regarding Event Inquiry"; // Subject of the email
-
-		// Compose the mailto URL with the email address and subject
-		const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}`;
-
-		// Open the default email client
-		window.open(mailtoUrl, "_blank");
-	};
-	const customControlsClassNames = {
-		prevButton: "text-red-500", // Customize the color of the previous button
-		nextButton: "text-blue-500", // Customize the color of the next button
-	};
 	return (
 		<div className="">
-			{event?.length === 0 ? (
-				<div className="h-[100vh] flex justify-center items-center">
-					<PropagateLoader color="#363bd6" cssOverride={{}} loading size={10} />
-				</div>
+			{event === null ? (
+				<div>loading</div>
 			) : (
 				<div className="container mx-auto px-4">
-					{event && event.map((item, index) => {
+					{event.map((item, index) => {
 						return (
-							item._id === id || (
+							item._id === id ||
+							(item.eventTitle === id.replace(/%20/g, " ") && (
 								<div key={index} className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
 									<div className="lg:col-span-3 lg:row-end-1">
 										<div className="lg:flex lg:items-start">
-											<Carousel transition={{ duration: 0.5 }} className="rounded-xl" controlsClassNames={customControlsClassNames}>
-												{item.flyerURLs.map((url, index) => (
-													<Image key={index} width={600} height={500} src={url} alt={index} className="h-auto w-full object-cover" />
-												))}
-											</Carousel>
+											<div className="lg:order-2 lg:ml-5">
+												<div className="max-w-xl overflow-hidden rounded-lg">
+													<img className="h-full w-full max-w-full object-cover" src={item.flyerURLs} alt="" />
+												</div>
+											</div>
+											<div className="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
+												<div className="flex flex-row items-start lg:flex-col">
+													<button type="button" className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center">
+														<img className="h-full w-full object-cover" src={item.flyerURLs} alt="" />
+													</button>
+													<button type="button" className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
+														<img className="h-full w-full object-cover" src={item.flyerURLs} alt="" />
+													</button>
+													<button type="button" className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
+														<img className="h-full w-full object-cover" src={item.flyerURLs} alt="" />
+													</button>
+												</div>
+											</div>
 										</div>
 									</div>
 									<div className="lg:col-span-2 lg:row-span-2 lg:row-end-2 ">
 										<h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">{item.eventTitle}</h1>
-										<div className="mt-3 flex   select-none flex-wrap items-center gap-1">
-											{item.variants.map((variant, index) => (
+										<div className="mt-3 flex select-none flex-wrap items-center gap-1">
+											{/* {item.variants.map((variant, index) => (
 												<label key={index} className="">
-													<input type="radio" name="type" value={variant.type} className="peer sr-only" onChange={() => handleDetails(variant.price, variant.v_description)} />
+													<input type="radio" name="type" value={variant.type} className="peer sr-only" onChange={() => handleDetails(variant.price, variant.description)} />
 													<p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">{variant.type}</p>
 												</label>
-											))}
+											))} */}
 											<p className="text-gray-600 mt-2 font-semibold">{variantsDes}</p>
 										</div>
 										<div className="mt-10 grid grid-cols-1 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
@@ -108,7 +104,7 @@ const Page = ({ params }) => {
 												Add to cart
 											</Button>
 											<div className="flex justify-center">
-												<Button onClick={handleContactOrganizer} className="mt-4 flex justify-between items-center w-44 mr-4">
+												<Button className="mt-4 flex justify-between items-center w-44 mr-4">
 													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 														<path
 															stroke-linecap="round"
@@ -139,7 +135,9 @@ const Page = ({ params }) => {
 													</a>
 												</nav>
 											</div>
-											<div className="mt-8 flow-root sm:mt-12" dangerouslySetInnerHTML={{ __html: item.description }} />
+											<div className="mt-8 flow-root sm:mt-12">
+												<p className=" text-black">{item.description}</p>
+											</div>
 										</div>
 										<div className="lg:col-span-3">
 											<div className="border-b border-gray-300">
@@ -154,7 +152,7 @@ const Page = ({ params }) => {
 										<GoogleMap />
 									</div>
 								</div>
-							)
+							))
 						);
 					})}
 				</div>
