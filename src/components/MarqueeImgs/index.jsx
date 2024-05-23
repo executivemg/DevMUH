@@ -23,8 +23,6 @@ const MarqueeImgs = () => {
   const shuffledImages1 = shuffleArray([...images]);
   const shuffledImages2 = shuffleArray([...images]);
 
-  
-
   return (
     <div className="pt-52">
       <Marquee pauseOnHover speed={30}>
