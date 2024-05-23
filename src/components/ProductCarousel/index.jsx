@@ -102,7 +102,7 @@ const ProductCarousel = ({ className }) => {
                     )}
                 </Carousel>
                 <div className='mt-6 flex justify-center'>
-                    <button className='bg-[#2C3BFA] hover:bg-[#2c3afad7] text-white px-5 py-3 font-semibold text-xl rounded-xl'>
+                    <button className='flex items-center gap-2 mt-8 rounded-md px-[4%] py-4 font-semibold text-white bg-gradient-to-r from-[#2C3BFA] to-[#B10C61] hover:from-[#B10C61] hover:to-[#2C3BFA] text-xl'>
                         View All
                     </button>
                 </div>

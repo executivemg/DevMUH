@@ -52,7 +52,7 @@ const Header = () => {
             <SideBar showSideBar={showSideBar} setShowSideBar={setShowSideBar} />
             <div className={`bg-[#2C3BFA] w-[98.75vw] flex justify-center text-white absolute top-0 py-2 ${isScrolled ? 'top-2' : ''}`}>
                 <div className='sm:w-[80vw] w-[90vw] 2xl:w-[1500px] flex justify-between items-center'>
-                    <h1 className='text-white font-semibold text-lg line-clamp-1'>Your exclusive access to the hottest events, concerts parties, and celebrations in the world!</h1>
+                    <h1 className='text-white font-semibold text-lg line-clamp-1'>Your VIP access to the hottest events, concerts, parties, and celebrations in the world!</h1>
                     {session ? (
                         <div>
                             <div className="cursor-pointer" onClick={handleMenu}>

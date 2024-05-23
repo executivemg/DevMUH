@@ -32,7 +32,7 @@ const VideoCont = () => {
         <div className='md:w-[35%] w-full'>
           <div className='flex gap-3 items-center'>
             <div className='w-10 h-[2px] bg-[#2C3BFA] transition-all duration-500'></div>
-            <h2 className='text-3xl font-bold text-white'>Exclusive Entry, to the worlds best</h2>
+            <h2 className='text-3xl font-bold text-white'>Exclusive Entry to The Worlds Best!</h2>
           </div>
           <h1 className='mt-4 text-5xl font-bold'>
             <span className='text-white'>EVENT </span>
