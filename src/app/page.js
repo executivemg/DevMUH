@@ -11,7 +11,7 @@ export default function Home() {
     <Banner video={data.videos.video1} className={"mt-14"} />
     <div className="mt-10 overflow-x-hidden">
       <ImgBanner src="/upcomingBanner.png" className="" />
-      <ProductCarousel className="sm:pt-16 pt-20" />
+      <ProductCarousel className="pt-16" />
       <ProductCarousel className="pt-20" />
 
       {/* <Upcoming /> */}
