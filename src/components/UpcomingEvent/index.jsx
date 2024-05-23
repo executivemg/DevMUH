@@ -1,5 +1,5 @@
 import CarouselCmp from "../Carousel"
-import Col1 from "./col1"
+import Col1 from "./Col1"
 
 const cont = `w-full bg-[#0C0814] border-gray-500 border-[1.5px] px-8 py-5 rounded-2xl hover:bg-gradient-to-r hover:from-[#B10C61] hover:to-[#2C3BFA] cursor-none transition-all duration-1000`
 const h1 = "text-[#CCCCCC] text-4xl font-bold"
