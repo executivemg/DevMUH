@@ -27,7 +27,7 @@ const VideoCont = () => {
   );
 
   return (
-    <section className='w-[98.75vw] flex justify-center pt-52'>
+    <section className='w-[98.75vw] flex justify-center sm:pt-52 pt-16'>
       <div className='sm:w-[80vw] w-[90vw] 2xl:w-[1500px] flex md:justify-between md:flex-row flex-col gap-4'>
         <div className='md:w-[35%] w-full'>
           <div className='flex gap-3 items-center'>

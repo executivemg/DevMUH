@@ -1,166 +1,167 @@
-"use client";
+"use client"
+
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useCart } from "@/context/CartContext";
-import toast from "react-hot-toast";
-import { Button, Carousel } from "@material-tailwind/react";
-import GoogleMap from "@/components/map/GoogleMap";
-import Quantity from "@/components/cart/Quantity";
-import { usePopup } from "@/context/PopupContext";
-import { useSearchParams } from "next/navigation";
-import { GetEvent } from "@/helper/Event";
+import { format } from 'date-fns';
+import { Add, LocalActivity, Remove } from "@mui/icons-material";
 import { PropagateLoader } from "react-spinners";
-import Image from "next/image";
+import { Footer, Header } from "@/components";
+import { SessionProvider } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/store/slices/cartSlice";
+
+const common = `px-[5%] py-4 cursor-pointer text-white border-b border-[1px] border-[#28242F] flex justify-between items-center`
+const active = `bg-gradient-to-r from-[#2C3BFA] to-[#B10C61] text-white hover:from-[#B10C61] hover:to-[#2C3BFA]`
+const controls = `p-3 border-gray-500 border-[1.5px] rounded-lg text-gray-400 cursor-pointer`
+const gradient = `bg-gradient-to-b from-[#2C3BFA] to-[#B10C61]`
+const itemCenter = `flex items-center`
 
 const Page = ({ params }) => {
-	const { addToCart, proquantity, setProquantity } = useCart();
-	const { price, setPrice, variantsDes, setVariantsdes } = usePopup();
-	const [event, setEvent] = useState([]);
-	const searchParams = useSearchParams();
+    const id = params.id;
 
-	const prices = searchParams.get("price");
-	const id = params.id;
+    const [product, setProduct] = useState(null);
+    const [error, setError] = useState(null);
+    const [student, setStudent] = useState(false)
+    const [Vip, setVip] = useState(false)
+    const [general, setGeneral] = useState(true)
+    const [count, setCount] = useState(1)
+    const dispatch = useDispatch();
 
-	const handleCart = (product, proquantity) => {
-		addToCart(product, proquantity);
-		setProquantity(1);
-		toast.success("Added to cart successfully!");
-	};
+    useEffect(() => {
+        let isMounted = true;
 
-	useEffect(() => {
-		const fetchEvents = async () => {
-			try {
-				const url = `/api/create-event?event_name=${id}`;
-				const data = await GetEvent(url);
-				setEvent(data.data);
-			} catch (error) {
-				console.error("Error fetching events:", error);
-			}
-		};
+        (async () => {
+            try {
+                const res = await axios.get(`/api/events?event=${id}`);
+                if (isMounted) {
+                    setProduct(res?.data?.data[0]);
+                }
+            } catch (error) {
+                if (isMounted) {
+                    setError(error);
+                }
+            }
+        })();
+        return () => {
+            isMounted = false;
+        };
+    }, [id]);
 
-		fetchEvents();
-		setPrice(prices);
-	}, []);
+    const handleAddToCart = () => {
+        const event = {
+            ...product,
+            quantity: count,
+            price: student ? product?.prices?.student : Vip ? product?.prices?.vip : general ? product?.prices?.general : undefined,
+            category: student ? "Student" : Vip ? "Vip" : general ? "General" : undefined
+        }
+        dispatch(addToCart(event));
+    };
 
-	const handleDetails = (price, des) => {
-		setPrice(price);
-		setVariantsdes(des);
-	};
+    if (error) {
+        return <div>Error fetching data</div>;
+    }
 
-	const handleContactOrganizer = () => {
-		const emailAddress = `${event[0].email}`; // Replace with the organizer's email
-		const subject = "Regarding Event Inquiry"; // Subject of the email
+    if (!product) {
+        return <div>Loading...</div>;
+    }
 
-		// Compose the mailto URL with the email address and subject
-		const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}`;
+    const handleClick = itemName => {
+        const stateMap = {
+            student: setStudent,
+            Vip: setVip,
+            general: setGeneral,
+        };
 
-		// Open the default email client
-		window.open(mailtoUrl, "_blank");
-	};
-	const customControlsClassNames = {
-		prevButton: "text-red-500", // Customize the color of the previous button
-		nextButton: "text-blue-500", // Customize the color of the next button
-	};
-	return (
-		<div className="">
-			{event?.length === 0 ? (
-				<div className="h-[100vh] flex justify-center items-center">
-					<PropagateLoader color="#363bd6" cssOverride={{}} loading size={10} />
-				</div>
-			) : (
-				<div className="container mx-auto px-4">
-					{event && event.map((item, index) => {
-						return (
-							item._id === id || (
-								<div key={index} className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
-									<div className="lg:col-span-3 lg:row-end-1">
-										<div className="lg:flex lg:items-start">
-											<Carousel transition={{ duration: 0.5 }} className="rounded-xl" controlsClassNames={customControlsClassNames}>
-												{item.flyerURLs.map((url, index) => (
-													<Image key={index} width={600} height={500} src={url} alt={index} className="h-auto w-full object-cover" />
-												))}
-											</Carousel>
-										</div>
-									</div>
-									<div className="lg:col-span-2 lg:row-span-2 lg:row-end-2 ">
-										<h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">{item.eventTitle}</h1>
-										<div className="mt-3 flex   select-none flex-wrap items-center gap-1">
-											{item.variants.map((variant, index) => (
-												<label key={index} className="">
-													<input type="radio" name="type" value={variant.type} className="peer sr-only" onChange={() => handleDetails(variant.price, variant.v_description)} />
-													<p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">{variant.type}</p>
-												</label>
-											))}
-											<p className="text-gray-600 mt-2 font-semibold">{variantsDes}</p>
-										</div>
-										<div className="mt-10 grid grid-cols-1 space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
-											<div className=" grid grid-cols-2  h-10 mb-10 mr-8">
-												<h1 className=" text-3xl font-bold mt-[-1px]">${prices === null ? item.ticketPrice : price}</h1>
-												<Quantity quantity={proquantity} productID={item.id} />
-											</div>
-											<Button
-												onClick={() => {
-													handleCart(item, proquantity);
-												}}
-												className="flex justify-center items-center max-sm:mt-[-50px]">
-												<svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-													<path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-												</svg>
-												Add to cart
-											</Button>
-											<div className="flex justify-center">
-												<Button onClick={handleContactOrganizer} className="mt-4 flex justify-between items-center w-44 mr-4">
-													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-														<path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
-														/>
-													</svg>
-													Contact the organizer
-												</Button>
-												<Button className="mt-4 flex justify-between w-32 items-center">
-													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-														<path
-															strokeLinecap="round"
-															strokeLinejoin="round"
-															d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z"
-														/>
-													</svg>
-													Share
-												</Button>
-											</div>
-										</div>
+        Object.keys(stateMap).forEach(key => {
+            stateMap[key](key === itemName);
+        });
+        console.log(student, Vip, general);
+    }
 
-										<div className="lg:col-span-3">
-											<div className="border-b border-gray-300">
-												<nav className="flex gap-4">
-													<a href="#" title="" className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800">
-														Description
-													</a>
-												</nav>
-											</div>
-											<div className="mt-8 flow-root sm:mt-12" dangerouslySetInnerHTML={{ __html: item.description }} />
-										</div>
-										<div className="lg:col-span-3">
-											<div className="border-b border-gray-300">
-												<nav className="flex gap-4">
-													<a href="#" title="" className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800">
-														Location
-													</a>
-												</nav>
-											</div>
-										</div>
+    return (
+        <>
+            <Header />
+            <section className='lg:w-[98.75vw] w-[98vw] flex justify-center mt-[180px]'>
+                {product ? (
+                    <div className='md:w-[80vw] w-[90vw] 2xl:w-[1500px] grid md:grid-cols-2 grid-cols-1 gap-12 items-center'>
+                        <div className="">
+                            <div className={`w-[90%] rounded-2xl ${gradient}`}>
+                                <img src={product?.img} className="rounded-2xl min-w-[100%] max-h-[500px] object-cover translate-x-9 -translate-y-9 shadow-lg shadow-gray-600" />
+                            </div>
+                        </div>
+                        <div className="w-full">
+                            <div className={`${itemCenter} gap-3 cont`}>
+                                <div className='w-10 h-[2px] bg-[#2C3BFA] transition-all duration-500 wid'></div>
+                                <h2 className='text-3xl font-bold text-white'>Ticket</h2>
+                            </div>
 
-										<GoogleMap />
-									</div>
-								</div>
-							)
-						);
-					})}
-				</div>
-			)}
-		</div>
-	);
+                            <h1 className="text-5xl text-transparent bord font-bold mt-6">{product?.eventTitle}</h1>
+                            <p className="text-[#BDBDBE] text-xl font-light mb-1 mt-4">{format(product?.dateOfEvent, 'MMM dd yyyy')}</p>
+                            <p className="text-[#BDBDBE] text-xl font-light">{format(product?.dateOfEvent, 'HH:mm a')}</p>
+
+                            <div className='w-full border-[1.54px] border-gray-700 rounded-3xl overflow-x-hidden mt-4'>
+
+                                {[
+                                    {
+                                        param: "general",
+                                        condition: general,
+                                        h1: "General Admission",
+                                        p: product?.prices?.general,
+
+                                    },
+                                    {
+                                        param: "Vip",
+                                        condition: Vip,
+                                        h1: "VIP Experience",
+                                        p: product?.prices?.vip,
+                                    },
+                                    {
+                                        param: "student",
+                                        condition: student,
+                                        h1: "Student Admission",
+                                        p: product?.prices?.student,
+                                    }
+                                ]?.map((val, i) => <PriceCmp key={i} condition={val.condition} h1={val.h1} param={val.param} p={val.p} handleClick={handleClick} />)}
+
+                            </div>
+
+                            <div className={`${itemCenter} w-full sm:justify-between justify-center sm:gap-2 gap-8 flex-wrap mt-4`}>
+
+                                <div className={`${itemCenter} gap-5`}>
+
+                                    <div className={controls} onClick={() => (count > 1) && setCount(count - 1)}><Remove /></div>
+
+                                    <p className='text-white text-2xl font-semibold'>{count}</p>
+
+                                    <div className={controls} onClick={() => setCount(count + 1)}><Add /></div>
+
+                                </div>
+
+                                <button className={`${itemCenter} gap-2 rounded-md px-[4%] py-4 font-semibold ${active} text-xl`} onClick={handleAddToCart} > <LocalActivity className="-rotate-45" /> Add To Cart</button>
+
+                            </div>
+
+                            <div className="w-full justify-center items-center flex mt-7">
+                                <button className={`${active} py-6 rounded-xl w-[70%]`}>Contact Organizer</button>
+                            </div>
+
+                        </div>
+                    </div>
+                ) : <div className="h-[100vh] flex justify-center items-center">
+                    <PropagateLoader color="#2C3BFA" cssOverride={{}} loading size={10} />
+                </div>}
+            </section>
+            <Footer />
+        </>
+    );
 };
 
 export default Page;
+
+const PriceCmp = ({ param, condition, h1, p, handleClick }) => (
+    <div onClick={() => handleClick(param)} className={`${condition ? active : "bg-[#0D0915]"} ${common}`}>
+        <h1>{h1}</h1>
+        <p>${p}.00</p>
+    </div>
+
+)
