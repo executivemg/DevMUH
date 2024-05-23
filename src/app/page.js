@@ -9,9 +9,9 @@ export default function Home() {
   return <>
     <Header />
     <Banner video={data.videos.video1} className={"mt-14"} />
-    <ImgBanner src="/upcomingBanner.png" className="w-full flex justify-center h-80" />
     <div className="mt-10 overflow-x-hidden">
-      <ProductCarousel className="" />
+      <ImgBanner src="/upcomingBanner.png" className="" />
+      <ProductCarousel className="sm:pt-16 pt-24" />
       <ProductCarousel className="pt-20" />
 
       {/* <Upcoming /> */}
