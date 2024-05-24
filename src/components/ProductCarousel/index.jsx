@@ -43,7 +43,7 @@ const EventCard = ({ item }) => {
     const day = format(new Date(item?.dateOfEvent), 'd');
     return (
         <div className="flex max-sm:space-x-4 md:space-x-6 lg:space-x-8" key={item?.id}>
-            <div className="w-[500px] max-sm:w-full md:w-[400px] cursor-pointer relative shadow-sm mr-4 max-sm:mr-2 shadow-gray-400 bg-white rounded-xl overflow-hidden">
+            <div className="w-[500px] max-sm:w-full md:w-[400px] cursor-pointer relative shadow-sm mx-4 max-sm:mx-2 shadow-gray-400 bg-white rounded-xl overflow-hidden">
                 <div className="h-auto w-full md:w-full max-sm:w-full overflow-hidden">
                     <img
                         className="w-full object-cover h-[350px]"
@@ -74,9 +74,9 @@ const ProductCarousel = ({ className }) => {
     const [events, setEvents] = useState([]);
     const { data: session } = useSession();
 
-    useEffect(() => {
+   /*  useEffect(() => {
         console.log(session);
-    }, [session]);
+    }, [session]); */
 
     useEffect(() => {
         (async () => {

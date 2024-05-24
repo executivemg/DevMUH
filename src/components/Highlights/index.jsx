@@ -1,8 +1,8 @@
 import { Done, LocalActivity, ShoppingCart } from '@mui/icons-material';
 import React from 'react'
 
-const Highlights = () => (
-    <section className='w-[98.75vw] flex justify-center bg-[#0C0614] mt-52 py-28 px-24'>
+const Highlights = ({ className }) => (
+    <section className={`w-[98.75vw] flex justify-center ${className} px-24`}>
         <div className='sm:w-[80vw!important] w-[90vw!important] 2xl:w-[1500px!important]'>
             <div className='flex md:justify-between md:items-center md:flex-row flex-col md:gap-0 gap-8'>
                 <div>

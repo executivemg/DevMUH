@@ -24,15 +24,15 @@ const MarqueeImgs = () => {
   const shuffledImages2 = shuffleArray([...images]);
 
   return (
-    <div className="pt-52">
+    <div className="pt-24">
       <Marquee pauseOnHover speed={30}>
         {shuffledImages1.map((src, i) => (
-          <img key={i} className='max-h-[250px] object-contain rounded-3xl mx-4' src={src} alt="" />
+          <img key={i} className='h-[250px] object-contain rounded-3xl mx-4' src={src} alt="" />
         ))}
       </Marquee>
       <Marquee pauseOnHover speed={30} className='mt-8'>
         {shuffledImages2.map((src, i) => (
-          <img key={i} className='max-h-[250px] object-contain rounded-3xl mx-4' src={src} alt="" />
+          <img key={i} className='h-[250px] object-contain rounded-3xl mx-4' src={src} alt="" />
         ))}
       </Marquee>
     </div>

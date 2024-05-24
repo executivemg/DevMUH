@@ -62,9 +62,9 @@ export default function SideBar({ showSideBar, setShowSideBar }) {
                                     leaveFrom="translate-x-0"
                                     leaveTo="translate-x-full">
                                     <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                                        <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                                            <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                                                <div className="flex items-start justify-between">
+                                        <div className="flex h-full flex-col bg-white shadow-xl">
+                                            <div className="flex-1 overflow-y-auto px-4 pb-6 sm:px-6">
+                                                <div className="flex items-start justify-between pt-6 sticky top-0 bg-white pb-4">
                                                     <Dialog.Title className="text-lg font-medium text-gray-900">Shopping cart</Dialog.Title>
                                                     <div className="ml-3 flex h-7 items-center">
                                                         <button type="button" className="relative -m-2 p-2 text-gray-400 hover:text-gray-500" onClick={() => setShowSideBar(false)}>
@@ -75,7 +75,7 @@ export default function SideBar({ showSideBar, setShowSideBar }) {
                                                     </div>
                                                 </div>
 
-                                                <div className="mt-8">
+                                                <div className="mt-4">
                                                     {cartItems?.map((item, i) => (
 
                                                         <div key={i} className="mb-7">

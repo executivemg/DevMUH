@@ -5,7 +5,7 @@ import ImgBanner from "./ImgBanner";
 import Layout from "./Layout";
 import Footer from "./Layout/Footer";
 import Header from "./Layout/Header";
-import Marquee from "./Marquee";
+import MarqueeTxt from "./Marquee";
 import MarqueeImgs from "./MarqueeImgs";
 import ProductCarousel from "./ProductCarousel";
 import ShoppingCart from "./ShoppingCart";
@@ -16,20 +16,20 @@ import UpcomingEvent from "./UpcomingEvent";
 import VideoCont from "./VideoCont";
 
 export {
-    Header,
-    SideBar,
-    Banner,
-    Layout,
-    Upcoming,
-    VideoCont,
-    Marquee,
-    UpcomingEvent,
-    Highlights,
-    Agenda,
-    ProductCarousel,
-    Testimonials,
-    MarqueeImgs,
-    Footer,
-    ShoppingCart,
-    ImgBanner,
-}
+  Header,
+  SideBar,
+  Banner,
+  Layout,
+  Upcoming,
+  VideoCont,
+  MarqueeTxt,
+  UpcomingEvent,
+  Highlights,
+  Agenda,
+  ProductCarousel,
+  Testimonials,
+  MarqueeImgs,
+  Footer,
+  ShoppingCart,
+  ImgBanner,
+};

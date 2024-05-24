@@ -6,7 +6,7 @@ import { IoLogoGooglePlaystore } from 'react-icons/io5'
 
 const Footer = () => {
     return (
-        <footer className='w-[98.75vw] flex justify-center pt-28 mt-48 pb-3 bg-black'>
+        <footer className='w-[98.75vw] flex justify-center pt-28 mt-20 pb-3 bg-black'>
             <div className="lg:w-[80vw] w-[90vw] 2xl:w-[1500px]">
                 <div className='grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 md:gap-4 gap-16 items-start'>
                     <div className='text-7xl text-white font-semibold'>
