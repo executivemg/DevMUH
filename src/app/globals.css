@@ -1,181 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
 
-@media (min-width: 640px) {
-  .imp {
-      width: 80vw !important;
-  }
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
-.imp {
-  width: 98vw !important;
-}
-
-html {
-  scroll-behavior: smooth !important;
-}
-
-body {
-  background-color: #04000A;
-  overflow-x: hidden !important;
-}
-
-@layer base {
+@media (prefers-color-scheme: dark) {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
 
-  body {
-    @apply bg-background text-foreground;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }
 
-.bord {
-  -webkit-text-stroke: 2px #303DE2;
-}
 
-.bord::selection {
-  box-shadow: 0 0 20px #303DE2,
-    0 0 40px #303DE2,
-    0 0 60px #303DE2,
-    0 0 80px #303DE2,
-    0 0 100px #303DE2,
-}
-
-.cont:hover .wid {
-  width: 80px !important;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(100%);
-  }
-
-  100% {
-    transform: translateX(calc(-200% - 4px));
+@media (min-width: 1024px) {
+  .product-carousel .react-multi-carousel-item {
+    width: 33.33%; /* Show three items per row on larger screens */
   }
 }
 
-.animate-marquee {
-  animation: marquee 35s linear infinite;
-}
-
-.ico:hover .arrow {
-  rotate: 45deg !important;
-}
-
-.ico:hover .rota {
-  rotate: 45deg !important;
-}
-
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
+@media (max-width: 1023px) {
+  .product-carousel .react-multi-carousel-item {
+    width: 100%; /* Show one item per row on smaller screens */
   }
 }
 
-.rotate {
-  animation: rotate 10s linear infinite;
+
+.p{
+  
+  text-shadow: 1px 1px 10px rgb(240, 157, 171), 1px 1px 10px rgb(240, 157, 171);
+  
+  
 }
 
-.gridCont:hover .icon {
-  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
-}
 
-.marquee-container {
-  overflow: hidden;
-  white-space: nowrap;
-}
 
-.marquee2 {
-  display: inline-block;
-  animation: marquee2 60s linear infinite;
-}
-
-@keyframes marquee2 {
-  0% {
-    transform: translateX(100%);
-  }
-
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-.marquee2:hover {
-  animation-play-state: paused;
-}
-
-.marquee2:not(:hover) {
-  animation-play-state: running;
-}
