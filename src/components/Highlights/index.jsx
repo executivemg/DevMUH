@@ -11,7 +11,7 @@ const Highlights = ({ className }) => (
                         <h2 className='text-2xl font-bold text-white'>Highlights</h2>
                     </div>
                     <h1 className='sm:text-6xl text-5xl font-bold mt-2 text-white text-center md:text-left'>Event Rush</h1>
-                    <h2 className='bord text-transparent text-6xl font-black sm:mt-0 mt-4 text-center md:text-left'>All Tickets Guaranteed Authentic</h2>
+                    <h2 className='bord text-transparent text-6xl font-black sm:mt-0 mt-4 text-left'>All Tickets Guaranteed Authentic</h2>
                 </div>
                 <div className='md:w-[45%!important] w-[100%!important] flex justify-center'>
                     <img src='/qrcode2.jpg' className='w-96' />

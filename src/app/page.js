@@ -1,33 +1,49 @@
-import Banner from "@/components/banner/Banner";
-import Cta from "@/components/banner/Cta";
+"use client";
+
+import {
+  Agenda,
+  Banner,
+  Footer,
+  Header,
+  Highlights,
+  ImgBanner,
+  MarqueeTxt,
+  MarqueeImgs,
+  ProductCarousel,
+  Testimonials,
+  Upcoming,
+  UpcomingEvent,
+  VideoCont,
+} from "@/components";
+import "./globals.css";
 import data from "../constant/data.json";
-import ProductCard from "@/components/events/ProductCard";
-import ViewMorebtn from "@/components/ui/buttons/viewMorebtn";
+import { SessionProvider } from "next-auth/react";
+
 export default function Home() {
   return (
     <>
-      <Banner video={data.videos.video1} />
-      <Cta imageSrc={data.images[0].src} />
-      <ProductCard />
-      <ViewMorebtn />
-      <Cta imageSrc={'/image/cta_5.png'} />
-      <ProductCard />
-      <ProductCard />
-      <ViewMorebtn />
-      <Banner video={data.videos.video2} />
-      <Cta imageSrc={'/image/cta_3.png'} />
-      <ProductCard />
-      <ViewMorebtn />
-      <Cta imageSrc={'/image/cta_4.png'} />
-      <ProductCard />
-      <ViewMorebtn />
-      <Banner video={data.videos.video3} />
-      <Cta imageSrc={'/image/cta_1.png'} />
-      <ProductCard />
-      <ViewMorebtn />
-      <Banner video={data.videos.video4} />
+      <Header />
+      <Banner video={data.videos.video1} className={"mt-14"} />
+      <div className="mt-10 overflow-x-hidden">
+        <ImgBanner src="/upcomingBanner.png" className="" />
+        <ProductCarousel className="pt-16" />
+        <ProductCarousel className="pt-20" />
 
+        {/* <Upcoming /> */}
+        <VideoCont />
+        <ProductCarousel className="pt-24" />
+        <MarqueeTxt />
+        <Banner video={data.videos.video2} className="mt-20" />
+        {/* <UpcomingEvent /> */}
+        <Highlights className="pt-16" />
+        <MarqueeTxt />
+        <Banner video={data.videos.video3} className="mt-24" />
+        <ProductCarousel className="pt-24" />
+        <MarqueeImgs />
+        {/* <Testimonials /> */}
+        {/* <Agenda /> */}
+      </div>
+      <Footer />
     </>
   );
 }
-

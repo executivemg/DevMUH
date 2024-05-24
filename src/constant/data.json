@@ -1,17 +1,25 @@
-
 {
     "images": [
-      { "src": "/image/2.png" },
-      { "src": "/image/4.png" },
-      { "src": "/image/4.png" },
-      { "src": "/image/4.png" },
-      { "src": "/image/1.png" }
+        {
+            "src": "/image/2.png"
+        },
+        {
+            "src": "/image/4.png"
+        },
+        {
+            "src": "/image/4.png"
+        },
+        {
+            "src": "/image/4.png"
+        },
+        {
+            "src": "/image/1.png"
+        }
     ],
     "videos": {
-      "video1": "/videos/first.mp4",
-      "video2": "/videos/second.mp4",
-      "video3": "/videos/third.mp4",
-      "video4": "/videos/fourth.mp4"
+        "video1": "/videos/first.mp4",
+        "video2": "/videos/second.mp4",
+        "video3": "/videos/third.mp4",
+        "video4": "/videos/fourth.mp4"
     }
-  }
-  
+}
