@@ -69,7 +69,6 @@ const ProductCarousel = ({ className }) => {
       try {
         const response = await axios.get("/event/list");
         if (response.status === 200) {
-          console.log(response.data.data);
           setEvents(response.data.data);
         } else {
           console.error("Error: Unexpected response structure", response);

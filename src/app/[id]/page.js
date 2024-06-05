@@ -28,11 +28,14 @@ const Page = ({ params }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("Checking token in localStorage");
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
       if (storedToken) {
+        console.log("Token found:", storedToken);
         setToken(storedToken);
       } else {
+        console.error("Token not found");
         setError(new Error("Token not found"));
       }
     }
@@ -42,6 +45,7 @@ const Page = ({ params }) => {
     let isMounted = true;
 
     if (token) {
+      console.log("Fetching product with token:", token);
       (async () => {
         try {
           const res = await axios.get(`/event/${id}`, {
@@ -52,10 +56,12 @@ const Page = ({ params }) => {
             },
           });
           if (isMounted) {
+            console.log("Product fetched successfully:", res.data);
             setProduct(res?.data?.data);
           }
         } catch (error) {
           if (isMounted) {
+            console.error("Error fetching product:", error);
             setError(error);
           }
         }
@@ -66,6 +72,7 @@ const Page = ({ params }) => {
       isMounted = false;
     };
   }, [id, token]);
+
 
   const handleAddToCart = () => {
     const event = {
@@ -90,121 +97,114 @@ const Page = ({ params }) => {
   };
 
   if (error) {
-    return <div>Error fetching data</div>;
+    return <div>Error fetching data: {error.message}</div>;
   }
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-[100vh] flex justify-center items-center">
+        <PropagateLoader color="#2C3BFA" cssOverride={{}} loading size={10} />
+      </div>
+    );
   }
 
   return (
     <>
       <Header />
       <section className="lg:w-[98.75vw] w-[98vw] flex justify-center mt-[180px]">
-        {product ? (
-          <div className="md:w-[80vw] w-[90vw] 2xl:w-[1500px] grid md:grid-cols-2 grid-cols-1 gap-12 items-center">
-            <div className="">
-              <div className={`w-[90%] rounded-2xl ${gradient}`}>
-                <img
-                  src={product?.event_images[0]?.image_url}
-                  className="rounded-2xl min-w-[100%] max-h-[500px] object-cover translate-x-9 -translate-y-9 shadow-lg shadow-gray-600"
-                />
-              </div>
+        <div className="md:w-[80vw] w-[90vw] 2xl:w-[1500px] grid md:grid-cols-2 grid-cols-1 gap-12 items-center">
+          <div className="">
+            <div className={`w-[90%] rounded-2xl ${gradient}`}>
+              <img
+                src={product?.event_images[0]?.image_url}
+                className="rounded-2xl min-w-[100%] max-h-[500px] object-cover translate-x-9 -translate-y-9 shadow-lg shadow-gray-600"
+              />
             </div>
-            <div className="w-full">
-              <div className={`${itemCenter} gap-3 cont`}>
-                <div className="w-10 h-[2px] bg-[#2C3BFA] transition-all duration-500 wid"></div>
-                <h2 className="text-3xl font-bold text-white">Ticket</h2>
-              </div>
+          </div>
+          <div className="w-full">
+            <div className={`${itemCenter} gap-3 cont`}>
+              <div className="w-10 h-[2px] bg-[#2C3BFA] transition-all duration-500 wid"></div>
+              <h2 className="text-3xl font-bold text-white">Ticket</h2>
+            </div>
 
-              <h1 className="text-5xl text-transparent bord font-bold mt-6">
-                {product?.name}
-              </h1>
-              <p className="text-[#BDBDBE] text-xl font-light mb-1 mt-4">
-                {format(new Date(product?.start_date), "MMMM dd yyyy")}
-              </p>
-              <p className="text-[#BDBDBE] text-xl font-light">
-                {product?.start_time} AM
-              </p>
+            <h1 className="text-5xl text-transparent bord font-bold mt-6">
+              {product?.name}
+            </h1>
+            <p className="text-[#BDBDBE] text-xl font-light mb-1 mt-4">
+              {format(new Date(product?.start_date), "MMMM dd yyyy")}
+            </p>
+            <p className="text-[#BDBDBE] text-xl font-light">
+              {product?.start_time} AM
+            </p>
 
-              <div className="w-full border-[1.54px] border-gray-700 rounded-3xl overflow-x-hidden mt-4">
-                {[
-                  {
-                    param: "general",
-                    condition: general,
-                    h1: "General Admission",
-                    p: product?.ticket_price,
-                  },
-                  {
-                    param: "Vip",
-                    condition: Vip,
-                    h1: "VIP Experience",
-                    p: product?.ticket_price,
-                  },
-                  {
-                    param: "student",
-                    condition: student,
-                    h1: "Student Admission",
-                    p: product?.ticket_price,
-                  },
-                ]?.map((val, i) => (
-                  <PriceCmp
-                    key={i}
-                    condition={val.condition}
-                    h1={val.h1}
-                    param={val.param}
-                    p={val.p}
-                    handleClick={handleClick}
-                  />
-                ))}
-              </div>
+            <div className="w-full border-[1.54px] border-gray-700 rounded-3xl overflow-x-hidden mt-4">
+              {[
+                {
+                  param: "general",
+                  condition: general,
+                  h1: "General Admission",
+                  p: product?.ticket_price,
+                },
+                {
+                  param: "Vip",
+                  condition: Vip,
+                  h1: "VIP Experience",
+                  p: product?.ticket_price,
+                },
+                {
+                  param: "student",
+                  condition: student,
+                  h1: "Student Admission",
+                  p: product?.ticket_price,
+                },
+              ]?.map((val, i) => (
+                <PriceCmp
+                  key={i}
+                  condition={val.condition}
+                  h1={val.h1}
+                  param={val.param}
+                  p={val.p}
+                  handleClick={handleClick}
+                />
+              ))}
+            </div>
 
-              <div
-                className={`${itemCenter} w-full sm:justify-between justify-center sm:gap-2 gap-8 flex-wrap mt-4`}
-              >
-                <div className={`${itemCenter} gap-5`}>
-                  <button
-                    className={controls}
-                    onClick={() => count > 1 && setCount(count - 1)}
-                  >
-                    <Remove />
-                  </button>
+            <div
+              className={`${itemCenter} w-full sm:justify-between justify-center sm:gap-2 gap-8 flex-wrap mt-4`}
+            >
+              <div className={`${itemCenter} gap-5`}>
+                <button
+                  className={controls}
+                  onClick={() => count > 1 && setCount(count - 1)}
+                >
+                  <Remove />
+                </button>
 
-                  <p className="text-white text-2xl font-semibold">{count}</p>
-
-                  <button
-                    className={controls}
-                    onClick={() => setCount(count + 1)}
-                  >
-                    <Add />
-                  </button>
-                </div>
+                <p className="text-white text-2xl font-semibold">{count}</p>
 
                 <button
-                  className={`${itemCenter} gap-2 rounded-md px-[4%] py-4 font-semibold ${active} text-xl`}
-                  onClick={handleAddToCart}
+                  className={controls}
+                  onClick={() => setCount(count + 1)}
                 >
-                  <LocalActivity className="-rotate-45" /> Add To Cart
+                  <Add />
                 </button>
               </div>
 
-              <div className="w-full justify-center items-center flex mt-7">
-                <button className={`${active} py-6 rounded-xl w-[70%]`}>
-                  Contact Organizer
-                </button>
-              </div>
+              <button
+                className={`${itemCenter} gap-2 rounded-md px-[4%] py-4 font-semibold ${active} text-xl`}
+                onClick={handleAddToCart}
+              >
+                <LocalActivity className="-rotate-45" /> Add To Cart
+              </button>
+            </div>
+
+            <div className="w-full justify-center items-center flex mt-7">
+              <button className={`${active} py-6 rounded-xl w-[70%]`}>
+                Contact Organizer
+              </button>
             </div>
           </div>
-        ) : (
-          <div className="h-[100vh] flex justify-center items-center">
-            <PropagateLoader
-              color="#2C3BFA"
-              cssOverride={{}}
-              loading
-              size={10}
-            />
-          </div>
-        )}
+        </div>
       </section>
       <Footer />
     </>
