@@ -16,23 +16,23 @@ export default function Page({ params }) {
                 throw new Error("Token not found");
             }
             setToken(getToken)
-        }
 
-        (async () => {
-            const res = await axios.post(`/update-status/order/${id}`, { status: 1 }, {
-                headers: {
-                    Accept: "*/*",
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                }
-            })
-            if (res?.data?.status == 200) {
-                toast.success(res?.data?.message)
-                route.push("/")
-                return
-            }
-            console.log(res?.data);
-        })()
+                (async () => {
+                    const res = await axios.post(`/update-status/order/${id}`, { status: 1 }, {
+                        headers: {
+                            Accept: "*/*",
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        }
+                    })
+                    if (res?.data?.status == 200) {
+                        toast.success(res?.data?.message)
+                        route.push("/")
+                        return
+                    }
+                    console.log(res?.data);
+                })()
+        }
 
     }, [params])
     return <Toaster />

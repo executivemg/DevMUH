@@ -25,37 +25,40 @@ const Page = ({ params }) => {
   const [general, setGeneral] = useState(true);
   const [count, setCount] = useState(1);
   const dispatch = useDispatch();
+  const [token, setToken] = useState("")
 
   useEffect(() => {
     let isMounted = true;
 
-    (async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("Token not found");
-        }
-        const res = await axios.get(`/event/${id}`, {
-          headers: {
-            Accept: "*/*",
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+    if (typeof window !== undefined) {
+      (async () => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            throw new Error("Token not found");
           }
-        });
-        if (isMounted) {
-          console.log(res?.data?.data);
-          setProduct(res?.data?.data);
+          const res = await axios.get(`/event/${id}`, {
+            headers: {
+              Accept: "*/*",
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            }
+          });
+          if (isMounted) {
+            console.log(res?.data?.data);
+            setProduct(res?.data?.data);
+          }
+        } catch (error) {
+          if (isMounted) {
+            setError(error);
+          }
         }
-      } catch (error) {
-        if (isMounted) {
-          setError(error);
-        }
-      }
-    })();
+      })();
+    }
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, window]);
 
   const handleAddToCart = () => {
     const event = {
@@ -79,14 +82,6 @@ const Page = ({ params }) => {
     dispatch(addToCart(event));
   };
 
-  if (error) {
-    return <div>Error fetching data</div>;
-  }
-
-  if (!product) {
-    return <div>Loading...</div>;
-  }
-
   const handleClick = (itemName) => {
     const stateMap = {
       student: setStudent,
@@ -98,6 +93,15 @@ const Page = ({ params }) => {
       stateMap[key](key === itemName);
     });
   };
+
+  // Ensure the same initial HTML is rendered on server and client
+  if (error) {
+    return <div>Error fetching data</div>;
+  }
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -123,7 +127,7 @@ const Page = ({ params }) => {
                 {product?.name}
               </h1>
               <p className="text-[#BDBDBE] text-xl font-light mb-1 mt-4">
-                {format(product?.start_date, "MMMM dd yyyy")}
+                {format(new Date(product?.start_date), "MMMM dd yyyy")}
               </p>
               <p className="text-[#BDBDBE] text-xl font-light">
                 {product?.start_time} AM

@@ -45,7 +45,7 @@ const Header = ({ navigate, dashboard, event }) => {
         setSession(true);
       }
     }
-  }, []);
+  }, [window]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
