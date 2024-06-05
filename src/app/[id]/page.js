@@ -31,34 +31,35 @@ const Page = ({ params }) => {
     let isMounted = true;
 
     if (typeof window !== undefined) {
-      (async () => {
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            throw new Error("Token not found");
-          }
-          const res = await axios.get(`/event/${id}`, {
-            headers: {
-              Accept: "*/*",
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            }
-          });
-          if (isMounted) {
-            console.log(res?.data?.data);
-            setProduct(res?.data?.data);
-          }
-        } catch (error) {
-          if (isMounted) {
-            setError(error);
-          }
-        }
-      })();
+      const getToken = localStorage.getItem("token");
+      if (!getToken) {
+        throw new Error("Token not found");
+      }
+      setToken(getToken)
     }
+    (async () => {
+      try {
+        const res = await axios.get(`/event/${id}`, {
+          headers: {
+            Accept: "*/*",
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          }
+        });
+        if (isMounted) {
+          console.log(res?.data?.data);
+          setProduct(res?.data?.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setError(error);
+        }
+      }
+    })();
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [id, token]);
 
   const handleAddToCart = () => {
     const event = {
