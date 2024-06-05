@@ -24,38 +24,44 @@ const Page = ({ params }) => {
   const [Vip, setVip] = useState(false);
   const [general, setGeneral] = useState(true);
   const [count, setCount] = useState(1);
+  const [token, setToken] = useState(null); // Set initial token to null
   const dispatch = useDispatch();
-  const [token, setToken] = useState("")
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        setToken(storedToken);
+      } else {
+        setError(new Error("Token not found"));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
 
-    if (typeof window !== undefined) {
-      const getToken = localStorage.getItem("token");
-      if (!getToken) {
-        throw new Error("Token not found");
-      }
-      setToken(getToken)
-    }
-    (async () => {
-      try {
-        const res = await axios.get(`/event/${id}`, {
-          headers: {
-            Accept: "*/*",
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+    if (token) {
+      (async () => {
+        try {
+          const res = await axios.get(`/event/${id}`, {
+            headers: {
+              Accept: "*/*",
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+          if (isMounted) {
+            setProduct(res?.data?.data);
           }
-        });
-        if (isMounted) {
-          console.log(res?.data?.data);
-          setProduct(res?.data?.data);
+        } catch (error) {
+          if (isMounted) {
+            setError(error);
+          }
         }
-      } catch (error) {
-        if (isMounted) {
-          setError(error);
-        }
-      }
-    })();
+      })();
+    }
+
     return () => {
       isMounted = false;
     };
@@ -65,20 +71,8 @@ const Page = ({ params }) => {
     const event = {
       ...product,
       quantity: count,
-      price: student
-        ? product?.ticket_price
-        : Vip
-          ? product?.ticket_price
-          : general
-            ? product?.ticket_price
-            : undefined,
-      category: student
-        ? "Student"
-        : Vip
-          ? "Vip"
-          : general
-            ? "General"
-            : undefined,
+      price: product?.ticket_price,
+      category: student ? "Student" : Vip ? "Vip" : "General",
     };
     dispatch(addToCart(event));
   };
@@ -95,7 +89,6 @@ const Page = ({ params }) => {
     });
   };
 
-  // Ensure the same initial HTML is rendered on server and client
   if (error) {
     return <div>Error fetching data</div>;
   }
@@ -191,7 +184,6 @@ const Page = ({ params }) => {
                   className={`${itemCenter} gap-2 rounded-md px-[4%] py-4 font-semibold ${active} text-xl`}
                   onClick={handleAddToCart}
                 >
-                  {" "}
                   <LocalActivity className="-rotate-45" /> Add To Cart
                 </button>
               </div>
