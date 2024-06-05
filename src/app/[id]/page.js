@@ -58,7 +58,7 @@ const Page = ({ params }) => {
     return () => {
       isMounted = false;
     };
-  }, [id, window]);
+  }, [id]);
 
   const handleAddToCart = () => {
     const event = {
