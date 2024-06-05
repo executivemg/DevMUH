@@ -112,6 +112,7 @@ const Header = ({ navigate, dashboard, event }) => {
                 onClose={handleClose}
               >
                 <MenuItem>Dashboard</MenuItem>
+                <MenuItem><a href='/organizer'>Organizer</a></MenuItem>
                 <MenuItem onClick={logOut}>Log Out</MenuItem>
               </Menu>
             </div>
