@@ -73,7 +73,6 @@ const Page = ({ params }) => {
     };
   }, [id, token]);
 
-
   const handleAddToCart = () => {
     const event = {
       ...product,
@@ -97,7 +96,14 @@ const Page = ({ params }) => {
   };
 
   if (error) {
-    return <div>Error fetching data: {error.message}</div>;
+    return (
+      <div>
+        <p>Error fetching data: {error.message}</p>
+        {error.message === "Token not found" && (
+          <p>Please log in to access this page.</p>
+        )}
+      </div>
+    );
   }
 
   if (!product) {
@@ -182,10 +188,7 @@ const Page = ({ params }) => {
 
                 <p className="text-white text-2xl font-semibold">{count}</p>
 
-                <button
-                  className={controls}
-                  onClick={() => setCount(count + 1)}
-                >
+                <button className={controls} onClick={() => setCount(count + 1)}>
                   <Add />
                 </button>
               </div>
