@@ -20,18 +20,19 @@ const Header = ({ navigate, dashboard, event }) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
-  const [session, setSession] = useState(true);
+  const [session, setSession] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
 
   const cartItems = useSelector((state) => state.cart.items);
   const totalQuantity = cartItems.length;
 
+  // Run client-side logic in useEffect
   useEffect(() => {
     if (typeof window !== "undefined") {
-      let user = userInfo();
+      const user = userInfo();
       if (user && user.personal) {
-        let fname = user.personal.first_name;
-        let lname = user.personal.last_name;
+        const fname = user.personal.first_name;
+        const lname = user.personal.last_name;
         setName(`${fname} ${lname}`);
       }
     }
@@ -39,11 +40,8 @@ const Header = ({ navigate, dashboard, event }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (localStorage.getItem("user") === null) {
-        setSession(false);
-      } else {
-        setSession(true);
-      }
+      const storedUser = localStorage.getItem("user");
+      setSession(storedUser !== null);
     }
   }, []);
 
@@ -66,14 +64,10 @@ const Header = ({ navigate, dashboard, event }) => {
       setIsScrolled(scrollTop > 2);
     };
 
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", handleScroll);
-    }
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("scroll", handleScroll);
-      }
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -96,8 +90,7 @@ const Header = ({ navigate, dashboard, event }) => {
               <div className="cursor-pointer" onClick={handleMenu}>
                 <IconButton>
                   <Avatar
-                    fontSize="medium"
-                    className="text-white h-[24 px!important] w-[24 px!important]"
+                    className="text-white h-[40px!important] w-[40px!important] -mt-2"
                     src={userInfo()?.personal?.image_url}
                   />
                 </IconButton>
@@ -135,17 +128,18 @@ const Header = ({ navigate, dashboard, event }) => {
         } z-[1001!important]`}
       >
         <header
-          className={`sm:w-[80vw] w-[90vw] 2xl:w-[1500px] px-3 flex items-center justify-between  rounded-2xl border border-[#2C3BFA] text-2xl ${
-            !isScrolled ? "backdrop-blur-3xl" : "backdrop-blur-3xl  "
+          className={`sm:w-[80vw] w-[90vw] 2xl:w-[1500px] px-3 flex items-center justify-between rounded-2xl border border-[#2C3BFA] text-2xl ${
+            !isScrolled ? "backdrop-blur-3xl" : "backdrop-blur-3xl"
           } z-10 shadow-2xl shadow-[#ffffff47] font-semibold`}
         >
           <Link href={"/"}>
             <Image
               src={"/logo.png"}
               alt="Logo"
-              className="h-auto max-sm:w-[4rem]  w-auto max-w-[6rem] mx-auto md:mx-0"
+              className="h-auto max-sm:w-[4rem] w-auto max-w-[6rem] mx-auto md:mx-0"
               width={100}
               height={100}
+              priority // Ensure image is loaded eagerly to match server-side render
             />
           </Link>
 
@@ -158,9 +152,7 @@ const Header = ({ navigate, dashboard, event }) => {
                 Dashboard
               </Link>
             ) : (
-              <li
-                className={`border-b-[#2C3BFA] border-b-[2px] text-[#2C3BFA] ${li}`}
-              >
+              <li className={`border-b-[#2C3BFA] border-b-[2px] text-[#2C3BFA] ${li}`}>
                 Home
               </li>
             )}
