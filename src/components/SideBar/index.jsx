@@ -80,7 +80,7 @@ export default function SideBar({ showSideBar, setShowSideBar }) {
 
                                                         <div key={i} className="mb-7">
                                                             <div className="flex gap-4 items-center">
-                                                                <img src={item?.img} alt="" className="h-24 w-24 object-cover rounded-2xl" />
+                                                                <img src={item?.event_images[0]?.image_url} alt="" className="h-24 w-24 object-cover rounded-2xl" />
 
                                                                 <div>
                                                                     <h1 className="text-xl font-semibold">{item?.eventTitle}</h1>
@@ -109,7 +109,7 @@ export default function SideBar({ showSideBar, setShowSideBar }) {
 
                                                                     </div>
 
-                                                                    <button onClick={() => handleRemoveFromCart(item.interestedInCustomDomain)} className="bg-red-500 w-fit p-3 rounded-lg text-white mt-2">Remove From Cart</button>
+                                                                    <button onClick={() => handleRemoveFromCart(item.id)} className="bg-red-500 w-fit p-3 rounded-lg text-white mt-2">Remove From Cart</button>
                                                                 </div>
 
                                                             </div>

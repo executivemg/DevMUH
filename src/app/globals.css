@@ -179,3 +179,11 @@ body {
 .marquee2:not(:hover) {
   animation-play-state: running;
 }
+
+.tableCont::-webkit-scrollbar{
+  height: 5px;
+}
+
+.tableCont::-webkit-scrollbar-thumb {
+  background-color: #2C3BFA;
+}

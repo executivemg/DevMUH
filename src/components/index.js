@@ -1,3 +1,4 @@
+import AddEvent from "./AddEvent";
 import Agenda from "./Agenda";
 import Banner from "./Banner";
 import Highlights from "./Highlights";
@@ -10,6 +11,8 @@ import MarqueeImgs from "./MarqueeImgs";
 import ProductCarousel from "./ProductCarousel";
 import ShoppingCart from "./ShoppingCart";
 import SideBar from "./SideBar";
+import ImageUpload from "./SignupCmp/ImageUpload";
+import SelectField from "./SignupCmp/SelectField";
 import Testimonials from "./Testimonials";
 import Upcoming from "./Upcoming";
 import UpcomingEvent from "./UpcomingEvent";
@@ -32,4 +35,7 @@ export {
   Footer,
   ShoppingCart,
   ImgBanner,
+  ImageUpload,
+  SelectField,
+  AddEvent,
 };

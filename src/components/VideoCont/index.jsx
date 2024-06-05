@@ -34,10 +34,7 @@ const VideoCont = () => {
             <div className='w-10 h-[2px] bg-[#2C3BFA] transition-all duration-500'></div>
             <h2 className='text-3xl font-bold text-white'>Exclusive Entry to The Worlds Best!</h2>
           </div>
-          <h1 className='mt-4 text-5xl font-bold'>
-            <span className='text-white'>EVENT </span>
-            <span className='bord'>RUSH</span>
-          </h1>
+          <h1 className='mt-4 text-5xl font-bold text-white'>EVENT RUSH</h1>
           <p className='text-gray-600 font-semibold my-4'>
             Whether {"it's"} an intimate social gathering of 50+, a vibrant nightclub concert with a capacity of 500+, or a grand stadium event with reserved seating for 5000+, Event Rush stands as the premier destination for event goers worldwide as the go-to platform for the {"world's"} top promoters, offering a seamless experience for both organizers and attendees alike.
           </p>

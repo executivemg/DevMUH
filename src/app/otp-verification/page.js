@@ -10,22 +10,22 @@ import {
   Typography,
   Container,
   Grid,
+  Link,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { PropagateLoader } from "react-spinners";
 import axios from "../../axios";
+import userInfo from "@/ReusableFunctions/geUser";
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export default function OtpVerification() {
   const route = useRouter();
   const [formData, setFormData] = React.useState({
-    email: "",
-    password: "",
+    otp: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({});
@@ -46,21 +46,20 @@ export default function Login() {
     if (Object.keys(errors).length === 0) {
       try {
         setLoading(true);
-        const res = await axios.post("/login", formatData(formData, 1));
+        const res = await axios.post(
+          "/register/verify/email/code",
+          formatData(formData, userInfo()?.personal?.email)
+        );
         if (res?.data?.status === 200) {
-          toast.success(res?.data?.message);
-          localStorage.setItem("user", JSON.stringify(res?.data?.data?.user));
-          localStorage.setItem("token", res?.data?.data?.token);
-          if (res?.data?.data?.user?.personal.user_type === "1") {
+          if (userInfo()?.personal?.user_type == 1) {
+            toast.success(res?.data?.message);
             route.push("/organizer");
             return;
-          } else if (res?.data?.data?.user?.personal.user_type === "2") {
-            route.push("/");
-            return;
           }
+          toast.success(res?.data?.message + " " + "Please Login To Continue");
+          route.push("/login");
         } else if (res?.data?.status === 400) {
-          console.log(res);
-          toast.error(res?.data?.message);
+          toast.error(res?.data?.error[Object.keys(res?.data?.error)[0]]);
         }
         setLoading(false);
       } catch (error) {
@@ -71,15 +70,30 @@ export default function Login() {
     }
   };
 
+  const resendOtp = async () => {
+    setLoading(true)
+    try {
+      const res = await axios.post("/register/resend/code", {
+        email: userInfo()?.personal?.email,
+      });
+      toast.success(res?.data?.message)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      toast.error(error)
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white absolute w-screen flex justify-center items-center">
+    <div className="min-h-screen bg-white w-screen">
       <Toaster />
       <ThemeProvider theme={defaultTheme}>
         <Container className="shadow-sm" component="main" maxWidth="xs">
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 1,
+              paddingTop: 15,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -89,7 +103,7 @@ export default function Login() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              OTP Verification
             </Typography>
             <Box
               component="form"
@@ -100,30 +114,16 @@ export default function Login() {
               <TextField
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                type="email"
-                name="email"
-                autoComplete="email"
-                value={formData.email}
+                id="otp"
+                label="Enter OTP"
+                type="text"
+                name="otp"
+                autoComplete="one-time-code"
+                value={formData.otp}
                 onChange={handleInputChange}
-                error={!!formErrors.email}
-                helperText={formErrors.email}
+                error={!!formErrors.otp}
+                helperText={formErrors.otp}
                 sx={{ mb: 2 }}
-                autoFocus
-              />
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={formData.password}
-                onChange={handleInputChange}
-                error={!!formErrors.password}
-                helperText={formErrors.password}
               />
               {loading ? (
                 <div className="h-[100vh] flex justify-center items-center">
@@ -147,15 +147,20 @@ export default function Login() {
                     backgroundColor: "#2C3BFA",
                   }}
                 >
-                  Sign In
+                  Verify OTP
                 </Button>
               )}
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/signup">
-                    {"Don't"} have an account?
-                    <span className="text-[#2C3BFA] underline">Sign up</span>
-                  </Link>
+                  <div>
+                    {"Didn't"} receive an OTP?
+                    <span
+                      onClick={resendOtp}
+                      className="text-[#2C3BFA] underline cursor-pointer"
+                    >
+                      Resend OTP
+                    </span>
+                  </div>
                 </Grid>
               </Grid>
             </Box>
@@ -169,26 +174,18 @@ export default function Login() {
 function validateForm(formData) {
   const errors = {};
 
-  if (!formData.email) {
-    errors.email = "Email is required";
-  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    errors.email = "Email is not valid";
-  }
-
-  if (!formData.password) {
-    errors.password = "Password is required";
+  if (!formData.otp) {
+    errors.otp = "OTP is required";
   }
 
   return errors;
 }
 
-function formatData(formData, id) {
-  const { email, password } = formData;
+function formatData(formData, email) {
+  const { otp } = formData;
 
   return {
+    verify_code: otp,
     email,
-    password,
-    device_id: id,
-    fcm_token: "1",
   };
 }

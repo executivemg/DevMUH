@@ -1,12 +1,11 @@
 "use client";
 
-import axios from "axios";
+import axios from "../../axios";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Add, LocalActivity, Remove } from "@mui/icons-material";
 import { PropagateLoader } from "react-spinners";
 import { Footer, Header } from "@/components";
-import { SessionProvider } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/slices/cartSlice";
 
@@ -32,9 +31,20 @@ const Page = ({ params }) => {
 
     (async () => {
       try {
-        const res = await axios.get(`/api/events?event=${id}`);
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Token not found");
+        }
+        const res = await axios.get(`/event/${id}`, {
+          headers: {
+            Accept: "*/*",
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          }
+        });
         if (isMounted) {
-          setProduct(res?.data?.data[0]);
+          console.log(res?.data?.data);
+          setProduct(res?.data?.data);
         }
       } catch (error) {
         if (isMounted) {
@@ -52,19 +62,19 @@ const Page = ({ params }) => {
       ...product,
       quantity: count,
       price: student
-        ? product?.prices?.student
+        ? product?.ticket_price
         : Vip
-        ? product?.prices?.vip
-        : general
-        ? product?.prices?.general
-        : undefined,
+          ? product?.ticket_price
+          : general
+            ? product?.ticket_price
+            : undefined,
       category: student
         ? "Student"
         : Vip
-        ? "Vip"
-        : general
-        ? "General"
-        : undefined,
+          ? "Vip"
+          : general
+            ? "General"
+            : undefined,
     };
     dispatch(addToCart(event));
   };
@@ -87,7 +97,6 @@ const Page = ({ params }) => {
     Object.keys(stateMap).forEach((key) => {
       stateMap[key](key === itemName);
     });
-    // console.log(student, Vip, general);
   };
 
   return (
@@ -99,7 +108,7 @@ const Page = ({ params }) => {
             <div className="">
               <div className={`w-[90%] rounded-2xl ${gradient}`}>
                 <img
-                  src={product?.img}
+                  src={product?.event_images[0]?.image_url}
                   className="rounded-2xl min-w-[100%] max-h-[500px] object-cover translate-x-9 -translate-y-9 shadow-lg shadow-gray-600"
                 />
               </div>
@@ -111,13 +120,13 @@ const Page = ({ params }) => {
               </div>
 
               <h1 className="text-5xl text-transparent bord font-bold mt-6">
-                {product?.eventTitle}
+                {product?.name}
               </h1>
               <p className="text-[#BDBDBE] text-xl font-light mb-1 mt-4">
-                {format(product?.dateOfEvent, "MMM dd yyyy")}
+                {format(product?.start_date, "MMMM dd yyyy")}
               </p>
               <p className="text-[#BDBDBE] text-xl font-light">
-                {format(product?.dateOfEvent, "HH:mm a")}
+                {product?.start_time} AM
               </p>
 
               <div className="w-full border-[1.54px] border-gray-700 rounded-3xl overflow-x-hidden mt-4">
@@ -126,19 +135,19 @@ const Page = ({ params }) => {
                     param: "general",
                     condition: general,
                     h1: "General Admission",
-                    p: product?.prices?.general,
+                    p: product?.ticket_price,
                   },
                   {
                     param: "Vip",
                     condition: Vip,
                     h1: "VIP Experience",
-                    p: product?.prices?.vip,
+                    p: product?.ticket_price,
                   },
                   {
                     param: "student",
                     condition: student,
                     h1: "Student Admission",
-                    p: product?.prices?.student,
+                    p: product?.ticket_price,
                   },
                 ]?.map((val, i) => (
                   <PriceCmp
@@ -213,6 +222,6 @@ const PriceCmp = ({ param, condition, h1, p, handleClick }) => (
     className={`${condition ? active : "bg-[#0D0915]"} ${common}`}
   >
     <h1>{h1}</h1>
-    <p>${p}.00</p>
+    <p>${p}</p>
   </div>
 );

@@ -10,7 +10,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
-      const existingItem = state.items.find(i => i.interestedInCustomDomain === item.interestedInCustomDomain);
+      const existingItem = state.items.find(i => i.id === item.id);
 
       if (!existingItem) {
         state.items.push({ ...item });
@@ -18,7 +18,7 @@ const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       const itemId = action.payload;
-      state.items = state.items.filter(item => item.interestedInCustomDomain !== itemId);
+      state.items = state.items.filter(item => item.id !== itemId);
     },
   },
 });

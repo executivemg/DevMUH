@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Agenda,
   Banner,
   Footer,
   Header,
@@ -10,16 +9,16 @@ import {
   MarqueeTxt,
   MarqueeImgs,
   ProductCarousel,
-  Testimonials,
-  Upcoming,
-  UpcomingEvent,
   VideoCont,
 } from "@/components";
 import "./globals.css";
 import data from "../constant/data.json";
-import { SessionProvider } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import userInfo from "@/ReusableFunctions/geUser";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
   return (
     <>
       <Header />
