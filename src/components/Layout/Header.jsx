@@ -31,9 +31,8 @@ const Header = ({ navigate, dashboard, event }) => {
     if (typeof window !== "undefined") {
       const user = userInfo();
       if (user && user.personal) {
-        const fname = user.personal.first_name;
-        const lname = user.personal.last_name;
-        setName(`${fname} ${lname}`);
+        const { first_name } = user.personal;
+        setName(`${first_name || ""}`);
       }
     }
   }, []);
@@ -111,7 +110,11 @@ const Header = ({ navigate, dashboard, event }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem>Dashboard</MenuItem>
+                {!navigate && (
+                  <Link href={"/dashboard"}>
+                    <MenuItem>Dashboard</MenuItem>
+                  </Link>
+                )}
                 <MenuItem onClick={logOut}>Log Out</MenuItem>
               </Menu>
             </div>
@@ -152,7 +155,9 @@ const Header = ({ navigate, dashboard, event }) => {
                 Dashboard
               </Link>
             ) : (
-              <li className={`border-b-[#2C3BFA] border-b-[2px] text-[#2C3BFA] ${li}`}>
+              <li
+                className={`border-b-[#2C3BFA] border-b-[2px] text-[#2C3BFA] ${li}`}
+              >
                 Home
               </li>
             )}

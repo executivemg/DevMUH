@@ -7,11 +7,12 @@ export async function POST(request) {
         let data = await request.json();
         const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY);
         let { cartItems, email, phone, token } = data
+        console.log(token);
 
         const objToSend = {
-            event_id: cartItems[0].id,
+            event_id: cartItems?.map(item => item.id),
             status: 0,
-            qty: cartItems[0].quantity,
+            qty: cartItems?.map(item => item.quantity),
             email,
             phone
         }
@@ -22,6 +23,8 @@ export async function POST(request) {
                 "Content-Type": "application/json",
             }
         })
+
+        console.log(res?.data);
 
         const { id } = res?.data?.data
 
