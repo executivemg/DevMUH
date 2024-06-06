@@ -51,11 +51,6 @@ export default function OtpVerification() {
           formatData(formData, userInfo()?.personal?.email)
         );
         if (res?.data?.status === 200) {
-          if (userInfo()?.personal?.user_type == 1) {
-            toast.success(res?.data?.message);
-            route.push("/organizer");
-            return;
-          }
           toast.success(res?.data?.message + " " + "Please Login To Continue");
           route.push("/login");
         } else if (res?.data?.status === 400) {
