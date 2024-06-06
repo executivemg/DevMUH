@@ -15,7 +15,9 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Modal
 } from "@mui/material";
+import { RiCloseLine, RiUploadFill } from 'react-icons/ri';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
@@ -75,6 +77,11 @@ export default function AddEvent() {
     longitude: "",
     domain: "",
     floorplan: "no",
+
+    // :::::::::::::::::::::::: FLOOR PLAN
+    // floorplanMode: ''
+    floorplanImage: null,
+    floorplanLayout: []
   });
 
   const [formErrors, setFormErrors] = React.useState({});
@@ -220,6 +227,11 @@ export default function AddEvent() {
           longitude: "",
           floorplan: "no",
           domain: "",
+          
+          // :::::::::::::::::::::::: FLOOR PLAN
+          // floorplanMode: ''
+          floorplanImage: null,
+          floorplanLayout: []
         });
         setEventImages([]);
         setImagePreviews([null, null, null]);
@@ -231,6 +243,14 @@ export default function AddEvent() {
       }
     }
   };
+
+  // ::::::::::::::::::::::::::::::::::::::::: FLOOR PLAN
+  const [editFloorPlan, setEditFloorPlan] = useState(false);
+  const [openEdit, isOpenEdit] = useState(false);
+
+  useEffect(() => {
+    ()=>isOpenEdit(editFloorPlan || (formData.floorplan === 'yes'));
+  }, [editFloorPlan, formData.floorplan]);
 
   return (
     <div className="min-h-screen bg-gray-900 absolute w-screen">
@@ -293,6 +313,7 @@ export default function AddEvent() {
                             <Grid item xs={4} key={index}>
                               {preview && (
                                 <div className="relative">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
                                   <img
                                     src={preview}
                                     alt={`Event ${index + 1}`}
@@ -667,8 +688,10 @@ export default function AddEvent() {
                       </p>
                     </Grid>
                     <Grid item xs={12}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/formImg.png"
+                        alt="/"
                         className="object-cover w-full h-[235px] rounded-xl"
                       />
                     </Grid>
@@ -709,6 +732,41 @@ export default function AddEvent() {
                 </Grid>
               </Grid>
             </Box>
+
+            {/* :::::::::::::::::::::::::::::::: FLOOR PLAN MODAL */}
+            {/* ::::::::::: Edit button */}
+            {openEdit && 
+              <button 
+                className='group fixed top-[15rem] right-0 z-[50] px-[1rem] py-[0.875rem] rounded-l-[16px] bg-secondary text-primary text-[1rem] shadow-[0_2px_5px_2px_rgba(255,255,255,0.2)] hover:shadow-[0_2px_15px_4px_rgba(255,255,255,0.2)] '
+              >
+                <RiUploadFill className='' />
+                Modify FloorPlan
+              </button>
+            }
+
+            {/* ::::::::::: Edit Modal */}
+            <Modal 
+              open={editFloorPlan}
+              onClose={() => setEditFloorPlan(false)}
+            >
+              <Box 
+                layout="fullscreen"
+                className=''
+              >
+                <Box 
+                  className='relative w-full h-full bg-primary'
+                >
+                  <button 
+                    onClick={() => setEditFloorPlan(false)} 
+                    className='p-[0.5rem] rounded-[4px] bg-transparent hover:bg-white/10 ease-250'
+                  >
+                    <RiCloseLine className='' />
+                  </button>
+                  <h3 className='outline outline-[1px] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] py-[0.5rem] uppercase w-max '>Create Floor-Plan</h3>
+
+                </Box>
+              </Box>
+            </Modal>
           </Box>
         </Container>
       </ThemeProvider>
