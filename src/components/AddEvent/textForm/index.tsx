@@ -37,8 +37,14 @@ const TextForm: React.FC<{
     onAdd(itemUpdate);
   };
 
+  const styles = {
+    input: {
+      width: '100%'
+    }
+  }
+
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-[3rem] items-center max-w-[45rem] lg:w-full ">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 max-w-[18rem] ">
       <TextField
         label="Name"
         variant='outlined'
@@ -52,12 +58,12 @@ const TextForm: React.FC<{
           ),
         }}
         value={itemUpdate.name}
-        className='min-w-[10rem] lg:w-full'
+        style={styles.input}
         placeholder="e.g. Parlour 1"
         onChange={onChange}
       />
           
-      <div className='flex flex-col gap-[3rem] '>
+      <div className='flex flex-col gap-[2rem] w-full '>
         <TextField
           label="Alias"
           variant='outlined'
@@ -73,7 +79,7 @@ const TextForm: React.FC<{
           value={itemUpdate.alias}
           placeholder="e.g. P 1"
           onChange={onChange}
-          className='h-[4rem] mt-[1rem]'
+          style={styles.input}
         />
         <TextField
           label="Price"
@@ -90,7 +96,7 @@ const TextForm: React.FC<{
           value={itemUpdate.price}
           placeholder="e.g. 100"
           onChange={onChange}
-          className='h-[4rem] mt-[1rem]'
+          style={styles.input}
         />
         <TextField
           label="People"
@@ -107,7 +113,7 @@ const TextForm: React.FC<{
           value={itemUpdate.people}
           placeholder="e.g. 3"
           onChange={onChange}
-          className='h-[4rem] mt-[1rem]'
+          style={styles.input}
         />
         <TextField
           label="Serve Wares"
@@ -124,14 +130,14 @@ const TextForm: React.FC<{
           value={itemUpdate.serveware}
           placeholder="e.g. 5"
           onChange={onChange}
-          className='h-[4rem] mt-[1rem]'
+          style={styles.input}
         />
       </div>
 
       {/* BUTTON */}
       <button
         type="submit"
-        className="flex items-center justify-center sm:justify-self-end h-[2.5rem] min-w-[2.5rem] rounded-[8px] bg-myPrimary text-white"
+        className="flex items-center justify-center sm:justify-self-end h-[3.5rem] w-full rounded-[8px] bg-[#2C3BFA] text-white font-[600]"
       >
         Create Seat
         <RiAddLine />

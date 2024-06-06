@@ -28,7 +28,7 @@ import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
 import TextForm from './textForm';
-import { ItemAppendForm } from './appendForm';
+import ItemAppendForm from './appendForm';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import floorSlice, { setFloorImage, setFloorItems } from '@/store/slices/addFloorPlan';
@@ -816,6 +816,7 @@ export default function AddEvent() {
             {/* ::::::::::: Edit Modal */}
             <Modal 
               open={editFloorPlan}
+              // open={true}
               onClose={() => setEditFloorPlan(false)}
             >
               <Box 
@@ -836,19 +837,21 @@ export default function AddEvent() {
                 <form onSubmit={(e)=>e.preventDefault()}>
                   {/* :::::::::::::::::::::::::: MODE 1 */}
                   <div 
-                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full
-                    ${floorPlanMode === 0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
-                    `}
+                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${floorPlanMode===0?'opacity-[100%] visible ease-250 ':'opacity-0 invisible absolute z-[-5] '} `}
                   >
                     <img 
-                      src=''
+                      src='/image/image_two.jpg'
                       alt=''
-                      className=''
+                      className='w-[40%] h-full object-contain'
                     />
 
                     {/* ::::::::::::::::::::::::::::: FORM */}
                     <TextForm 
                       onAdd={handleAddItem}
+                    />
+
+                    <ItemAppendForm
+                      items={null}
                     />
                   </div>
 

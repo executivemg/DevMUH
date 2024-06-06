@@ -19,117 +19,55 @@ interface ItemData {
 
 // Component for individual item inputs
 const ItemAppendForm: React.FC<{
-  item: ItemData;
+  items: [ItemData];
   index: number;
   onDelete: (index: number) => void;
   onChange: (index: number, field: keyof ItemData, value: string | number) => void;
 }> = ({ 
-  item={
-    name: '',
-    alias: '',
-    price: '',
-    people: '',
-    serveware: ''
-  }, 
+  items, 
   index,
   onDelete,
-  onChange 
 }) => {
+  const styles = {
+    table_head_data: 'text-secondary font-[600] '
+  }
+
   return (
     <div className="flex flex-col gap-[1.5rem] items-center max-w-[45rem] lg:w-full ">
-      <TextField
-        label="Name"
-        variant='outlined'
-        name={`name`}
-        type="text"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <MdOutlineDriveFileRenameOutline className='text-[1.25rem] text-slate-400 ' />
-            </InputAdornment>
-          ),
-        }}
-        value={item.name}
-        className='min-w-[10rem] lg:w-full'
-        placeholder="e.g. Parlour 1"
-        onChange={(e: any) => onChange(index, "name", e.target.value)}
-      />
-          
-      <div className='flex flex-col gap-[1.5rem] '>
-        <TextField
-          label="Alias"
-          variant='outlined'
-          name={`alias`}
-          type="text"
-          InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <RiProfileLine className='text-[1.25rem] text-slate-400 ' />
-            </InputAdornment>
-            ),
-          }}
-          value={item.alias}
-          placeholder="e.g. P 1"
-          onChange={(e: any) => onChange(index, "alias", e.target.value)}
-        />
-        <TextField
-          label="Price"
-          variant='outlined'
-          name={`price`}
-          type="number"
-          InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <RiMoneyDollarCircleLine className='text-[1.25rem] text-slate-400 ' />
-            </InputAdornment>
-            ),
-          }}
-          value={item.price}
-          placeholder="e.g. 100"
-          onChange={(e: any) => onChange(index, "price", e.target.value)}
-        />
-        <TextField
-          label="People"
-          variant='outlined'
-          name={`people`}
-          type="number"
-          InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <RiMoneyDollarCircleLine className='text-[1.25rem] text-slate-400 ' />
-            </InputAdornment>
-            ),
-          }}
-          value={item.people}
-          placeholder="e.g. 3"
-          onChange={(e: any) => onChange(index, "people", e.target.value)}
-        />
-        <TextField
-          label="Serve Wares"
-          variant='outlined'
-          name={`serveware`}
-          type="number"
-          InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <RiMoneyDollarCircleLine className='text-[1.25rem] text-slate-400 ' />
-            </InputAdornment>
-            ),
-          }}
-          value={item.serveware}
-          placeholder="e.g. 5"
-          onChange={(e: any) => onChange(index, "serveware", e.target.value)}
-        />
-      </div>
+      <table>
+        <thead>
+          <tr className='grid grid-cols-16 w-full'>
+            <td className={styles.table_head_data + ' span-cols-4'}>Name</td>
+            <td className={styles.table_head_data}>Alias</td>
+            <td className={styles.table_head_data}>Price</td>
+            <td className={styles.table_head_data}>People</td>
+            <td className={styles.table_head_data}>Wares</td>
+          </tr>
+        </thead>
+        <tbody>
+        {items.map((item, index) => (
+          <tr 
+            key={index}
+            className='group relative w-full'
+          >
+            <td>{item.name}</td>
+            <td>{item.name}</td>
+            <td>{item.name}</td>
+            <td>{item.name}</td>
+            <td>{item.name}</td>
 
-      {/* BUTTON */}
-      <button
-        type="button"
-        className="flex items-center justify-center sm:justify-self-end h-[2.5rem] min-w-[2.5rem] rounded-[8px] bg-red-500 text-white"
-        onClick={() => onDelete(index)}
-      >
-        <RiDeleteBin6Line />
-      </button>
+            {/* BUTTON */}
+            <button
+              type="button"
+              className="absolute top-0 right-[-1rem] flex items-center justify-center sm:justify-self-end h-[2.5rem] min-w-[2.5rem] rounded-[8px] bg-red-200 group-hover:bg-red-500 text-white group-hover:right-0 invisible group-hover:visible ease-250 "
+              onClick={() => onDelete(index)}
+            >
+              <RiDeleteBin6Line />
+            </button>
+          </tr> 
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
