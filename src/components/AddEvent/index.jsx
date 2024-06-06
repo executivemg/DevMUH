@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import * as React from "react";
@@ -18,6 +19,7 @@ import {
   Modal
 } from "@mui/material";
 import { RiCloseLine, RiUploadFill } from 'react-icons/ri';
+import { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
@@ -25,6 +27,11 @@ import axios from "../../axios";
 import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
+import TextForm from './textForm';
+import { ItemAppendForm } from './appendForm';
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import floorSlice, { setFloorImage, setFloorItems } from '@/store/slices/addFloorPlan';
 
 const darkTheme = createTheme({
   palette: {
@@ -79,7 +86,7 @@ export default function AddEvent() {
     floorplan: "no",
 
     // :::::::::::::::::::::::: FLOOR PLAN
-    // floorplanMode: ''
+    floorplanMode: 0,
     floorplanImage: null,
     floorplanLayout: []
   });
@@ -187,6 +194,8 @@ export default function AddEvent() {
         is_floor:
           formData?.floorplan === "no" ? 0 : formData?.floorplan === "yes" && 1,
         domain_url: formData?.domain,
+
+        // :::::::::::::::::::::: !! write submit here
       };
       try {
         setLoading(true);
@@ -229,7 +238,7 @@ export default function AddEvent() {
           domain: "",
           
           // :::::::::::::::::::::::: FLOOR PLAN
-          // floorplanMode: ''
+          floorplanMode: 0,
           floorplanImage: null,
           floorplanLayout: []
         });
@@ -251,6 +260,63 @@ export default function AddEvent() {
   useEffect(() => {
     ()=>isOpenEdit(editFloorPlan || (formData.floorplan === 'yes'));
   }, [editFloorPlan, formData.floorplan]);
+
+  const [floorPlanMode, setFloorPlanMode] = useState(0);
+
+  useEffect(() => {
+    ()=>setFloorPlanMode(formData.floorplanMode);
+  }, [formData.floorplanMode]);
+
+  const [floorImage, setLocalFloorImage] = useState("");
+
+  // :::::::::::::::::::::::::::::::::: IMAGE UPLOAD FUNCTIONS
+  const handleFloorImage = (event) => {
+    var file = event.target.files[0];
+    if (file === null) return;
+
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setLocalFloorImage(reader.result);
+      dispatch(setFloorImage(reader.result));
+    };
+    reader.onerror = function (error) {
+      cl('Change Image error: ', error);
+    };
+  };
+
+  const items = useSelector((state) => state.floorData.items);
+
+  // :::::::::::::::::::::::::::::::::::::::::::: ADD FUNCTION
+  const handleAddItem = (item) => {
+    dispatch(setFloorItems([...items, { 
+      name: item.name, 
+      alias: item.alias, 
+      price: item.price, 
+      people: item.people, 
+      serveware: item.serveware 
+    }]));
+  };
+
+  // :::::::::::::::::::::::::::::::::::::::::::: DELETE FUNCTION
+  const handleDeleteItem = (index) => {
+    dispatch(setFloorItems(items.filter((_, i) => i !== index)));
+  };
+
+  // :::::::::::::::::::::::::::::::::::::::::::: ITEM CHANGE FUNCTION
+  const handleItemChange = (
+    index,
+    field,
+    value
+  ) => {
+    dispatch(
+      setFloorItems(
+        items.map((item, i) =>
+          i === index ? { ...item, [field]: value } : item
+        )
+      )
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 absolute w-screen">
@@ -670,12 +736,14 @@ export default function AddEvent() {
                             value="yes"
                             control={<Radio />}
                             label="Yes"
+                            onClick={()=>setEditFloorPlan(true)}
                             style={{ color: "#fff" }}
                           />
                           <FormControlLabel
                             value="no"
                             control={<Radio />}
                             label="No"
+                            onClick={()=>setEditFloorPlan(false)}
                             style={{ color: "#fff" }}
                           />
                         </RadioGroup>
@@ -737,9 +805,10 @@ export default function AddEvent() {
             {/* ::::::::::: Edit button */}
             {openEdit && 
               <button 
-                className='group fixed top-[15rem] right-0 z-[50] px-[1rem] py-[0.875rem] rounded-l-[16px] bg-secondary text-primary text-[1rem] shadow-[0_2px_5px_2px_rgba(255,255,255,0.2)] hover:shadow-[0_2px_15px_4px_rgba(255,255,255,0.2)] '
+                onClick={()=>setEditFloorPlan(true)}
+                className='group fixed top-[15rem] right-0 z-[50] flex gap-[0.25rem] items-center px-[1rem] py-[0.875rem] rounded-l-[16px] bg-secondary text-primary text-[1rem] shadow-[0_2px_5px_2px_rgba(255,255,255,0.2)] hover:shadow-[0_2px_15px_4px_rgba(255,255,255,0.2)] ease-250 '
               >
-                <RiUploadFill className='' />
+                <RiUploadFill className='text-[1rem] group-hover:animate-bounce ' />
                 Modify FloorPlan
               </button>
             }
@@ -750,21 +819,47 @@ export default function AddEvent() {
               onClose={() => setEditFloorPlan(false)}
             >
               <Box 
-                layout="fullscreen"
-                className=''
+                className='relative flex flex-col gap-[2rem] w-screen h-screen bg-primary  p-[1rem] md:p-[2rem] '
               >
-                <Box 
-                  className='relative w-full h-full bg-primary'
+                {/* ::::::: CLOSE BUTTON */}
+                <button 
+                  onClick={() => setEditFloorPlan(false)} 
+                  className='absolute top-[1rem] right-[1rem] md:top-[2rem] md:right-[2rem] p-[0.5rem] rounded-[4px] text-secondary text-[1rem] bg-white/10 hover:bg-white/15 ease-250'
                 >
-                  <button 
-                    onClick={() => setEditFloorPlan(false)} 
-                    className='p-[0.5rem] rounded-[4px] bg-transparent hover:bg-white/10 ease-250'
-                  >
-                    <RiCloseLine className='' />
-                  </button>
-                  <h3 className='outline outline-[1px] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] py-[0.5rem] uppercase w-max '>Create Floor-Plan</h3>
+                  <RiCloseLine className='' />
+                </button>
 
-                </Box>
+                {/* ::::::: TITLE */}
+                <h3 className='outline outline-[1px] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] py-[0.5rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
+
+                {/* :::::::: FLOOR PLAN FORM */}
+                <form onSubmit={(e)=>e.preventDefault()}>
+                  {/* :::::::::::::::::::::::::: MODE 1 */}
+                  <div 
+                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full
+                    ${floorPlanMode === 0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
+                    `}
+                  >
+                    <img 
+                      src=''
+                      alt=''
+                      className=''
+                    />
+
+                    {/* ::::::::::::::::::::::::::::: FORM */}
+                    <TextForm 
+                      onAdd={handleAddItem}
+                    />
+                  </div>
+
+                  {/* :::::::::::::::::::::::::: MODE 2 */}
+                  <div 
+                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full
+                    ${floorPlanMode === 1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
+                    `}
+                  ></div>
+
+                </form>
               </Box>
             </Modal>
           </Box>

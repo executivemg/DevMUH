@@ -93,6 +93,10 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  .ease-250 {
+    @apply transition-all duration-200 ease-in-out;
+  }
 }
 
 .bord {
