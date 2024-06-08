@@ -32,6 +32,7 @@ import ItemAppendForm from './appendForm';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import floorSlice, { setFloorImage, setFloorItems } from '@/store/slices/addFloorPlan';
+import UploadImage from './uploadFile';
 
 const darkTheme = createTheme({
   palette: {
@@ -846,11 +847,9 @@ export default function AddEvent() {
                     className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${floorPlanMode===0?'opacity-[100%] visible ease-250 ':'opacity-0 invisible absolute z-[-5] '} `}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
-                    <img 
-                      src='/image/image_two.jpg'
-                      alt=''
-                      className='w-[60%] h-full object-contain'
-                    />
+                    <div className='w-[60%] h-full'>
+                      <UploadImage />
+                    </div>
 
                     {/* ::::::::::::::::::::::::::::: FORM */}
                     <div className='flex-1 pt-[1rem]'>
@@ -860,9 +859,7 @@ export default function AddEvent() {
                     </div>
 
                     {/* ::::::::::::::::::::::::::::: TABLE */}
-                    <ItemAppendForm
-                      items={initialItems}
-                    />
+                    <ItemAppendForm />
 
                   </div>
 

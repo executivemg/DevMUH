@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { RiDeleteBin6Line, RiProfileLine, RiMoneyDollarCircleLine } from "react-icons/ri";
+import { RiDeleteBin6Line, RiMenuFoldLine, RiCloseFill } from "react-icons/ri";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import {
-  TextField, 
-  InputAdornment,
   Table,
   TableBody,
   TableCell,
@@ -15,6 +13,11 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+
+import { setFloorItems } from '@/store/slices/addFloorPlan';
 
 const cl = console.log.bind(console);
 
@@ -28,27 +31,37 @@ interface ItemData {
 }
 
 // Component for individual item inputs
-const ItemAppendForm: React.FC<{
-  items: [ItemData];
-  index: number;
-  onDelete: (index: number) => void;
-  onChange: (index: number, field: keyof ItemData, value: string | number) => void;
-}> = ({ 
-  items, 
-  index,
-  onDelete,
-}) => {
+const ItemAppendForm = () => {
   const styles = {
     table_head_data: 'text-base-light uppercase text-[0.625rem] tracking-[2px] font-[500] ',
     table_body_data: 'text-secondary ',
   }
 
+  const [itemListState, setItemListState] = useState(false);
+
+  const items = useSelector((state: RootState) => state.floorData.items);
+  const dispatch = useDispatch();
+
+  const onDelete = (index: number) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    dispatch(setFloorItems(updatedItems));
+  };
+
+
   return (
-    <div className="fixed right-0 z-[10] flex w-screen h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] ">
-      <div className='bg-black/90 flex-1 h-full cursor-pointer'></div>
+    <div className={`fixed ${itemListState? 'right-0' : 'right-[-80%]'} ease-250 z-[10] flex w-screen transition h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}>
+      <div 
+        className={`${itemListState? 'visiblle opacity-100 flex-1' : 'invisible opacity-0'} ease-250 bg-black/90 h-full cursor-pointer` }
+        onClick={()=>setItemListState(false)}
+      ></div>
 
       <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
         <div className='flex justify-between gap-[2rem] py-[1rem] '>
+          <button className='text-base bg-base-light/10 p-[0.5rem] rounded-[4px] hover:bg-base-light/20 ease-250'>
+            {!itemListState? 
+            <RiMenuFoldLine /> :
+            <RiCloseFill />}
+          </button>
           <p className='text-[0.875rem] font-mono uppercase text-base font-[600] '>List of Seats</p>
         </div>
         <Table sx={{ minWidth: 650 }} style={{borderRadius: '4px'}} aria-label="simple table"

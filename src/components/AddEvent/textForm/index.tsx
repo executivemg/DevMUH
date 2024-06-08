@@ -5,6 +5,10 @@ import { FaPlus } from "react-icons/fa";
 import { RiAddLine, RiProfileLine, RiMoneyDollarCircleLine } from "react-icons/ri";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { FormControl, TextField, InputAdornment } from "@mui/material";
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { setFloorItems } from '@/store/slices/addFloorPlan';
 
 const cl = console.log.bind(console);
 
@@ -18,11 +22,12 @@ interface ItemData {
 }
 
 // Component for individual item inputs
-const TextForm: React.FC<{
-  onAdd: (item: ItemData) => {}
-}> = ({ onAdd }) => {
+const TextForm: React.FC<{onAdd: (item: ItemData) => {}}> = ({ onAdd }) => {
 
-  const [itemUpdate, setItemUpdate] = useState({name: "", alias: "", price: "", people: "", serveware: ""});
+  const [itemUpdate, setItemUpdate] = useState<ItemData>({ name: "", alias: "", price: "", people: "", serveware: "" });
+  const dispatch = useDispatch();
+  const items = useSelector((state: RootState) => state.floorData.items);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setItemUpdate((prevState) => ({ ...prevState, [name]: value }));
@@ -32,9 +37,10 @@ const TextForm: React.FC<{
     cl(itemUpdate);
   }, [itemUpdate]);
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAdd(itemUpdate);
+    dispatch(setFloorItems([...items, itemUpdate]));
+    setItemUpdate({ name: "", alias: "", price: "", people: "", serveware: "" });
   };
 
   const styles = {
