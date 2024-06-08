@@ -318,6 +318,12 @@ export default function AddEvent() {
     );
   };
 
+  const initialItems = [
+    { name: "Item 1", alias: "Alias 1", price: "100", people: "3", serveware: "5" },
+    { name: "Item 2", alias: "Alias 2", price: "200", people: "4", serveware: "6" },
+    // Add more items as needed
+  ];
+
   return (
     <div className="min-h-screen bg-gray-900 absolute w-screen">
       <Toaster />
@@ -850,9 +856,11 @@ export default function AddEvent() {
                       onAdd={handleAddItem}
                     />
 
-                    <ItemAppendForm
-                      items={null}
-                    />
+                    <div className='flex-1 max-w-[45rem]'>
+                      <ItemAppendForm
+                        items={initialItems}
+                      />
+                    </div>
                   </div>
 
                   {/* :::::::::::::::::::::::::: MODE 2 */}

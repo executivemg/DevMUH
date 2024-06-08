@@ -191,3 +191,7 @@ body {
 .tableCont::-webkit-scrollbar-thumb {
   background-color: #2C3BFA;
 }
+
+.lorem {
+  color: rgba(44,59,250,1);
+}

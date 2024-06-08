@@ -29,37 +29,38 @@ const ItemAppendForm: React.FC<{
   onDelete,
 }) => {
   const styles = {
-    table_head_data: 'text-secondary font-[600] '
+    table_head_data: 'text-secondary font-[600] ',
+    table_body_data: 'text-secondary re ',
   }
 
   return (
-    <div className="flex flex-col gap-[1.5rem] items-center max-w-[45rem] lg:w-full ">
-      <table>
-        <thead>
-          <tr className='grid grid-cols-16 w-full'>
-            <td className={styles.table_head_data + ' span-cols-4'}>Name</td>
+    <div className="flex flex-col gap-[1.5rem] items-center w-full ">
+      <table className='w-full '>
+        <thead className='w-full'>
+          <tr className='w-full bg-[#252fdd] px-[0.5rem] py-[0.25rem] rounded-[4px] '>
+            <td className={styles.table_head_data}>Name</td>
             <td className={styles.table_head_data}>Alias</td>
             <td className={styles.table_head_data}>Price</td>
             <td className={styles.table_head_data}>People</td>
             <td className={styles.table_head_data}>Wares</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody className='w-full bg-[#252fdd] '>
         {items.map((item, index) => (
           <tr 
             key={index}
-            className='group relative w-full'
+            className={`group relative w-full ${index%2===0 && 'bg-[#252fdd]'} `}
           >
-            <td>{item.name}</td>
-            <td>{item.name}</td>
-            <td>{item.name}</td>
-            <td>{item.name}</td>
-            <td>{item.name}</td>
+            <td className={styles.table_body_data}>{item.name}</td>
+            <td className={styles.table_body_data}>{item.alias}</td>
+            <td className={styles.table_body_data}>{item.price}</td>
+            <td className={styles.table_body_data}>{item.people}</td>
+            <td className={styles.table_body_data}>{item.serveware}</td>
 
             {/* BUTTON */}
             <button
               type="button"
-              className="absolute top-0 right-[-1rem] flex items-center justify-center sm:justify-self-end h-[2.5rem] min-w-[2.5rem] rounded-[8px] bg-red-200 group-hover:bg-red-500 text-white group-hover:right-0 invisible group-hover:visible ease-250 "
+              className="absolute top-0 right-[-1rem] z-[10] flex items-center justify-center sm:justify-self-end h-[2.5rem] min-w-[2.5rem] rounded-[8px] bg-red-200 group-hover:bg-red-500 text-white group-hover:right-0 invisible group-hover:visible ease-250 "
               onClick={() => onDelete(index)}
             >
               <RiDeleteBin6Line />
