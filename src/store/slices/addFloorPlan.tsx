@@ -1,5 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+// store/slices/floorSlice.ts
 
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+// Define the ItemData interface
 export interface ItemData {
   name: string;
   alias: string;
@@ -7,33 +10,26 @@ export interface ItemData {
   people: string;
   serveware: string;
 }
+
 interface FloorState {
-  floorImage: string;
+  floorImage: File | null;
   items: ItemData[];
 }
 
 const initialState: FloorState = {
-  floorImage: "",
+  floorImage: null,
   items: [],
 };
 
-interface SetFloorImageAction {
-  payload: string;
-}
-
-interface SetFloorItemsAction {
-  payload: ItemData[];
-}
-
-// :::::::::::::::::::::::::::: MAIN SLICE
 const floorSlice = createSlice({
   name: 'floorData',
   initialState,
   reducers: {
-    setFloorImage(state: FloorState, action: SetFloorImageAction) {
+    setFloorImage(state: FloorState, action: PayloadAction<File>) {
       state.floorImage = action.payload;
     },
-    setFloorItems(state: FloorState, action: SetFloorItemsAction) {
+
+    setFloorItems(state: FloorState, action: PayloadAction<ItemData[]>) {
       state.items = action.payload;
     },
   },

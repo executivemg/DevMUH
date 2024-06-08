@@ -12,11 +12,11 @@ import {
   TableHead,
   TableRow,
   Paper,
+  SwipeableDrawer
 } from '@mui/material';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-
 import { setFloorItems } from '@/store/slices/addFloorPlan';
 
 const cl = console.log.bind(console);
@@ -47,13 +47,20 @@ const ItemAppendForm = () => {
     dispatch(setFloorItems(updatedItems));
   };
 
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   return (
-    <div className={`fixed ${itemListState? 'right-0' : 'right-[-80%]'} ease-250 z-[10] flex w-screen transition h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}>
-      <div 
+    <SwipeableDrawer
+      anchor={'right'}
+      open={openDrawer}
+      onClose={()=>setOpenDrawer(false)}
+      onOpen={()=>setOpenDrawer(true)}
+    >
+    {/* <div className={`fixed ${itemListState? 'right-0' : 'right-[-80%]'} ease-250 z-[10] flex w-screen transition h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}> */}
+      {/* <div 
         className={`${itemListState? 'visiblle opacity-100 flex-1' : 'invisible opacity-0'} ease-250 bg-black/90 h-full cursor-pointer` }
         onClick={()=>setItemListState(false)}
-      ></div>
+      ></div> */}
 
       <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
         <div className='flex justify-between gap-[2rem] py-[1rem] '>
@@ -102,7 +109,8 @@ const ItemAppendForm = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    {/* </div> */}
+    </SwipeableDrawer>
   );
 };
 

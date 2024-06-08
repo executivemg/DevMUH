@@ -31,8 +31,8 @@ import TextForm from './textForm';
 import ItemAppendForm from './appendForm';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import floorSlice, { setFloorImage, setFloorItems } from '@/store/slices/addFloorPlan';
-import UploadImage from './uploadFile';
+import { setFloorImage, setFloorItems } from '@/store/slices/addFloorPlan';
+import UploadImage from './imageForm';
 
 const darkTheme = createTheme({
   palette: {
