@@ -319,7 +319,7 @@ export default function AddEvent() {
   };
 
   const initialItems = [
-    { name: "Item 1", alias: "Alias 1", price: "100", people: "3", serveware: "5" },
+    { name: "Item 1tem 1tem 1tem 1", alias: "Alias 1", price: "100", people: "3", serveware: "5" },
     { name: "Item 2", alias: "Alias 2", price: "200", people: "4", serveware: "6" },
     // Add more items as needed
   ];
@@ -845,22 +845,25 @@ export default function AddEvent() {
                   <div 
                     className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${floorPlanMode===0?'opacity-[100%] visible ease-250 ':'opacity-0 invisible absolute z-[-5] '} `}
                   >
+                    {/* ::::::::::::::::::::::::::::: IMAGE */}
                     <img 
                       src='/image/image_two.jpg'
                       alt=''
-                      className='w-[40%] h-full object-contain'
+                      className='w-[60%] h-full object-contain'
                     />
 
                     {/* ::::::::::::::::::::::::::::: FORM */}
-                    <TextForm 
-                      onAdd={handleAddItem}
-                    />
-
-                    <div className='flex-1 max-w-[45rem]'>
-                      <ItemAppendForm
-                        items={initialItems}
+                    <div className='flex-1 pt-[1rem]'>
+                      <TextForm 
+                        onAdd={handleAddItem}
                       />
                     </div>
+
+                    {/* ::::::::::::::::::::::::::::: TABLE */}
+                    <ItemAppendForm
+                      items={initialItems}
+                    />
+
                   </div>
 
                   {/* :::::::::::::::::::::::::: MODE 2 */}

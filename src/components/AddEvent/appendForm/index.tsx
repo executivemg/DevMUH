@@ -4,7 +4,17 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { RiDeleteBin6Line, RiProfileLine, RiMoneyDollarCircleLine } from "react-icons/ri";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { TextField, InputAdornment } from "@mui/material";
+import {
+  TextField, 
+  InputAdornment,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from '@mui/material';
 
 const cl = console.log.bind(console);
 
@@ -29,46 +39,56 @@ const ItemAppendForm: React.FC<{
   onDelete,
 }) => {
   const styles = {
-    table_head_data: 'text-secondary font-[600] ',
-    table_body_data: 'text-secondary re ',
+    table_head_data: 'text-base-light uppercase text-[0.625rem] tracking-[2px] font-[500] ',
+    table_body_data: 'text-secondary ',
   }
 
   return (
-    <div className="flex flex-col gap-[1.5rem] items-center w-full ">
-      <table className='w-full '>
-        <thead className='w-full'>
-          <tr className='w-full bg-[#252fdd] px-[0.5rem] py-[0.25rem] rounded-[4px] '>
-            <td className={styles.table_head_data}>Name</td>
-            <td className={styles.table_head_data}>Alias</td>
-            <td className={styles.table_head_data}>Price</td>
-            <td className={styles.table_head_data}>People</td>
-            <td className={styles.table_head_data}>Wares</td>
-          </tr>
-        </thead>
-        <tbody className='w-full bg-[#252fdd] '>
-        {items.map((item, index) => (
-          <tr 
-            key={index}
-            className={`group relative w-full ${index%2===0 && 'bg-[#252fdd]'} `}
-          >
-            <td className={styles.table_body_data}>{item.name}</td>
-            <td className={styles.table_body_data}>{item.alias}</td>
-            <td className={styles.table_body_data}>{item.price}</td>
-            <td className={styles.table_body_data}>{item.people}</td>
-            <td className={styles.table_body_data}>{item.serveware}</td>
+    <div className="fixed right-0 z-[10] flex w-screen h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] ">
+      <div className='bg-black/90 flex-1 h-full cursor-pointer'></div>
 
-            {/* BUTTON */}
-            <button
-              type="button"
-              className="absolute top-0 right-[-1rem] z-[10] flex items-center justify-center sm:justify-self-end h-[2.5rem] min-w-[2.5rem] rounded-[8px] bg-red-200 group-hover:bg-red-500 text-white group-hover:right-0 invisible group-hover:visible ease-250 "
-              onClick={() => onDelete(index)}
-            >
-              <RiDeleteBin6Line />
-            </button>
-          </tr> 
-          ))}
-        </tbody>
-      </table>
+      <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
+        <div className='flex justify-between gap-[2rem] py-[1rem] '>
+          <p className='text-[0.875rem] font-mono uppercase text-base font-[600] '>List of Seats</p>
+        </div>
+        <Table sx={{ minWidth: 650 }} style={{borderRadius: '4px'}} aria-label="simple table"
+          className='border-[1px] border-solid border-base-light/20 border-collapse rounded-[4px] '
+        >
+          <TableHead className='bg-base-dark'>
+            <TableRow>
+              <TableCell className='text-base font-[600] font-mono text-[0.75rem] uppercase'>Name</TableCell>
+              <TableCell className='text-base font-[600] font-mono text-[0.75rem] uppercase' align="right">Alias</TableCell>
+              <TableCell className='text-base font-[600] font-mono text-[0.75rem] uppercase' align="right">Price ($)</TableCell>
+              <TableCell className='text-base font-[600] font-mono text-[0.75rem] uppercase' align="right">People</TableCell>
+              <TableCell className='text-base font-[600] font-mono text-[0.75rem] uppercase' align="right">Wares</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody className='bg-base/20'>
+            {items.map((item, index) => (
+              <TableRow
+                key={index}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                className={`group relative ${index%2 === 0 && 'bg-base-light/20'}`}
+              >
+                <TableCell component="th" scope="row">
+                  {item.name}
+                </TableCell>
+                <TableCell align="right">{item.alias}</TableCell>
+                <TableCell align="right">{item.price}</TableCell>
+                <TableCell align="right">{item.people}</TableCell>
+                <TableCell align="right">{item.serveware}</TableCell>
+                <button
+                  type="button"
+                  className="absolute top-[0.325rem] right-[-1rem] z-[30] flex items-center justify-center sm:justify-self-end h-[calc(100%-0.875rem)] px-[0.5rem] rounded-[4px] group-hover:bg-slate-700 group-hover:hover:bg-red-800 text-white group-hover:right-[0.5rem] invisible group-hover:visible ease-250 shadow-[0_0_5px_1px_rgba(255,255,255,0.15)] "
+                  onClick={() => onDelete(index)}
+                >
+                  <RiDeleteBin6Line className='text-[0.875rem]' />
+                </button>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
