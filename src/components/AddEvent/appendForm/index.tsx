@@ -17,7 +17,7 @@ import {
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { setFloorItems } from '@/store/slices/addFloorPlan';
+import { setFloorItems } from '@/store/slices/floorSlice';
 
 const cl = console.log.bind(console);
 
@@ -37,7 +37,7 @@ const ItemAppendForm = () => {
     table_body_data: 'text-secondary ',
   }
 
-  const [itemListState, setItemListState] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false)
 
   const items = useSelector((state: RootState) => state.floorData.items);
   const dispatch = useDispatch();
@@ -47,25 +47,20 @@ const ItemAppendForm = () => {
     dispatch(setFloorItems(updatedItems));
   };
 
-  const [openDrawer, setOpenDrawer] = useState(false);
 
   return (
-    <SwipeableDrawer
-      anchor={'right'}
-      open={openDrawer}
-      onClose={()=>setOpenDrawer(false)}
-      onOpen={()=>setOpenDrawer(true)}
-    >
-    {/* <div className={`fixed ${itemListState? 'right-0' : 'right-[-80%]'} ease-250 z-[10] flex w-screen transition h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}> */}
-      {/* <div 
-        className={`${itemListState? 'visiblle opacity-100 flex-1' : 'invisible opacity-0'} ease-250 bg-black/90 h-full cursor-pointer` }
-        onClick={()=>setItemListState(false)}
-      ></div> */}
+    <div className={`fixed right-0 ${openDrawer? 'translate-x-0 bg-black/90 ' : 'translate-x-[80%]'} transition-all ease-in-out duration-[0.5s] z-[10] flex w-screen h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}>
+      <div 
+        className={`relative ${openDrawer? 'visiblle opacity-100 flex-1' : 'invisible opacity-0'} h-full cursor-pointer` }
+        onClick={()=>setOpenDrawer(false)}
+      ></div>
 
-      <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
-        <div className='flex justify-between gap-[2rem] py-[1rem] '>
-          <button className='text-base bg-base-light/10 p-[0.5rem] rounded-[4px] hover:bg-base-light/20 ease-250'>
-            {!itemListState? 
+      <TableContainer component={Paper} className='bg-gray-950 overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
+        <div className='flex gap-[2rem] py-[1rem] '>
+          <button className='text-base bg-base-light/10 p-[0.5rem] rounded-[4px] hover:bg-base-light/20 ease-250'
+            onClick={()=>setOpenDrawer(!openDrawer)}
+          >
+            {!openDrawer? 
             <RiMenuFoldLine /> :
             <RiCloseFill />}
           </button>
@@ -109,8 +104,7 @@ const ItemAppendForm = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    {/* </div> */}
-    </SwipeableDrawer>
+    </div>
   );
 };
 

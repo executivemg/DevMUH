@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './slices/cartSlice';
-import floorSlice from './slices/addFloorPlan';
+import floorSlice from './slices/floorSlice';
 
 const store = configureStore({
     reducer: {

@@ -3,7 +3,7 @@ import { RiUploadLine } from 'react-icons/ri';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { setFloorImage } from '@/store/slices/addFloorPlan';
+import { setFloorImage } from '@/store/slices/floorSlice';
 
 interface UploadImageProps {
   label?: string; 

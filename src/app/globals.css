@@ -97,6 +97,12 @@ body {
   .ease-250 {
     @apply transition-all duration-200 ease-in-out;
   }
+  .ease-300 {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  .ease-500 {
+    @apply transition-all duration-500 ease-in-out;
+  }
 }
 
 .bord {

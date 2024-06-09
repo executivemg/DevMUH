@@ -8,7 +8,7 @@ import { FormControl, TextField, InputAdornment } from "@mui/material";
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { setFloorItems } from '@/store/slices/addFloorPlan';
+import { setFloorItems } from '@/store/slices/floorSlice';
 
 const cl = console.log.bind(console);
 
@@ -143,7 +143,8 @@ const TextForm: React.FC<{onAdd: (item: ItemData) => {}}> = ({ onAdd }) => {
       {/* BUTTON */}
       <button
         type="submit"
-        className="flex items-center justify-center sm:justify-self-end h-[3.5rem] w-full rounded-[8px] bg-[#2C3BFA] text-white font-[600]"
+        className="flex items-center justify-center sm:justify-self-end h-[3.5rem] w-full rounded-[8px] bg-[#2C3BFA] text-white"
+        onClick={onSubmit}
       >
         Create Seat
         <RiAddLine />
