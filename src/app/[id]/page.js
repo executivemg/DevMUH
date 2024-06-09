@@ -121,8 +121,10 @@ const Page = ({ params }) => {
         <div className="md:w-[80vw] w-[90vw] 2xl:w-[1500px] grid md:grid-cols-2 grid-cols-1 gap-12 items-center">
           <div className="">
             <div className={`w-[90%] rounded-2xl ${gradient}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={product?.event_images[0]?.image_url}
+                alt='product'
                 className="rounded-2xl min-w-[100%] max-h-[500px] object-cover translate-x-9 -translate-y-9 shadow-lg shadow-gray-600"
               />
             </div>
