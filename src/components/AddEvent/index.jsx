@@ -92,6 +92,18 @@ export default function AddEvent() {
     floorplanLayout: []
   });
 
+  const [name, setName] = React.useState("");
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = userInfo();
+      if (user && user.personal) {
+        const { first_name } = user.personal;
+        setName(`${first_name || ""}`);
+      }
+    }
+  }, []);
+
   const [formErrors, setFormErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
   const [eventImages, setEventImages] = React.useState([]);
@@ -340,7 +352,7 @@ export default function AddEvent() {
             }}
           >
             <h1 className="text-white w-full text-left text-3xl mb-4">
-              Hello {userInfo()?.personal?.first_name}! Start Uploading Events
+              Hello {name}! Start Uploading Events
             </h1>
             <Box
               component="form"

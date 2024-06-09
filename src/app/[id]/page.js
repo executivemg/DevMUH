@@ -28,11 +28,9 @@ const Page = ({ params }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("Checking token in localStorage");
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
       if (storedToken) {
-        console.log("Token found:", storedToken);
         setToken(storedToken);
       } else {
         console.error("Token not found");
@@ -45,7 +43,6 @@ const Page = ({ params }) => {
     let isMounted = true;
 
     if (token) {
-      console.log("Fetching product with token:", token);
       (async () => {
         try {
           const res = await axios.get(`/event/${id}`, {
@@ -56,7 +53,6 @@ const Page = ({ params }) => {
             },
           });
           if (isMounted) {
-            console.log("Product fetched successfully:", res.data);
             setProduct(res?.data?.data);
           }
         } catch (error) {

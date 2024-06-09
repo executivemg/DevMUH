@@ -374,7 +374,7 @@ function formatData(formData, profileImage) {
     email,
     password,
     phone,
-    user_type: userType === "Organizer" ? 2 : "",
+    user_type: userType === "Organizer" ? "1" : "2",
     gender: gender === "Male" ? 1 : 2,
     dob: dateOfBirth,
     source_image: profileImage,

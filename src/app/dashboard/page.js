@@ -1,9 +1,11 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Typography, Grid, Paper } from "@mui/material";
+import axios from "../../axios";
 
 const PastTicketsDashboard = () => {
+    const [token, setToken] = useState("");
     // Dummy data for past bought tickets
     const [events, setEvents] = useState([
         {
@@ -46,6 +48,33 @@ const PastTicketsDashboard = () => {
             },
         },
     ]);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            let getToken = localStorage.getItem("token");
+            if (!getToken) {
+                throw new Error("Token not found");
+            }
+            console.log(getToken);
+            setToken(getToken);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (token) {
+            (async () => {
+                console.log(token);
+                const res = await axios.get("/user-order/list", {
+                    headers: {
+                        Accept: "*/*",
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    }
+                })
+                console.log(res?.data);
+            })()
+        }
+    }, [token])
 
     return (
         <Container maxWidth="lg" sx={{ mt: 8 }}>

@@ -51,10 +51,10 @@ export default function Login() {
           toast.success(res?.data?.message);
           localStorage.setItem("user", JSON.stringify(res?.data?.data?.user));
           localStorage.setItem("token", res?.data?.data?.token);
-          if (res?.data?.data?.user?.personal.user_type === "1") {
+          if (res?.data?.data?.user?.personal.user_type == "1") {
             route.push("/organizer");
             return;
-          } else if (res?.data?.data?.user?.personal.user_type === "2") {
+          } else if (res?.data?.data?.user?.personal.user_type == "2") {
             route.push("/");
             return;
           }
