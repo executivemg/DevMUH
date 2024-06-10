@@ -30,8 +30,8 @@ import { useRouter } from "next/navigation";
 import TextForm from './textForm';
 import ItemAppendForm from './appendForm';
 // redux
-import { useDispatch, useSelector } from 'react-redux';
-import { setFloorImage, setFloorItems } from '@/store/slices/floorSlice';
+import { useSelector } from 'react-redux';
+import { setFloorItems } from '@/store/slices/floorSlice';
 import UploadImage from './imageForm';
 
 const darkTheme = createTheme({
@@ -93,8 +93,8 @@ export default function AddEvent() {
   });
   
   // floor plan image
-  const localFloorImage = useSelector((state) => state.addFloorPlan.floorImage);
-  const localFloorLayout = useSelector((state) => state.addFloorPlan.items);
+  const localFloorImage = useSelector((state) => state.floorData.floorImage);
+  const localFloorLayout = useSelector((state) => state.floorData.items);
 
   const [name, setName] = React.useState("");
 
@@ -276,10 +276,6 @@ export default function AddEvent() {
   // ::::::::::::::::::::::::::::::::::::::::: FLOOR PLAN
   const [editFloorPlan, setEditFloorPlan] = useState(false);
   const [openEdit, isOpenEdit] = useState(false);
-
-  useEffect(() => {
-    ()=>isOpenEdit(editFloorPlan || (formData.floorplan === 'yes'));
-  }, [editFloorPlan, formData.floorplan]);
 
   const [floorPlanMode, setFloorPlanMode] = useState(0);
 
@@ -744,14 +740,20 @@ export default function AddEvent() {
                             value="yes"
                             control={<Radio />}
                             label="Yes"
-                            onClick={()=>setEditFloorPlan(true)}
+                            onClick={()=>{
+                              setEditFloorPlan(true);
+                              isOpenEdit(true);
+                            }}
                             style={{ color: "#fff" }}
                           />
                           <FormControlLabel
                             value="no"
                             control={<Radio />}
                             label="No"
-                            onClick={()=>setEditFloorPlan(false)}
+                            onClick={()=>{
+                              setEditFloorPlan(false);
+                              isOpenEdit(false);
+                            }}
                             style={{ color: "#fff" }}
                           />
                         </RadioGroup>
