@@ -27,12 +27,12 @@ import axios from "../../axios";
 import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
-import TextForm from './textForm';
-import ItemAppendForm from './appendForm';
+import TextForm from './components/textForm';
+import ItemAppendForm from './components/appendForm';
 // redux
 import { useSelector } from 'react-redux';
 import { setFloorItems } from '@/store/slices/floorSlice';
-import UploadImage from './imageForm';
+import UploadImage from './components/imageForm';
 
 const darkTheme = createTheme({
   palette: {
