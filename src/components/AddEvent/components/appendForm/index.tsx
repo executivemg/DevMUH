@@ -49,16 +49,18 @@ const ItemAppendForm = () => {
 
 
   return (
-    <div className={`fixed right-0 ${openDrawer? 'translate-x-0 bg-black/90 ' : 'translate-x-[80%]'} transition-all ease-in-out duration-[0.5s] z-[10] flex w-screen h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}>
-      <div 
+    <div className={`fixed right-0 ${openDrawer? 'translate-x-0 bg-black/90 ' : 'translate-x-[80%]'} transition-all ease-in-out duration-[0.5s] z-[10] flex justify-end w-screen h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}>
+      {/* <div 
         className={`relative ${openDrawer? 'visiblle opacity-100 flex-1' : 'invisible opacity-0'} h-full cursor-pointer` }
         onClick={()=>setOpenDrawer(false)}
-      ></div>
+      ></div> */}
 
-      <TableContainer component={Paper} className='bg-gray-950 overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
+      <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
         <div className='flex gap-[2rem] py-[1rem] '>
           <button className='text-base bg-base-light/10 p-[0.5rem] rounded-[4px] hover:bg-base-light/20 ease-250'
-            onClick={()=>setOpenDrawer(!openDrawer)}
+            onClick={(e)=>{
+              setOpenDrawer(!openDrawer);
+            }}
           >
             {!openDrawer? 
             <RiMenuFoldLine /> :

@@ -6,7 +6,6 @@ import { RootState } from '@/store';
 import { setFloorImage } from '@/store/slices/floorSlice';
 
 interface UploadImageProps {
-  label?: string; 
   name: string; 
   onChange?: React.ChangeEventHandler<HTMLInputElement>; 
   accept?: string; 
@@ -15,7 +14,6 @@ interface UploadImageProps {
 }
 
 const UploadImage: React.FC<UploadImageProps> = ({
-  label = 'Upload file',
   name,
   onChange,
   accept = 'image/*', 
@@ -50,17 +48,17 @@ const UploadImage: React.FC<UploadImageProps> = ({
   return (
     <div className="flex flex-col justify-center items-center w-full space-x-6 ">
       {floorImage ? (
-        <div className="relative h-[25rem] w-full max-w-[45rem]">
+        <div className="relative h-[35rem] w-full max-w-[45rem]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             src={URL.createObjectURL(floorImage)} 
             alt="Uploaded Floor Plan"
-            className="object-cover h-full w-full rounded-[8px] cursor-pointer"
+            className="object-cover h-full w-full rounded-[8px] cursor-pointer border-solid border-[2px] border-base/50"
             onClick={() => document.getElementById(name)?.click()}
           />
           <input
-            className="hidden"
-            id={name}
+            className="block invisible h-full w-full absolute left-0 top-0 z-[5]"
+            id={name+'2'}
             name={name}
             type="file"
             onChange={handleFileChange}
@@ -69,7 +67,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
       ) : (
         <label
           htmlFor={name}
-          className="flex flex-col justify-center items-center gap-[1rem] bg-base-light/20 h-[25rem] w-full max-w-[45rem] rounded-[8px] border-dashed border-[1px] border-base-light/50 cursor-pointer "
+          className="flex flex-col justify-center items-center gap-[1rem] bg-base-light/20 h-[35rem] w-full max-w-[45rem] rounded-[8px] border-dashed border-[1px] border-base-light/50 cursor-pointer "
         >
           <div className='flex flex-col justify-center items-center gap-[1rem] '>
             <RiUploadLine className='text-[1.875rem] text-base-light ' />

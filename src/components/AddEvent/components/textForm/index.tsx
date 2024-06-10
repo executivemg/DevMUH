@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
-import { RiAddLine, RiProfileLine, RiMoneyDollarCircleLine } from "react-icons/ri";
+import { RiAddLine, RiProfileLine, RiMoneyDollarCircleLine, RiListView } from "react-icons/ri";
 import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { FormControl, TextField, InputAdornment } from "@mui/material";
 // redux
@@ -19,13 +18,21 @@ interface ItemData {
   price: string;
   people: string;
   serveware: string;
+  desc: string;
 }
 
 // Component for individual item inputs
-const TextForm: React.FC<{onAdd: (item: ItemData) => {}}> = ({ onAdd }) => {
-
-  const [itemUpdate, setItemUpdate] = useState<ItemData>({ name: "", alias: "", price: "", people: "", serveware: "" });
+const TextForm = () => {
   const dispatch = useDispatch();
+
+  const [itemUpdate, setItemUpdate] = useState<ItemData>({ 
+    name: "", 
+    alias: "", 
+    price: "", 
+    people: "", 
+    serveware: "",
+    desc: ""
+  });
   const items = useSelector((state: RootState) => state.floorData.items);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +47,7 @@ const TextForm: React.FC<{onAdd: (item: ItemData) => {}}> = ({ onAdd }) => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(setFloorItems([...items, itemUpdate]));
-    setItemUpdate({ name: "", alias: "", price: "", people: "", serveware: "" });
+    setItemUpdate({ name: "", alias: "", price: "", people: "", serveware: "", desc: "" });
   };
 
   const styles = {
@@ -137,6 +144,23 @@ const TextForm: React.FC<{onAdd: (item: ItemData) => {}}> = ({ onAdd }) => {
           placeholder="e.g. 5"
           onChange={onChange}
           style={styles.input}
+        />
+        <TextField
+          label="Description"
+          variant='outlined'
+          name={`desc`}
+          type="text"
+          InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <RiListView className='text-[1.25rem] text-slate-400 ' />
+            </InputAdornment>
+            ),
+          }}
+          value={itemUpdate.alias}
+          placeholder="Children below 12 years are not allowed here"
+          onChange={onChange}
+          style={{ width: '100%', height: '5.5rem'}}
         />
       </div>
 

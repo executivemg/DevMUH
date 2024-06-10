@@ -27,12 +27,13 @@ import axios from "../../axios";
 import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
+// floorplan sections
+import UploadImage from './components/imageForm';
 import TextForm from './components/textForm';
 import ItemAppendForm from './components/appendForm';
 // redux
 import { useSelector } from 'react-redux';
 import { setFloorItems } from '@/store/slices/floorSlice';
-import UploadImage from './components/imageForm';
 
 const darkTheme = createTheme({
   palette: {
@@ -95,6 +96,7 @@ export default function AddEvent() {
   // floor plan image
   const localFloorImage = useSelector((state) => state.floorData.floorImage);
   const localFloorLayout = useSelector((state) => state.floorData.items);
+  const localFloorMode = useSelector((state) => state.floorData.mode);
 
   const [name, setName] = React.useState("");
 
@@ -213,7 +215,7 @@ export default function AddEvent() {
         domain_url: formData?.domain,
 
         // :::::::::::::::::::::: !! write submit here
-        floorplanMode: 0,
+        floorplanMode: localFloorMode,
         floorplanImage: localFloorImage,
         floorplanLayout: localFloorLayout
       };
@@ -285,22 +287,6 @@ export default function AddEvent() {
 
   const items = useSelector((state) => state.floorData.items);
 
-  // :::::::::::::::::::::::::::::::::::::::::::: ADD FUNCTION
-  const handleAddItem = (item) => {
-    dispatch(setFloorItems([...items, { 
-      name: item.name, 
-      alias: item.alias, 
-      price: item.price, 
-      people: item.people, 
-      serveware: item.serveware 
-    }]));
-  };
-
-  // :::::::::::::::::::::::::::::::::::::::::::: DELETE FUNCTION
-  const handleDeleteItem = (index) => {
-    dispatch(setFloorItems(items.filter((_, i) => i !== index)));
-  };
-
   // :::::::::::::::::::::::::::::::::::::::::::: ITEM CHANGE FUNCTION
   const handleItemChange = (
     index,
@@ -315,12 +301,6 @@ export default function AddEvent() {
       )
     );
   };
-
-  const initialItems = [
-    { name: "Item 1tem 1tem 1tem 1", alias: "Alias 1", price: "100", people: "3", serveware: "5" },
-    { name: "Item 2", alias: "Alias 2", price: "200", people: "4", serveware: "6" },
-    // Add more items as needed
-  ];
 
   return (
     <div className="min-h-screen bg-gray-900 absolute w-screen">
@@ -841,24 +821,34 @@ export default function AddEvent() {
                 </button>
 
                 {/* ::::::: TITLE */}
-                <h3 className='outline outline-[1px] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] py-[0.5rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
+                <div className='flex items-center gap-[1rem] '>
+                  <h3 className='outline outline-[1px] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] py-[0.5rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
+                  <div className='flex items-center rounded-[8px] overflow-hidden border-solid border-base/50 border-[1px] '>
+                    <button
+                      onClick={() => setFloorPlanMode(0)}
+                      className={`px-[1rem] py-[0.25rem] text-[0.875rem] ${localFloorMode === 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-base bg-white/50 hover:bg-white/75'} ease-250`}
+                    >Mode 1</button>
+                    <button
+                      onClick={() => setFloorPlanMode(1)}
+                      className={`px-[1rem] py-[0.25rem] text-secondary text-[0.875rem] bg-white/10 hover:bg-white/15 ease-250`}
+                    >Mode 2</button>
+                  </div>
+                </div>
 
                 {/* :::::::: FLOOR PLAN FORM */}
                 <form onSubmit={(e)=>e.preventDefault()}>
                   {/* :::::::::::::::::::::::::: MODE 1 */}
                   <div 
-                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${floorPlanMode===0?'opacity-[100%] visible ease-250 ':'opacity-0 invisible absolute z-[-5] '} `}
+                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ':'opacity-0 invisible absolute z-[-5] '} `}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
-                    <div className='w-[60%] h-full'>
+                    <div className='w-[50%] h-full'>
                       <UploadImage />
                     </div>
 
                     {/* ::::::::::::::::::::::::::::: FORM */}
                     <div className='flex-1 pt-[1rem]'>
-                      <TextForm 
-                        onAdd={handleAddItem}
-                      />
+                      <TextForm />
                     </div>
 
                     {/* ::::::::::::::::::::::::::::: TABLE */}
@@ -869,9 +859,11 @@ export default function AddEvent() {
                   {/* :::::::::::::::::::::::::: MODE 2 */}
                   <div 
                     className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full
-                    ${floorPlanMode === 1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
+                    ${localFloorMode === 1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
                     `}
-                  ></div>
+                  >
+
+                  </div>
 
                 </form>
               </Box>
