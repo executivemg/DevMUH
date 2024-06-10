@@ -31,7 +31,7 @@ import TextForm from './textForm';
 import ItemAppendForm from './appendForm';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setFloorItems } from '@/store/slices/floorSlice';
+import { setFloorImage, setFloorItems } from '@/store/slices/floorSlice';
 import UploadImage from './imageForm';
 
 const darkTheme = createTheme({
@@ -91,6 +91,10 @@ export default function AddEvent() {
     floorplanImage: null,
     floorplanLayout: []
   });
+  
+  // floor plan image
+  const localFloorImage = useSelector((state) => state.addFloorPlan.floorImage);
+  const localFloorLayout = useSelector((state) => state.addFloorPlan.items);
 
   const [name, setName] = React.useState("");
 
@@ -209,6 +213,9 @@ export default function AddEvent() {
         domain_url: formData?.domain,
 
         // :::::::::::::::::::::: !! write submit here
+        floorplanMode: 0,
+        floorplanImage: localFloorImage,
+        floorplanLayout: localFloorLayout
       };
       try {
         setLoading(true);
@@ -279,24 +286,6 @@ export default function AddEvent() {
   useEffect(() => {
     ()=>setFloorPlanMode(formData.floorplanMode);
   }, [formData.floorplanMode]);
-
-  const [floorImage, setLocalFloorImage] = useState("");
-
-  // :::::::::::::::::::::::::::::::::: IMAGE UPLOAD FUNCTIONS
-  const handleFloorImage = (event) => {
-    var file = event.target.files[0];
-    if (file === null) return;
-
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setLocalFloorImage(reader.result);
-      dispatch(setFloorImage(reader.result));
-    };
-    reader.onerror = function (error) {
-      cl('Change Image error: ', error);
-    };
-  };
 
   const items = useSelector((state) => state.floorData.items);
 
