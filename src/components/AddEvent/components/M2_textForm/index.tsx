@@ -36,10 +36,6 @@ const TextForm = () => {
     setItemUpdate((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  useEffect(() => {
-    cl(itemUpdate);
-  }, [itemUpdate]);
-
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(setFloorCategory([...items, itemUpdate]));

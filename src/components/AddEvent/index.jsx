@@ -285,7 +285,7 @@ export default function AddEvent() {
           
           // :::::::::::::::::::::::: FLOOR PLAN
           floorplanMode: 0,
-          floorplanImage: null,
+          floorplanImage: "",
           floorplanLayout: []
         });
         setEventImages([]);
