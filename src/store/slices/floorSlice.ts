@@ -13,9 +13,9 @@ export interface ItemData {
 }
 
 export interface CategoryData {
-  category: string;
+  name: string;
   price: string;
-  number: number;
+  number: string;
   desc: string;
 }
 
@@ -56,4 +56,4 @@ const floorSlice = createSlice({
 });
 
 export default floorSlice.reducer;
-export const { setFloorImage, setFloorItems } = floorSlice.actions;
+export const { setFloorImage, setFloorItems, setFloorCategory, setFloorMode } = floorSlice.actions;

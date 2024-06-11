@@ -7,17 +7,15 @@ import { FormControl, TextField, InputAdornment } from "@mui/material";
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
-import { setFloorItems } from '@/store/slices/floorSlice';
+import { setFloorCategory } from '@/store/slices/floorSlice';
 
 const cl = console.log.bind(console);
 
 // Data structure for form items
 interface ItemData {
   name: string;
-  alias: string;
   price: string;
-  people: string;
-  serveware: string;
+  number: string;
   desc: string;
 }
 
@@ -27,13 +25,11 @@ const TextForm = () => {
 
   const [itemUpdate, setItemUpdate] = useState<ItemData>({ 
     name: "", 
-    alias: "", 
-    price: "", 
-    people: "", 
-    serveware: "",
+    price: "",
+    number: "0",
     desc: ""
   });
-  const items = useSelector((state: RootState) => state.floorData.items);
+  const items = useSelector((state: RootState) => state.floorData.categories);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,8 +42,8 @@ const TextForm = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(setFloorItems([...items, itemUpdate]));
-    setItemUpdate({ name: "", alias: "", price: "", people: "", serveware: "", desc: "" });
+    dispatch(setFloorCategory([...items, itemUpdate]));
+    setItemUpdate({ name: "", price: "", number: "0", desc: "" });
   };
 
   const styles = {
@@ -59,7 +55,7 @@ const TextForm = () => {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4 max-w-[18rem] ">
       <TextField
-        label="Name"
+        label="Category Name"
         variant='outlined'
         name={`name`}
         type="text"
@@ -72,15 +68,15 @@ const TextForm = () => {
         }}
         value={itemUpdate.name}
         style={styles.input}
-        placeholder="e.g. Parlour 1"
+        placeholder="e.g. VIPs"
         onChange={onChange}
       />
           
       <div className='flex flex-col gap-[2rem] w-full '>
         <TextField
-          label="Alias"
+          label="Number of Seats"
           variant='outlined'
-          name={`alias`}
+          name={`number`}
           type="text"
           InputProps={{
           startAdornment: (
@@ -89,8 +85,8 @@ const TextForm = () => {
             </InputAdornment>
             ),
           }}
-          value={itemUpdate.alias}
-          placeholder="e.g. P 1"
+          value={itemUpdate.number}
+          placeholder="e.g. 15"
           onChange={onChange}
           style={styles.input}
         />
@@ -112,40 +108,6 @@ const TextForm = () => {
           style={styles.input}
         />
         <TextField
-          label="People"
-          variant='outlined'
-          name={`people`}
-          type="number"
-          InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <RiMoneyDollarCircleLine className='text-[1.25rem] text-slate-400 ' />
-            </InputAdornment>
-            ),
-          }}
-          value={itemUpdate.people}
-          placeholder="e.g. 3"
-          onChange={onChange}
-          style={styles.input}
-        />
-        <TextField
-          label="Serve Wares"
-          variant='outlined'
-          name={`serveware`}
-          type="number"
-          InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <RiMoneyDollarCircleLine className='text-[1.25rem] text-slate-400 ' />
-            </InputAdornment>
-            ),
-          }}
-          value={itemUpdate.serveware}
-          placeholder="e.g. 5"
-          onChange={onChange}
-          style={styles.input}
-        />
-        <TextField
           label="Description"
           variant='outlined'
           name={`desc`}
@@ -160,7 +122,7 @@ const TextForm = () => {
           value={itemUpdate.desc}
           placeholder="Children below 12 years are not allowed here"
           onChange={onChange}
-          style={{ width: '100%', height: '5.5rem'}}
+          style={{ width: '100%' }}
         />
       </div>
 

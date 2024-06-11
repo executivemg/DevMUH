@@ -30,10 +30,13 @@ import { useRouter } from "next/navigation";
 // floorplan sections
 import UploadImage from './components/imageForm';
 import TextForm from './components/textForm';
+import TextForm2 from './components/M2_textForm';
 import ItemAppendForm from './components/appendForm';
+import ItemAppendForm2 from './components/M2_appendForm';
+
 // redux
 import { useSelector } from 'react-redux';
-import { setFloorItems } from '@/store/slices/floorSlice';
+import { setFloorCategory } from '@/store/slices/floorSlice';
 
 const darkTheme = createTheme({
   palette: {
@@ -288,18 +291,8 @@ export default function AddEvent() {
   const items = useSelector((state) => state.floorData.items);
 
   // :::::::::::::::::::::::::::::::::::::::::::: ITEM CHANGE FUNCTION
-  const handleItemChange = (
-    index,
-    field,
-    value
-  ) => {
-    dispatch(
-      setFloorItems(
-        items.map((item, i) =>
-          i === index ? { ...item, [field]: value } : item
-        )
-      )
-    );
+  const handleChangeMode = (number) => {
+    dispatch(setFloorCategory(number));
   };
 
   return (
@@ -825,12 +818,12 @@ export default function AddEvent() {
                   <h3 className='outline outline-[1px] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] py-[0.5rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
                   <div className='flex items-center rounded-[8px] overflow-hidden border-solid border-base/50 border-[1px] '>
                     <button
-                      onClick={() => setFloorPlanMode(0)}
+                      onClick={handleChangeMode(0)}
                       className={`px-[1rem] py-[0.25rem] text-[0.875rem] ${localFloorMode === 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-base bg-white/50 hover:bg-white/75'} ease-250`}
                     >Mode 1</button>
                     <button
-                      onClick={() => setFloorPlanMode(1)}
-                      className={`px-[1rem] py-[0.25rem] text-secondary text-[0.875rem] bg-white/10 hover:bg-white/15 ease-250`}
+                      onClick={handleChangeMode(1)}
+                      className={`px-[1rem] py-[0.25rem] text-[0.875rem]${localFloorMode === 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-base bg-white/50 hover:bg-white/75'} ease-250`}
                     >Mode 2</button>
                   </div>
                 </div>
@@ -839,7 +832,7 @@ export default function AddEvent() {
                 <form onSubmit={(e)=>e.preventDefault()}>
                   {/* :::::::::::::::::::::::::: MODE 1 */}
                   <div 
-                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ':'opacity-0 invisible absolute z-[-5] '} `}
+                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
                     <div className='w-[50%] h-full'>
@@ -859,10 +852,21 @@ export default function AddEvent() {
                   {/* :::::::::::::::::::::::::: MODE 2 */}
                   <div 
                     className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full
-                    ${localFloorMode === 1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
+                    ${localFloorMode===1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
                     `}
                   >
+                    {/* ::::::::::::::::::::::::::::: IMAGE */}
+                    <div className='w-[50%] h-full'>
+                      <UploadImage />
+                    </div>
 
+                    {/* ::::::::::::::::::::::::::::: FORM */}
+                    <div className='flex-1 pt-[1rem]'>
+                      <TextForm2 />
+                    </div>
+
+                    {/* ::::::::::::::::::::::::::::: TABLE */}
+                    <ItemAppendForm2 />
                   </div>
 
                 </form>
