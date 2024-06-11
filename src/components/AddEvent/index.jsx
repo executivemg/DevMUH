@@ -803,15 +803,15 @@ export default function AddEvent() {
               >
                 {/* ::::::: TITLE */}
                 <div className='sticky z-[100] top-0 left-0 flex items-center gap-[1.875rem] bg-primary p-[1rem] md:p-[2rem] border-b-[1px] border-solid border-base/50 '>
-                  <h3 className='outline outline-[1px] py-[0.5rem] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
-                  <div className='flex items-center rounded-[8px] overflow-hidden border-solid border-base/50 border-[1px] '>
+                  <h3 className='outline outline-[1px] py-[0.5rem] outline-[#2C3BFA] text-[0.75rem] sm:text-[1.15rem] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[0.5rem] sm:px-[1rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
+                  <div className='flex flex-col sm:flex-row items-center rounded-[8px] overflow-hidden border-solid border-base/50 border-[1px] '>
                     <button
                       onClick={()=>dispatch(setFloorMode(0))}
-                      className={`px-[1rem] py-[0.5rem] text-[0.875rem] ${localFloorMode !== 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-white bg-base/85 hover:bg-base'} ease-250`}
+                      className={`px-[0.5rem] sm:px-[1rem] py-[0.5rem] uppercase w-max text-[0.625rem] sm:text-[0.875rem] ${localFloorMode !== 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-white bg-base/85 hover:bg-base'} ease-250`}
                     >Mode 1</button>
                     <button
                       onClick={()=>dispatch(setFloorMode(1))}
-                      className={`px-[1rem] py-[0.5rem] text-[0.875rem] ${localFloorMode !== 1? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-white bg-base/85 hover:bg-base'} ease-250`}
+                      className={`px-[0.5rem] sm:px-[1rem] py-[0.5rem] uppercase w-max text-[0.625rem] sm:text-[0.875rem] ${localFloorMode !== 1? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-white bg-base/85 hover:bg-base'} ease-250`}
                     >Mode 2</button>
                   </div>
                   {/* ::::::: CLOSE BUTTON */}

@@ -74,7 +74,7 @@ const ItemAppendForm2 = () => {
           <p className='text-[0.75rem] font-[600] uppercase'>List</p>
         </button>
       } 
-      <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
+      <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden max-w-[45rem] px-[1rem] '>
         <div className='flex gap-[2rem] py-[1rem] '>
           <button className={`text-base bg-base-light/10 p-[0.5rem] rounded-[4px] hover:bg-base-light/20 ease-250`}
             onClick={(e)=>{
