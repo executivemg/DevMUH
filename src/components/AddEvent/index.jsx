@@ -202,7 +202,7 @@ export default function AddEvent() {
     const errors = validateForm(formData, eventImages);
     setFormErrors(errors);
 
-    const formattedFloorImage = base64ToFile(localFloorImage, 'floor-plan.jpg')
+    const formattedFloorImage = editFloorPlan? base64ToFile(localFloorImage, 'floor-plan.jpg') : "";
 
     if (Object.keys(errors).length === 0) {
       if (JSON.parse(localStorage.getItem("user")) === null) {
