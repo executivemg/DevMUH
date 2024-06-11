@@ -63,12 +63,12 @@ const ItemAppendForm2 = () => {
 
   return (
     <div 
-      className={`fixed right-0 top-[6.5rem] ${openDrawer? 'translate-x-0 bg-black/80 w-screen ' : 'translate-x-[50rem] lg:translate-x-[30rem]'} transition-all ease-in-out duration-[0.5s] z-[10] flex justify-end h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] `}
+      className={`fixed right-0 top-[6.5rem] ${openDrawer? 'w-screen translate-x-0 bg-black/80 ' : 'translate-x-[50rem] lg:translate-x-[30rem] w-[45rem]'} transition-all ease-in-out duration-[0.5s] z-[10] flex justify-end h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] `}
     >
       {!openDrawer && 
         <button
           onClick={()=>setOpenDrawer(true)}
-          className='flex items-center gap-[0.5rem] px-[1rem] py-[0.5rem] rounded-[8px] text-base hover:text-base-dark bg-white hover:bg-base-light/90 ease-250 translate-y-[0.5rem] translate-x-[-10.5rem] h-max shadow-[0_2px_5px_2px_rgba(54,116,218,0.2)] hover:shadow-[0_2px_15px_4px_rgba(54,116,218,0.2)] '
+          className='flex lg:hidden items-center gap-[0.5rem] px-[1rem] py-[0.5rem] rounded-[8px] text-base hover:text-base-dark bg-white hover:bg-base-light/90 ease-250 translate-y-[0.5rem] translate-x-[-10.5rem] h-max shadow-[0_2px_5px_2px_rgba(54,116,218,0.2)] hover:shadow-[0_2px_15px_4px_rgba(54,116,218,0.2)] '
         >
           <RiMenuFoldLine className='text-[1.375rem]' />
           <p className='text-[0.75rem] font-[600] uppercase'>List</p>

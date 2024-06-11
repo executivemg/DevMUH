@@ -799,7 +799,7 @@ export default function AddEvent() {
               onClose={() => setEditFloorPlan(false)}
             >
               <div 
-                className='relative flex flex-col gap-[2rem] w-screen h-max bg-primary overflow-y-auto '
+                className='relative flex flex-col gap-[2rem] w-screen h-screen bg-primary overflow-hidden '
               >
                 {/* ::::::: TITLE */}
                 <div className='sticky z-[100] top-0 left-0 flex items-center gap-[1.875rem] bg-primary p-[1rem] md:p-[2rem] border-b-[1px] border-solid border-base/50 '>
@@ -827,10 +827,11 @@ export default function AddEvent() {
                 </div>
 
                 {/* :::::::: FLOOR PLAN FORM */}
-                <form onSubmit={(e)=>e.preventDefault()} className='p-[1rem] md:p-[2rem]'>
+                <div className='p-[1rem] md:p-[2rem] flex-1 overflow-y-auto'>
                   {/* :::::::::::::::::::::::::: MODE 1 */}
+                  {localFloorMode===0 && 
                   <div 
-                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
+                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full h-max`}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
                     <div className='w-full lg:w-[50%] h-full'>
@@ -844,11 +845,12 @@ export default function AddEvent() {
 
                     {/* ::::::::::::::::::::::::::::: TABLE */}
                     <ItemAppendForm />
-                  </div>
+                  </div>}
 
                   {/* :::::::::::::::::::::::::: MODE 2 */}
+                  {localFloorMode===1 && 
                   <div 
-                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
+                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full h-max`}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
                     <div className='w-full lg:w-[50%] h-full'>
@@ -862,9 +864,9 @@ export default function AddEvent() {
 
                     {/* ::::::::::::::::::::::::::::: TABLE */}
                     <ItemAppendForm2 />
-                  </div>
+                  </div>}
 
-                </form>
+                </div>
               </div>
             </Modal>
           </Box>
