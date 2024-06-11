@@ -8,6 +8,7 @@ import Footer from "./Layout/Footer";
 import Header from "./Layout/Header";
 import MarqueeTxt from "./Marquee";
 import MarqueeImgs from "./MarqueeImgs";
+import TransitionsModal from "./Modal";
 import ProductCarousel from "./ProductCarousel";
 import ShoppingCart from "./ShoppingCart";
 import SideBar from "./SideBar";
@@ -38,4 +39,5 @@ export {
   ImageUpload,
   SelectField,
   AddEvent,
+  TransitionsModal,
 };

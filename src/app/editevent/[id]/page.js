@@ -107,7 +107,6 @@ export default function Page({ params }) {
                         "Content-Type": "application/json",
                     }
                 })
-                console.log(res?.data);
                 const { for_contact_phone, description, end_date, end_time, for_contact_email, full_address, is_floor, lat, lng, location, name, start_date, start_time, ticket_price, ticket_qty } = res?.data?.data
                 const fullAddress = parseAddress(full_address)
                 setFormData(prevState => ({
@@ -138,10 +137,6 @@ export default function Page({ params }) {
             }
         })()
     }, [params.id])
-
-    React.useEffect(() => {
-        console.log(combinedImages);
-    }, [combinedImages])
 
     const [formErrors, setFormErrors] = React.useState({});
     const [loading, setLoading] = React.useState(false);
@@ -253,7 +248,7 @@ export default function Page({ params }) {
                     toast.success("Event updated successfully");
                     route.push('/events')
                 } else if (res?.data?.status === 400) {
-                    console.log(res);
+                    console.log(res?.data);
                     toast.error(res?.data?.message);
                 }
                 setLoading(false);
@@ -278,12 +273,11 @@ export default function Page({ params }) {
                     floorplan: "no",
                     domain: "",
                 });
-                setEventImages([]);
+                setEventImagesApi([]);
                 setImagePreviews([null, null, null]);
             } catch (error) {
                 setLoading(false);
                 toast.error(error?.data?.message);
-                console.log(error);
             }
         }
     };

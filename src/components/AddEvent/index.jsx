@@ -23,6 +23,8 @@ import axios from "../../axios";
 import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const darkTheme = createTheme({
   palette: {
@@ -66,6 +68,9 @@ export default function AddEvent() {
     startTime: "",
     endTime: "",
     description: "",
+    ticketDesc: "",
+    ticketType: "",
+    companyName: "",
     address: "",
     city: "",
     state: "",
@@ -75,6 +80,7 @@ export default function AddEvent() {
     longitude: "",
     domain: "",
     floorplan: "no",
+    googleMap: "",
   });
 
   const [name, setName] = React.useState("");
@@ -175,6 +181,9 @@ export default function AddEvent() {
         ticket_qty: +formData?.ticketQuantity,
         ticket_price: +formData?.ticketPrice,
         description: formData?.description,
+        ticket_description: formData?.ticketDesc,
+        ticket_type: formData?.ticketType,
+        company_name: formData?.companyName,
         for_contact_phone: formData?.contactPhone,
         for_contact_email: formData?.contactEmail,
         source_image: eventImages,
@@ -192,11 +201,12 @@ export default function AddEvent() {
         is_floor:
           formData?.floorplan === "no" ? 0 : formData?.floorplan === "yes" && 1,
         domain_url: formData?.domain,
+        google_map: formData?.googleMap,
       };
       try {
         setLoading(true);
         console.log(objToSend);
-        const token = localStorage.getItem("token");
+        /* const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("Token not found");
         }
@@ -206,7 +216,6 @@ export default function AddEvent() {
             "Content-Type": "application/json",
           },
         });
-        console.log(res?.data);
         if (res?.data?.status === 200) {
           toast.success(res?.data?.message);
         } else if (res?.data?.status === 400) {
@@ -234,7 +243,7 @@ export default function AddEvent() {
           domain: "",
         });
         setEventImages([]);
-        setImagePreviews([null, null, null]);
+        setImagePreviews([null, null, null]); */
       } catch (error) {
         toast.error(error?.message);
         console.log(error);
@@ -252,7 +261,9 @@ export default function AddEvent() {
           <CssBaseline />
           <Box
             sx={{
-              marginY: 16,
+              // marginY: 16,
+              marginBottom: 10,
+              marginTop: 24,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -272,85 +283,11 @@ export default function AddEvent() {
                 <Grid item xs={12} md={6}>
                   <Grid container spacing={4}>
                     <Grid item xs={12}>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={(e) => handleImageUpload(e.target.files)}
-                        style={{ display: "none" }}
-                        id="image-upload"
-                      />
-                      <label htmlFor="image-upload">
-                        <Button
-                          variant="outlined"
-                          component="span"
-                          fullWidth
-                          className={`text-white border-white h-20 flex gap-4 items-center ${
-                            formErrors.eventImages && "border-[#f44336]"
-                          }`}
-                        >
-                          <CloudUploadOutlined /> Upload Event Images
-                        </Button>
-                      </label>
-                      {formErrors.eventImages && (
-                        <p className="text-[#f44336] text-xs ml-4 font-semibold mt-1">
-                          {formErrors.eventImages}
-                        </p>
-                      )}
-                    </Grid>
-                    {imagePreviews.length >= 1 && (
-                      <Grid item xs={12} style={{ marginTop: "-20px" }}>
-                        <Grid container spacing={3}>
-                          {imagePreviews.map((preview, index) => (
-                            <Grid item xs={4} key={index}>
-                              {preview && (
-                                <div className="relative">
-                                  <img
-                                    src={preview}
-                                    alt={`Event ${index + 1}`}
-                                    className="w-full h-20 object-cover rounded-xl"
-                                  />
-                                  <Close
-                                    className="absolute -top-1 -right-1 cursor-pointer bg-black text-red-500 rounded-full"
-                                    onClick={() => handleRemoveImage(index)}
-                                  />
-                                </div>
-                              )}
-                            </Grid>
-                          ))}
-                        </Grid>
-                      </Grid>
-                    )}
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        fullWidth
-                        id="eventName"
-                        label="Ticket Name"
-                        name="eventName"
-                        type="text"
-                        value={formData.eventName}
-                        onChange={handleInputChange}
-                        onKeyPress={handleKeyPress}
-                        error={!!formErrors.eventName}
-                        helperText={formErrors.eventName}
-                        InputLabelProps={{ style: { color: "#fff" } }}
-                        InputProps={{ style: { color: "#fff" } }}
-                      />
-                      <p className="text-sm text-yellow-500">
-                        <span className="text-red-500 font-semibold">
-                          Note:
-                        </span>{" "}
-                        Ticket Name can only contain alphabets
-                      </p>
-                    </Grid>
-
-                    <Grid item xs={12}>
                       <TextField
                         required
                         fullWidth
                         id="domain"
-                        label="Custom Event Domain Name (No Spaces)"
+                        label="Custom Event Domain Name"
                         name="domain"
                         type="text"
                         value={formData.domain}
@@ -369,49 +306,44 @@ export default function AddEvent() {
                         }}
                       />
                     </Grid>
+
                     <Grid item xs={12}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <TextField
-                            required
-                            fullWidth
-                            id="ticketPrice"
-                            label="Ticket Price"
-                            name="ticketPrice"
-                            type="number"
-                            InputProps={{
-                              startAdornment: (
-                                <InputAdornment position="start">
-                                  $
-                                </InputAdornment>
-                              ),
-                              style: { color: "#fff" },
-                            }}
-                            InputLabelProps={{ style: { color: "#fff" } }}
-                            value={formData.ticketPrice}
-                            onChange={handleInputChange}
-                            error={!!formErrors.ticketPrice}
-                            helperText={formErrors.ticketPrice}
-                          />
-                        </Grid>
-                        <Grid item xs={6}>
-                          <TextField
-                            required
-                            fullWidth
-                            id="ticketQuantity"
-                            label="Ticket Quantity"
-                            name="ticketQuantity"
-                            type="number"
-                            value={formData.ticketQuantity}
-                            onChange={handleInputChange}
-                            error={!!formErrors.ticketQuantity}
-                            helperText={formErrors.ticketQuantity}
-                            InputLabelProps={{ style: { color: "#fff" } }}
-                            InputProps={{ style: { color: "#fff" } }}
-                          />
-                        </Grid>
-                      </Grid>
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={formData.description}
+                        onChange={(event, editor) => {
+                          const data = editor.getData();
+                          setFormData({ ...formData, description: data });
+                        }}
+                        config={{
+                          placeholder: "Event Description",
+                          toolbar: [
+                            "heading",
+                            "|",
+                            "bold",
+                            "italic",
+                            "link",
+                            "bulletedList",
+                            "numberedList",
+                            "blockQuote",
+                          ],
+                          language: "en",
+                          ckfinder: {
+                            uploadUrl: "/uploader/upload.php?type=Files",
+                          },
+                        }}
+                        className={`${
+                          formErrors.description && "border-[#f44336] border-2"
+                        }`}
+                      />
+
+                      {formErrors.description && (
+                        <p className="text-[#f44336] text-xs ml-4 font-semibold">
+                          {formErrors.description}
+                        </p>
+                      )}
                     </Grid>
+
                     <Grid item xs={12}>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
@@ -491,31 +423,68 @@ export default function AddEvent() {
                       </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                      <TextareaAutosize
-                        required
-                        id="description"
-                        label="Event Description"
-                        name="description"
-                        placeholder="Ticket Description"
-                        minRows={8}
-                        style={{
-                          width: "100%",
-                          color: "#fff",
-                          backgroundColor: "#333",
-                          borderRadius: "8px",
-                          padding: "12px",
-                        }}
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        className={
-                          formErrors.description && "border-[#f44336] border-2"
-                        }
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => handleImageUpload(e.target.files)}
+                        style={{ display: "none" }}
+                        id="image-upload"
                       />
-                      {formErrors.description && (
-                        <p className="text-[#f44336] text-xs ml-4 font-semibold">
-                          {formErrors.description}
+                      <label htmlFor="image-upload">
+                        <Button
+                          variant="outlined"
+                          component="span"
+                          fullWidth
+                          className={`text-white border-white h-36 flex gap-4 items-center ${
+                            formErrors.eventImages && "border-[#f44336]"
+                          }`}
+                        >
+                          <CloudUploadOutlined /> Upload Event Images
+                        </Button>
+                      </label>
+                      {formErrors.eventImages && (
+                        <p className="text-[#f44336] text-xs ml-4 font-semibold mt-1">
+                          {formErrors.eventImages}
                         </p>
                       )}
+                    </Grid>
+                    {imagePreviews.length >= 1 && (
+                      <Grid item xs={12} style={{ marginTop: "-20px" }}>
+                        <Grid container spacing={3}>
+                          {imagePreviews.map((preview, index) => (
+                            <Grid item xs={4} key={index}>
+                              {preview && (
+                                <div className="relative">
+                                  <img
+                                    src={preview}
+                                    alt={`Event ${index + 1}`}
+                                    className="w-full h-28 object-cover rounded-xl"
+                                  />
+                                  <Close
+                                    className="absolute -top-1 -right-1 cursor-pointer bg-black text-red-500 rounded-full"
+                                    onClick={() => handleRemoveImage(index)}
+                                  />
+                                </div>
+                              )}
+                            </Grid>
+                          ))}
+                        </Grid>
+                      </Grid>
+                    )}
+
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="googleMap"
+                        label="Event Location Map Link"
+                        name="googleMap"
+                        type="text"
+                        value={formData.googleMap}
+                        onChange={handleInputChange}
+                        InputLabelProps={{ style: { color: "#fff" } }}
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
@@ -523,6 +492,124 @@ export default function AddEvent() {
                 <Grid item xs={12} md={6}>
                   <Grid container spacing={4}>
                     <Grid item xs={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="eventName"
+                        label="Ticket Name"
+                        name="eventName"
+                        type="text"
+                        value={formData.eventName}
+                        onChange={handleInputChange}
+                        onKeyPress={handleKeyPress}
+                        error={!!formErrors.eventName}
+                        helperText={formErrors.eventName}
+                        InputLabelProps={{ style: { color: "#fff" } }}
+                        InputProps={{ style: { color: "#fff" } }}
+                      />
+                      <p className="text-sm text-yellow-500">
+                        <span className="text-red-500 font-semibold">
+                          Note:
+                        </span>{" "}
+                        Ticket Name can only contain alphabets
+                      </p>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="ticketQuantity"
+                        label="Ticket Quantity"
+                        name="ticketQuantity"
+                        type="number"
+                        value={formData.ticketQuantity}
+                        onChange={handleInputChange}
+                        error={!!formErrors.ticketQuantity}
+                        helperText={formErrors.ticketQuantity}
+                        InputLabelProps={{ style: { color: "#fff" } }}
+                        InputProps={{ style: { color: "#fff" } }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <TextField
+                            required
+                            fullWidth
+                            id="ticketPrice"
+                            label="Ticket Price"
+                            name="ticketPrice"
+                            type="number"
+                            InputProps={{
+                              startAdornment: (
+                                <InputAdornment position="start">
+                                  $
+                                </InputAdornment>
+                              ),
+                              style: { color: "#fff" },
+                            }}
+                            InputLabelProps={{ style: { color: "#fff" } }}
+                            value={formData.ticketPrice}
+                            onChange={handleInputChange}
+                            error={!!formErrors.ticketPrice}
+                            helperText={formErrors.ticketPrice}
+                          />
+                          <TextField
+                            required
+                            fullWidth
+                            id="ticketType"
+                            label="Ticket Type"
+                            name="ticketType"
+                            type="text"
+                            value={formData.ticketType}
+                            onChange={handleInputChange}
+                            error={!!formErrors.ticketType}
+                            helperText={formErrors.ticketType}
+                            InputLabelProps={{ style: { color: "#fff" } }}
+                            InputProps={{ style: { color: "#fff" } }}
+                            style={{ marginTop: "10px" }}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <div className="h-[120px] w-full border-2 border-white flex text-center text-sm justify-center items-center">
+                            Note: Ticket variants show up here with the option
+                            to erase
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="ticketDesc"
+                        label="Ticket Description"
+                        name="ticketDesc"
+                        type="text"
+                        value={formData.ticketDesc}
+                        onChange={handleInputChange}
+                        error={!!formErrors.ticketDesc}
+                        helperText={formErrors.ticketDesc}
+                        InputLabelProps={{ style: { color: "#fff" } }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="companyName"
+                        label="Company Name"
+                        name="companyName"
+                        type="text"
+                        value={formData.companyName}
+                        onChange={handleInputChange}
+                        error={!!formErrors.companyName}
+                        helperText={formErrors.companyName}
+                        InputLabelProps={{ style: { color: "#fff" } }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} style={{ marginTop: "-20px" }}>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <TextField
@@ -678,12 +765,12 @@ export default function AddEvent() {
                         If yes, then a seating application will launch
                       </p>
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                       <img
                         src="/formImg.png"
                         className="object-cover w-full h-[235px] rounded-xl"
                       />
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Grid>
                 <Grid item xs={12}>
@@ -778,6 +865,15 @@ function validateForm(formData, eventImages) {
   }
   if (!formData.zipCode) {
     errors.zipCode = "Zip Code is required";
+  }
+  if (!formData.ticketDesc) {
+    errors.ticketDesc = "Ticket Description is required";
+  }
+  if (!formData.ticketType) {
+    errors.ticketType = "Ticket Type is required";
+  }
+  if (!formData.companyName) {
+    errors.ticketType = "Company Name is required";
   }
   return errors;
 }

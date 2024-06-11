@@ -8,6 +8,58 @@
   }
 }
 
+.ck.ck-editor__main>.ck-editor__editable{
+  background-color: #111827 !important;
+  height: 260px !important;
+
+}
+
+.ck-editor__editable_inline h1 {
+  font-size: 2.25rem; /* 36px */
+  line-height: 2.5rem; /* 40px */
+  font-weight: 900;
+}
+
+.ck-editor__editable_inline h2 {
+  font-size: 1.875rem; /* 30px */
+  line-height: 2.25rem; /* 36px */
+  font-weight: 900;
+}
+
+.ck-editor__editable_inline h3 {
+  font-size: 1.5rem; /* 24px */
+  line-height: 2rem; /* 32px */
+  font-weight: 700;
+}
+
+.ck-editor__editable_inline h5 {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.75rem; /* 28px */
+  font-weight: 600;
+}
+
+.ck-editor__editable_inline h6 {
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem; /* 24px */
+  font-weight: 500;
+}
+
+/* Styling for anchor tags */
+.ck-editor__editable_inline a {
+  color: #1e90ff; /* DodgerBlue */
+  text-decoration: underline;
+}
+
+/* Styling for italic text */
+.ck-editor__editable_inline i {
+  font-style: italic;
+}
+
+/* Styling for strong text */
+.ck-editor__editable_inline strong {
+  font-weight: bold;
+}
+
 .imp {
   width: 98vw !important;
 }

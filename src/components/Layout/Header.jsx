@@ -14,7 +14,7 @@ const li = `cursor-pointer transition-colors duration-500`;
 const active = `border-b-[#2C3BFA] border-b-[2px] text-[#2C3BFA] ${li}`;
 const inActive = `hover:text-[#2C3BFA] hover:border-b-[#2C3BFA] text-white hover:border-b-[2px] ${li} mt-1`;
 
-const Header = ({ navigate, dashboard, event }) => {
+const Header = ({ navigate, dashboard, event, act }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const route = useRouter();
 
@@ -155,11 +155,17 @@ const Header = ({ navigate, dashboard, event }) => {
                 Dashboard
               </Link>
             ) : (
-              <li
-                className={`border-b-[#2C3BFA] border-b-[2px] text-[#2C3BFA] ${li}`}
+              <Link
+                href={"/"}
+                className={`${
+                  act && "border-b-[#2C3BFA] border-b-[2px] text-[#2C3BFA]"
+                } ${
+                  !act &&
+                  "hover:text-[#2C3BFA] hover:border-b-[#2C3BFA] text-white hover:border-b-[2px]"
+                } ${li}`}
               >
                 Home
-              </li>
+              </Link>
             )}
 
             {navigate ? (
@@ -180,10 +186,16 @@ const Header = ({ navigate, dashboard, event }) => {
             onClick={() => setShowSideBar(true)}
             className="relative col-span-1 sm:col-span-1 flex mt-4 ml-4 w-[50px]"
           >
-            <IoCartOutline className="cursor-pointer h-8 w-8 md:h-10 md:w-10 text-white" />
-            <div className="absolute bg-[#2C3BFA] w-6 h-6 rounded-full text-white text-center right-0 top-0 text-sm flex justify-center items-center">
-              <span>{totalQuantity}</span> {/* Display total cart quantity */}
-            </div>
+            {!navigate && (
+              <>
+                {" "}
+                <IoCartOutline className="cursor-pointer h-8 w-8 md:h-10 md:w-10 text-white" />
+                <div className="absolute bg-[#2C3BFA] w-6 h-6 rounded-full text-white text-center right-0 top-0 text-sm flex justify-center items-center">
+                  <span>{totalQuantity}</span>{" "}
+                  {/* Display total cart quantity */}
+                </div>
+              </>
+            )}
           </div>
         </header>
       </div>
