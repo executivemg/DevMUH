@@ -106,6 +106,20 @@ export default function AddEvent() {
   const localFloorCategories = useSelector((state) => state.floorData.categories);
   const localFloorMode = useSelector((state) => state.floorData.mode);
 
+  const base64ToFile = (base64String, filename) => {
+    const arr = base64String.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, { type: mime });
+  };
+  
   const [name, setName] = React.useState("");
 
   React.useEffect(() => {
@@ -188,6 +202,8 @@ export default function AddEvent() {
     const errors = validateForm(formData, eventImages);
     setFormErrors(errors);
 
+    const formattedFloorImage = base64ToFile(localFloorImage, 'floor-plan.jpg')
+
     if (Object.keys(errors).length === 0) {
       if (JSON.parse(localStorage.getItem("user")) === null) {
         toast.error("Login to upload Events");
@@ -224,7 +240,7 @@ export default function AddEvent() {
 
         // :::::::::::::::::::::: !! write submit here
         floorplanMode: localFloorMode,
-        floorplanImage: localFloorImage,
+        floorplanImage: formattedFloorImage,
         floorplanLayout: localFloorMode === 0? localFloorItems : localFloorCategories
       };
       try {

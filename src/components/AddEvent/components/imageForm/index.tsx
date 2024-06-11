@@ -21,9 +21,18 @@ const UploadImage: React.FC<UploadImageProps> = ({
   errorMessage
 }) => {
   const dispatch = useDispatch();
-  const floorImage = useSelector((state: RootState) => state.floorData.floorImage); 
+  const floorImage = useSelector((state: RootState) => state.floorData.floorImage);
+  
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (!file) return; 
@@ -40,7 +49,12 @@ const UploadImage: React.FC<UploadImageProps> = ({
     }
 
     // Dispatch the setFloorImage action with the selected file
-    dispatch(setFloorImage(file));
+    try {
+      const base64String = await convertToBase64(file);
+      dispatch(setFloorImage(base64String));
+    } catch (error) {
+      console.error('Error converting file to Base64:', error);
+    }
 
     onChange?.(event);
   };
@@ -51,7 +65,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
         <div className="relative h-[35rem] w-full max-w-[45rem]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
-            src={URL.createObjectURL(floorImage)} 
+            src={floorImage} 
             alt="Uploaded Floor Plan"
             className="object-contain h-full w-full rounded-[8px] cursor-pointer border-solid border-[2px] border-base/50"
             onClick={() => document.getElementById(name)?.click()}

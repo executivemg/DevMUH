@@ -20,14 +20,14 @@ export interface CategoryData {
 }
 
 interface FloorState {
-  floorImage: File | null;
+  floorImage: string;
   items: ItemData[];
   mode: number;
   categories: CategoryData[];
 }
 
 const initialState: FloorState = {
-  floorImage: null,
+  floorImage: "",
   items: [],
   mode: 0,
   categories: [],
@@ -37,7 +37,7 @@ const floorSlice = createSlice({
   name: 'floorData',
   initialState,
   reducers: {
-    setFloorImage(state: FloorState, action: PayloadAction<File>) {
+    setFloorImage(state: FloorState, action: PayloadAction<string>) {
       state.floorImage = action.payload;
     },
 
