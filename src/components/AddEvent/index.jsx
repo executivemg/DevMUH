@@ -827,7 +827,7 @@ export default function AddEvent() {
                 </div>
 
                 {/* :::::::: FLOOR PLAN FORM */}
-                <form onSubmit={(e)=>e.preventDefault()} className=' p-[1rem] md:p-[2rem]'>
+                <form onSubmit={(e)=>e.preventDefault()} className='p-[1rem] md:p-[2rem]'>
                   {/* :::::::::::::::::::::::::: MODE 1 */}
                   <div 
                     className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
@@ -844,7 +844,6 @@ export default function AddEvent() {
 
                     {/* ::::::::::::::::::::::::::::: TABLE */}
                     <ItemAppendForm />
-
                   </div>
 
                   {/* :::::::::::::::::::::::::: MODE 2 */}

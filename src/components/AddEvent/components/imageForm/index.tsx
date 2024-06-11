@@ -53,7 +53,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
           <img 
             src={URL.createObjectURL(floorImage)} 
             alt="Uploaded Floor Plan"
-            className="object-cover h-full w-full rounded-[8px] cursor-pointer border-solid border-[2px] border-base/50"
+            className="object-contain h-full w-full rounded-[8px] cursor-pointer border-solid border-[2px] border-base/50"
             onClick={() => document.getElementById(name)?.click()}
           />
           <input

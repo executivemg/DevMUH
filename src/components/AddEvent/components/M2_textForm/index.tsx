@@ -53,7 +53,7 @@ const TextForm = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4 max-lg:px-[1rem] w-full lg:max-w-[18rem] ">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 max-lg:px-[1rem] w-full lg:max-w-[18rem] pb-[5rem] ">
       <TextField
         label="Category Name"
         variant='outlined'
