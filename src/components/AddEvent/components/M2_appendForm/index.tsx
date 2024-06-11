@@ -69,7 +69,7 @@ const ItemAppendForm2 = () => {
       {!openDrawer && 
         <button
           onClick={()=>setOpenDrawer(true)}
-          className='flex items-center gap-[0.5rem] px-[1rem] py-[0.5rem] rounded-[8px] text-base bg-white hover:bg-base-light/90 ease-250 translate-y-[0.5rem] translate-x-[-10.5rem] h-max shadow-[0_2px_5px_2px_rgba(54,116,218,0.2)] hover:shadow-[0_2px_15px_4px_rgba(54,116,218,0.2)] '
+          className='flex items-center gap-[0.5rem] px-[1rem] py-[0.5rem] rounded-[8px] text-base hover:text-base-dark bg-white hover:bg-base-light/90 ease-250 translate-y-[0.5rem] translate-x-[-10.5rem] h-max shadow-[0_2px_5px_2px_rgba(54,116,218,0.2)] hover:shadow-[0_2px_15px_4px_rgba(54,116,218,0.2)] '
         >
           <RiMenuFoldLine className='text-[1.375rem]' />
           <p className='text-[0.75rem] font-[600] uppercase'>List</p>
