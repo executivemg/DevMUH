@@ -35,8 +35,10 @@ import ItemAppendForm from './components/appendForm';
 import ItemAppendForm2 from './components/M2_appendForm';
 
 // redux
-import { useSelector } from 'react-redux';
-import { setFloorCategory } from '@/store/slices/floorSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFloorCategory, setFloorMode } from '@/store/slices/floorSlice';
+
+const cl = console.log.bind(console);
 
 const darkTheme = createTheme({
   palette: {
@@ -69,6 +71,8 @@ const darkTheme = createTheme({
 });
 
 export default function AddEvent() {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = React.useState({
     eventName: "",
     ticketPrice: "",
@@ -98,7 +102,8 @@ export default function AddEvent() {
   
   // floor plan image
   const localFloorImage = useSelector((state) => state.floorData.floorImage);
-  const localFloorLayout = useSelector((state) => state.floorData.items);
+  const localFloorItems = useSelector((state) => state.floorData.items);
+  const localFloorCategories = useSelector((state) => state.floorData.categories);
   const localFloorMode = useSelector((state) => state.floorData.mode);
 
   const [name, setName] = React.useState("");
@@ -220,7 +225,7 @@ export default function AddEvent() {
         // :::::::::::::::::::::: !! write submit here
         floorplanMode: localFloorMode,
         floorplanImage: localFloorImage,
-        floorplanLayout: localFloorLayout
+        floorplanLayout: localFloorMode === 0? localFloorItems : localFloorCategories
       };
       try {
         setLoading(true);
@@ -282,18 +287,9 @@ export default function AddEvent() {
   const [editFloorPlan, setEditFloorPlan] = useState(false);
   const [openEdit, isOpenEdit] = useState(false);
 
-  const [floorPlanMode, setFloorPlanMode] = useState(0);
-
   useEffect(() => {
-    ()=>setFloorPlanMode(formData.floorplanMode);
-  }, [formData.floorplanMode]);
-
-  const items = useSelector((state) => state.floorData.items);
-
-  // :::::::::::::::::::::::::::::::::::::::::::: ITEM CHANGE FUNCTION
-  const handleChangeMode = (number) => {
-    dispatch(setFloorCategory(number));
-  };
+    cl('mode: ', localFloorMode);
+  }, [localFloorMode])
 
   return (
     <div className="min-h-screen bg-gray-900 absolute w-screen">
@@ -803,7 +799,7 @@ export default function AddEvent() {
               onClose={() => setEditFloorPlan(false)}
             >
               <Box 
-                className='relative flex flex-col gap-[2rem] w-screen h-screen bg-primary  p-[1rem] md:p-[2rem] '
+                className='relative flex flex-col gap-[2rem] w-screen min-h-screen bg-primary  p-[1rem] md:p-[2rem] '
               >
                 {/* ::::::: CLOSE BUTTON */}
                 <button 
@@ -814,16 +810,16 @@ export default function AddEvent() {
                 </button>
 
                 {/* ::::::: TITLE */}
-                <div className='flex items-center gap-[1rem] '>
-                  <h3 className='outline outline-[1px] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] py-[0.5rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
+                <div className='flex items-center gap-[1.875rem] '>
+                  <h3 className='outline outline-[1px] py-[0.5rem] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
                   <div className='flex items-center rounded-[8px] overflow-hidden border-solid border-base/50 border-[1px] '>
                     <button
-                      onClick={handleChangeMode(0)}
-                      className={`px-[1rem] py-[0.25rem] text-[0.875rem] ${localFloorMode === 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-base bg-white/50 hover:bg-white/75'} ease-250`}
+                      onClick={()=>dispatch(setFloorMode(0))}
+                      className={`px-[1rem] py-[0.5rem] text-[0.875rem] ${localFloorMode !== 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-white bg-base/85 hover:bg-base'} ease-250`}
                     >Mode 1</button>
                     <button
-                      onClick={handleChangeMode(1)}
-                      className={`px-[1rem] py-[0.25rem] text-[0.875rem]${localFloorMode === 0? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-base bg-white/50 hover:bg-white/75'} ease-250`}
+                      onClick={()=>dispatch(setFloorMode(1))}
+                      className={`px-[1rem] py-[0.5rem] text-[0.875rem] ${localFloorMode !== 1? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-white bg-base/85 hover:bg-base'} ease-250`}
                     >Mode 2</button>
                   </div>
                 </div>
@@ -835,7 +831,7 @@ export default function AddEvent() {
                     className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
-                    <div className='w-[50%] h-full'>
+                    <div className='w-full lg:w-[50%] h-full'>
                       <UploadImage />
                     </div>
 
@@ -851,12 +847,12 @@ export default function AddEvent() {
 
                   {/* :::::::::::::::::::::::::: MODE 2 */}
                   <div 
-                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full
+                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full
                     ${localFloorMode===1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
                     `}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
-                    <div className='w-[50%] h-full'>
+                    <div className='w-full lg:w-[50%] h-full'>
                       <UploadImage />
                     </div>
 

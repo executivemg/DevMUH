@@ -39,7 +39,7 @@ const ItemAppendForm2 = () => {
 
   const [openDrawer, setOpenDrawer] = useState(false)
 
-  const items = useSelector((state: RootState) => state.floorData.categories);
+  const items = useSelector((state: RootState) => state.floorData.categories) || [];
   const dispatch = useDispatch();
 
   const onDelete = (index: number) => {
@@ -63,15 +63,11 @@ const ItemAppendForm2 = () => {
 
 
   return (
-    <div className={`fixed right-0 ${openDrawer? 'translate-x-0 bg-black/90 ' : 'translate-x-[80%]'} transition-all ease-in-out duration-[0.5s] z-[10] flex justify-end w-screen h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}>
-      {/* <div 
-        className={`relative ${openDrawer? 'visiblle opacity-100 flex-1' : 'invisible opacity-0'} h-full cursor-pointer` }
-        onClick={()=>setOpenDrawer(false)}
-      ></div> */}
+    <div className={`fixed right-0 ${openDrawer? 'translate-x-0 bg-black/80 w-screen ' : 'translate-x-[50rem] lg:translate-x-[20rem]'} transition-all ease-in-out duration-[0.5s] z-[10] flex justify-end h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] rounded-l-[8px] `}>
 
       <TableContainer component={Paper} className='bg-base-dark overflow-x-hidden w-full max-w-[45rem] px-[1rem] '>
         <div className='flex gap-[2rem] py-[1rem] '>
-          <button className='text-base bg-base-light/10 p-[0.5rem] rounded-[4px] hover:bg-base-light/20 ease-250'
+          <button className={`${openDrawer && 'max-lg:translate-x-[-5rem]'} text-base bg-base-light/10 p-[0.5rem] rounded-[4px] hover:bg-base-light/20 ease-250`}
             onClick={(e)=>{
               setOpenDrawer(!openDrawer);
             }}
@@ -94,60 +90,60 @@ const ItemAppendForm2 = () => {
             </TableRow>
           </TableHead>
           <TableBody className='bg-base/20'>
-            {items.map((item, index) => (
-              <TableRow
-                key={index}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                className={`group relative ${index%2 === 0 && 'bg-base-light/20'}`}
+          {Array.isArray(items) && items.map((item, index) => (
+            <TableRow
+              key={index}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              className={`group relative ${index % 2 === 0 && 'bg-base-light/20'}`}
+            >
+              <TableCell component="th" scope="row">
+                {item.name}
+              </TableCell>
+              <TableCell align="right">{item.price}</TableCell>
+              <TableCell align="right">{item.number}</TableCell>
+              <TableCell align="right"
+                aria-owns={open ? 'mouse-over-popover' : undefined}
+                aria-haspopup="true"
+                onMouseEnter={handlePopoverOpen}
+                onMouseLeave={handlePopoverClose}
+                style={{
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '10rem'
+                }}
               >
-                <TableCell component="th" scope="row">
-                  {item.name}
-                </TableCell>
-                <TableCell align="right">{item.price}</TableCell>
-                <TableCell align="right">{item.number}</TableCell>
-                <TableCell align="right"
-                  aria-owns={open ? 'mouse-over-popover' : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={handlePopoverOpen}
-                  onMouseLeave={handlePopoverClose}
-                  style={{
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    // maxWidth: '10rem'
-                  }}              
+                {item.desc}
+                <Popover
+                  id="mouse-over-popover"
+                  sx={{
+                    pointerEvents: 'none',
+                  }}
+                  open={open}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
                 >
-                  {item.desc}
-                  <Popover
-                    id="mouse-over-popover"
-                    sx={{
-                      pointerEvents: 'none',
-                    }}
-                    open={open}
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                    onClose={handlePopoverClose}
-                    disableRestoreFocus
-                  >
-                    <Typography sx={{ p: 1 }}>{item.desc}</Typography>
+                  <Typography sx={{ p: 1 }}>{item.desc}</Typography>
                 </Popover>
               </TableCell>
-                <button
-                  type="button"
-                  className="absolute top-[0.325rem] right-[-1rem] z-[30] flex items-center justify-center sm:justify-self-end h-[calc(100%-0.875rem)] px-[0.5rem] rounded-[4px] group-hover:bg-slate-700 group-hover:hover:bg-red-800 text-white group-hover:right-[0.5rem] invisible group-hover:visible ease-250 shadow-[0_0_5px_1px_rgba(255,255,255,0.15)] "
-                  onClick={() => onDelete(index)}
-                >
-                  <RiDeleteBin6Line className='text-[0.875rem]' />
-                </button>
-              </TableRow>
-            ))}
+              <button
+                type="button"
+                className="absolute top-[0.325rem] right-[-1rem] z-[30] flex items-center justify-center sm:justify-self-end h-[calc(100%-0.875rem)] px-[0.5rem] rounded-[4px] group-hover:bg-slate-700 group-hover:hover:bg-red-800 text-white group-hover:right-[0.5rem] invisible group-hover:visible ease-250 shadow-[0_0_5px_1px_rgba(255,255,255,0.15)] "
+                onClick={() => onDelete(index)}
+              >
+                <RiDeleteBin6Line className='text-[0.875rem]' />
+              </button>
+            </TableRow>
+          ))}
           </TableBody>
         </Table>
       </TableContainer>
