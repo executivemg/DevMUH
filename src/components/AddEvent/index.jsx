@@ -798,19 +798,11 @@ export default function AddEvent() {
               // open={true}
               onClose={() => setEditFloorPlan(false)}
             >
-              <Box 
-                className='relative flex flex-col gap-[2rem] w-screen min-h-screen bg-primary  p-[1rem] md:p-[2rem] '
+              <div 
+                className='relative flex flex-col gap-[2rem] w-screen h-max bg-primary overflow-y-auto '
               >
-                {/* ::::::: CLOSE BUTTON */}
-                <button 
-                  onClick={() => setEditFloorPlan(false)} 
-                  className='absolute top-[1rem] right-[1rem] md:top-[2rem] md:right-[2rem] p-[0.5rem] rounded-[4px] text-secondary text-[1rem] bg-white/10 hover:bg-white/15 ease-250'
-                >
-                  <RiCloseLine className='' />
-                </button>
-
                 {/* ::::::: TITLE */}
-                <div className='flex items-center gap-[1.875rem] '>
+                <div className='sticky z-[100] top-0 left-0 flex items-center gap-[1.875rem] bg-primary p-[1rem] md:p-[2rem] border-b-[1px] border-solid border-base/50 '>
                   <h3 className='outline outline-[1px] py-[0.5rem] outline-[#2C3BFA] shadow-[0_1px_10px_4px_rgba(44,59,250,0.2)] rounded px-[1rem] uppercase w-max text-secondary '>Create Floor-Plan</h3>
                   <div className='flex items-center rounded-[8px] overflow-hidden border-solid border-base/50 border-[1px] '>
                     <button
@@ -822,13 +814,23 @@ export default function AddEvent() {
                       className={`px-[1rem] py-[0.5rem] text-[0.875rem] ${localFloorMode !== 1? 'text-secondary bg-white/10 hover:bg-white/15' : 'text-white bg-base/85 hover:bg-base'} ease-250`}
                     >Mode 2</button>
                   </div>
+                  {/* ::::::: CLOSE BUTTON */}
+                  <div className="flex flex-1 justify-end">
+                    <button 
+                      onClick={() => setEditFloorPlan(false)} 
+                      className='p-[0.5rem] rounded-[4px] text-secondary text-[1rem] bg-white/10 hover:bg-white/15 ease-250'
+                    >
+                      <RiCloseLine className='' />
+                    </button>
+                  </div>
+                  
                 </div>
 
                 {/* :::::::: FLOOR PLAN FORM */}
-                <form onSubmit={(e)=>e.preventDefault()}>
+                <form onSubmit={(e)=>e.preventDefault()} className=' p-[1rem] md:p-[2rem]'>
                   {/* :::::::::::::::::::::::::: MODE 1 */}
                   <div 
-                    className={`flex flex-col md:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
+                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===0? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
                     <div className='w-full lg:w-[50%] h-full'>
@@ -847,9 +849,7 @@ export default function AddEvent() {
 
                   {/* :::::::::::::::::::::::::: MODE 2 */}
                   <div 
-                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full
-                    ${localFloorMode===1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '}
-                    `}
+                    className={`flex flex-col lg:flex-row gap-x-[1rem] gap-y-[2rem] w-full ${localFloorMode===1? 'opacity-[100%] visible ease-250 ' : 'opacity-0 invisible absolute z-[-5] '} `}
                   >
                     {/* ::::::::::::::::::::::::::::: IMAGE */}
                     <div className='w-full lg:w-[50%] h-full'>
@@ -866,7 +866,7 @@ export default function AddEvent() {
                   </div>
 
                 </form>
-              </Box>
+              </div>
             </Modal>
           </Box>
         </Container>
