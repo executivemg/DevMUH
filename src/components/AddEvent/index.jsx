@@ -23,8 +23,17 @@ import axios from "../../axios";
 import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
-/* import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; */
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
+import "react-quill/dist/quill.snow.css";
+
+const quillStyles = {
+  height: "180px",
+  color: "#fff",
+  marginBottom: "80px"
+};
 
 const darkTheme = createTheme({
   palette: {
@@ -206,7 +215,7 @@ export default function AddEvent() {
       try {
         setLoading(true);
         console.log(objToSend);
-        const token = localStorage.getItem("token");
+        /* const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("Token not found");
         }
@@ -243,7 +252,7 @@ export default function AddEvent() {
           domain: "",
         });
         setEventImages([]);
-        setImagePreviews([null, null, null]);
+        setImagePreviews([null, null, null]); */
       } catch (error) {
         toast.error(error?.message);
         console.log(error);
@@ -308,34 +317,18 @@ export default function AddEvent() {
                     </Grid>
 
                     <Grid item xs={12}>
-                      {/* <CKEditor
-                        editor={ClassicEditor}
-                        data={formData.description}
-                        onChange={(event, editor) => {
-                          const data = editor.getData();
-                          setFormData({ ...formData, description: data });
-                        }}
-                        config={{
-                          placeholder: "Event Description",
-                          toolbar: [
-                            "heading",
-                            "|",
-                            "bold",
-                            "italic",
-                            "link",
-                            "bulletedList",
-                            "numberedList",
-                            "blockQuote",
-                          ],
-                          language: "en",
-                          ckfinder: {
-                            uploadUrl: "/uploader/upload.php?type=Files",
-                          },
-                        }}
-                        className={`${
-                          formErrors.description && "border-[#f44336] border-2"
-                        }`}
-                      /> */}
+                      {typeof document !== "undefined" && (
+                        <ReactQuill value={formData.description} onChange={(value) => { setFormData({ ...formData, description: value });  }} placeholder="Event Description"  modules={{ toolbar: [ [{ header: "1" }, { header: "2" }, { font: [] }],  [{ size: [] }], [  "bold", "italic", "underline", "strike", "blockquote", ], [ { list: "ordered" },{ list: "bullet" },  { indent: "-1" },  { indent: "+1" }, ], ["link"],
+                              ["clean"],
+                            ],
+                          }}
+                          className={`${
+                            formErrors.description &&
+                            "border-[#f44336] border-2"
+                          }`}
+                          style={quillStyles}
+                        />
+                      )}
 
                       {formErrors.description && (
                         <p className="text-[#f44336] text-xs ml-4 font-semibold">
