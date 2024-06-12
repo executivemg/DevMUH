@@ -9,7 +9,7 @@ import {
   Box,
   Container,
   InputAdornment,
-  TextareaAutosize,
+  /* TextareaAutosize, */
   FormControl,
   FormLabel,
   RadioGroup,
@@ -23,8 +23,8 @@ import axios from "../../axios";
 import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+/* import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"; */
 
 const darkTheme = createTheme({
   palette: {
@@ -206,7 +206,7 @@ export default function AddEvent() {
       try {
         setLoading(true);
         console.log(objToSend);
-        /* const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("Token not found");
         }
@@ -243,7 +243,7 @@ export default function AddEvent() {
           domain: "",
         });
         setEventImages([]);
-        setImagePreviews([null, null, null]); */
+        setImagePreviews([null, null, null]);
       } catch (error) {
         toast.error(error?.message);
         console.log(error);
@@ -308,7 +308,7 @@ export default function AddEvent() {
                     </Grid>
 
                     <Grid item xs={12}>
-                      <CKEditor
+                      {/* <CKEditor
                         editor={ClassicEditor}
                         data={formData.description}
                         onChange={(event, editor) => {
@@ -335,7 +335,7 @@ export default function AddEvent() {
                         className={`${
                           formErrors.description && "border-[#f44336] border-2"
                         }`}
-                      />
+                      /> */}
 
                       {formErrors.description && (
                         <p className="text-[#f44336] text-xs ml-4 font-semibold">

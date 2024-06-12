@@ -11,11 +11,11 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     <html className="scrollbar-thin scrollbar-thumb-blue-700 scrollbar-track-blue-100" lang="en">
-      <Helmet>
+      {/* <Helmet> */}
         <title>Event Rush | Rana Event</title>
         <meta name="description" content="Event Rush is an event planner/management platform for creating and hosting events" />
         <link rel="icon" href="/image/logoer.avif" sizes="any" />
-      </Helmet>
+      {/* </Helmet> */}
       <body className={inter.className}>
         <Provider store={store}>
             {children}

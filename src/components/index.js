@@ -1,4 +1,3 @@
-import AddEvent from "./AddEvent";
 import Agenda from "./Agenda";
 import Banner from "./Banner";
 import Highlights from "./Highlights";
@@ -38,6 +37,5 @@ export {
   ImgBanner,
   ImageUpload,
   SelectField,
-  AddEvent,
   TransitionsModal,
 };

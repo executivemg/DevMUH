@@ -1,10 +1,11 @@
 "use client"
 
 import userInfo from "@/ReusableFunctions/geUser";
-import { AddEvent, Header } from "@/components";
+import { Header } from "@/components";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PropagateLoader } from "react-spinners";
+import AddEvent from "@/components/AddEvent";
 
 export default function Organizer() {
   const route = useRouter()
