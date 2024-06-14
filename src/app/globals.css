@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (min-width: 640px) {
+  .imp {
+    width: 80vw !important;
+  }
+}
+
+.ql-toolbar path {
+  fill: #fff !important;
+}
+
+.ql-picker-label::before {
+  color: #fff !important;
+}
+svg polygon {
+  fill: #fff !important;
+}
+.ql-editor::before {
+  color: #ffffff8c !important;
+}
+.ql-blockquote svg,
+.ql-blockquote rect,
+.ql-blockquote path {
+  fill: #ffffff !important; /* Set fill color to white */
+  stroke: #ffffff !important; /* Optional: Set stroke color to white */
+}
+.ql-italic svg,
+.ql-italic line {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+}
+.ql-list svg,
+.ql-list line,
+.ql-list path {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+  fill: #ffffff !important; /* Set fill color to white with !important */
+}
+.ql-indent svg,
+.ql-indent line,
+.ql-indent polyline {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+}
+.ql-clean svg,
+.ql-clean line,
+.ql-clean rect {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+  fill: #ffffff !important; /* Set fill color to white with !important */
+}
+
+.imp {
+  width: 98vw !important;
+}
+
+html {
+  scroll-behavior: smooth !important;
+}
+
+body {
+  background-color: #04000a;
+  overflow-x: hidden !important;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.bord {
+  -webkit-text-stroke: 2px #303de2;
+}
+
+.bord::selection {
+  box-shadow: 0 0 20px #303de2, 0 0 40px #303de2, 0 0 60px #303de2,
+    0 0 80px #303de2, 0 0 100px #303de2;
+}
+
+.cont:hover .wid {
+  width: 80px !important;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(calc(-200% - 4px));
+  }
+}
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+
+.ico:hover .arrow {
+  rotate: 45deg !important;
+}
+
+.ico:hover .rota {
+  rotate: 45deg !important;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotate 10s linear infinite;
+}
+
+.gridCont:hover .icon {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg)
+    brightness(100%) contrast(100%) !important;
+}
+
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee2 {
+  display: inline-block;
+  animation: marquee2 60s linear infinite;
+}
+
+@keyframes marquee2 {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee2:hover {
+  animation-play-state: paused;
+}
+
+.marquee2:not(:hover) {
+  animation-play-state: running;
+}
+
+.tableCont::-webkit-scrollbar {
+  height: 5px;
+}
+
+.tableCont::-webkit-scrollbar-thumb {
+  background-color: #2c3bfa;
+}
