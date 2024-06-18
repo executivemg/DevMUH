@@ -44,9 +44,9 @@ const EventPage = () => {
         seats={eventData.floorplanLayout} 
       />
 
-      <div className='relative flex max-w-[75rem] mx-auto p-[1rem] md:p-[2rem] '>
+      <div className='relative flex max-md:flex-col gap-y-[3rem] max-w-[75rem] mx-auto p-[1rem] md:p-[2rem] '>
         {/* :::::::::::::::::::::::: IMAGE INFO */}
-        <div className='sticky top-[2rem] left-0 flex flex-col w-full md:w-[50%] md:h-[40rem] rounded-[16px] overflow-hidden shadow-[0_0_2px_4px_rgba(150,150,255,0.2)] '>
+        <div className='md:sticky top-[2rem] left-0 flex flex-col w-full md:w-[50%] md:h-[40rem] rounded-[16px] overflow-hidden shadow-[0_0_2px_4px_rgba(150,150,255,0.2)] '>
           <img
             src={eventData?.image || '/assets/images/mode_0_event_plan.jpg'}
             alt='Event'
@@ -60,11 +60,10 @@ const EventPage = () => {
               className='absolute z-[-1] bottom-0 left-0 blur-[5px] w-full h-full object-cover '
             />
           </div>
-         
         </div>
 
         {/* :::::::::::::::::::::::: TEXT INFORMATION */}
-        <div className='flex flex-col gap-[1rem] w-full md:max-w-[35rem] px-[2rem] md:px-[4rem] '>
+        <div className='flex flex-col gap-[1rem] w-full md:max-w-[35rem] md:px-[4rem] '>
           {/* :::::::::::::::: EVENT TITLE */}
           <h2 className='text-white font-[700] text-[2.5rem] '>{eventData?.eventName}</h2>
           
