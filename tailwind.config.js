@@ -61,6 +61,10 @@ module.exports = {
           light: '#c4e0f9',
           dark: '#0f172a',
         },
+        gray: {
+          DEFAULT: '#9ea3b0',
+          light: '#cfd1d7',
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -82,6 +86,9 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+    fontFamily: {
+      poppins: ['Poppins', 'sans-serif'],
+    }
   },
   plugins: [require("tailwindcss-animate")],
 }
