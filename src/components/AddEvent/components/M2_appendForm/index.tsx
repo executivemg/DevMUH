@@ -63,7 +63,7 @@ const ItemAppendForm2 = () => {
 
   return (
     <div 
-      className={`fixed right-0 top-[6.5rem] ${openDrawer? 'w-screen translate-x-0 bg-black/80 ' : 'translate-x-[50rem] lg:translate-x-[30rem] w-[45rem]'} transition-all ease-in-out duration-[0.5s] z-[10] flex justify-end h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] `}
+      className={`fixed right-0 top-[6.5rem] ${openDrawer? 'w-screen translate-x-0 bg-black/80 ' : 'translate-x-[50rem] lg:translate-x-[30rem] w-[45rem]'} transition-all ease-in-out duration-500 z-[10] flex justify-end h-full shadow-[0_2px_3px_5px_rgba(44,59,250,0.1)] `}
     >
       {!openDrawer && 
         <button

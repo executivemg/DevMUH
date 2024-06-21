@@ -68,7 +68,8 @@ const ProductCarousel = ({ className }) => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get("/event/list");
+        // const response = await axios.get("/event/list");
+        const response = await axios.get("/events");
         if (response.status === 200) {
           setEvents(response.data.data);
         } else {

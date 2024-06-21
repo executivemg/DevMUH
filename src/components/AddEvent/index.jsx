@@ -23,7 +23,8 @@ import { useState, useEffect } from 'react';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 import { PropagateLoader } from "react-spinners";
-import axios from "../../axios";
+// import axios from "../../axios";
+import axios from 'axios'
 import { Close, CloudUploadOutlined } from "@mui/icons-material";
 import userInfo from "@/ReusableFunctions/geUser";
 import { useRouter } from "next/navigation";
@@ -206,6 +207,10 @@ export default function AddEvent() {
 
     const formattedFloorImage = editFloorPlan? base64ToFile(localFloorImage, 'floor-plan.jpg') : "";
 
+
+    const csrfToken = Cookies.get('csrftoken');
+    axios.defaults.headers.common['X-CSRFToken'] = csrfToken;
+
     if (Object.keys(errors).length === 0) {
       // if (JSON.parse(localStorage.getItem("user")) === null) {
       //   toast.error("Login to upload Events");
@@ -261,11 +266,9 @@ export default function AddEvent() {
         // });
 
         // ::::::::::::::::: TEST CREATE EVENT REQUEST
-        const csrfToken = Cookies.get('csrftoken');
-        const res = await axios.post("127.0.0.1:8000/ranaevent/create", objToSend, {
+        const res = await axios.post("/create", objToSend, {
           headers: {
-            "Content-Type": "application/json",
-            'X-CSRFToken': csrfToken, 
+            "Content-Type": "application/json"
           },
         });
         console.log(res?.data);

@@ -13,7 +13,7 @@ const EventCard = () => {
 
         {/* ::::::::::::::::::::: CTAs */}
         <a href='/'
-          className='absolute z-[5] bottom-[-3rem] group-hover:bottom-[1rem] flex text-center justify-center items-center w-[12rem] py-[0.5rem] rounded-[12px] text-[1.05rem] text-white bg-base hover:bg-primary outline outline-base-light outline-0 hover:outline-[1px] shadow-[0_2px_15px_5px_rgba(150,150,255,0.1)] hover:shadow-[0_2px_15px_10px_rgba(150,150,255,0.2)] transition-all ease-in-out duration-[1s] '
+          className='absolute z-[5] bottom-[-3rem] group-hover:bottom-[1rem] flex text-center justify-center items-center w-[12rem] py-[0.5rem] rounded-[12px] text-[1.05rem] text-white bg-base hover:bg-primary outline outline-base-light outline-0 hover:outline-[1px] shadow-[0_2px_15px_5px_rgba(150,150,255,0.1)] hover:shadow-[0_2px_15px_10px_rgba(150,150,255,0.2)] transition-all ease-in-out duration-500 '
         >Buy Ticket</a>
       </div>
 
