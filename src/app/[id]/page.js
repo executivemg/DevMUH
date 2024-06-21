@@ -170,6 +170,7 @@ const Page = ({ params }) => {
                   p={val.p}
                   handleClick={handleClick}
                 />
+              ))}
               </div>
             </div>
             <div className="w-full">
@@ -256,7 +257,7 @@ const Page = ({ params }) => {
             </div>
           </div>
           <EmbedMap link={product?.google_map} />
-        </div>
+        {/* </div> */}
       </section>
       <Footer />
     </>
