@@ -35,6 +35,16 @@ import ItemAppendForm from './components/appendForm';
 import ItemAppendForm2 from './components/M2_appendForm';
 
 import Cookies from 'js-cookie';
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
+import "react-quill/dist/quill.snow.css";
+
+const quillStyles = {
+  height: "180px",
+  color: "#fff",
+  marginBottom: "80px",
+};
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -98,14 +108,6 @@ export default function AddEvent() {
     longitude: "",
     domain: "",
     floorplan: "no",
-<<<<<<< HEAD
-=======
-    googleMap: "",
-    planLayout: "",
-    planImage: "",
-    planMode: "",
-  });
->>>>>>> d4c8d43ed0a8bbecb0c6e751f1e905fc5a04946e
 
     // :::::::::::::::::::::::: FLOOR PLAN
     floorplanMode: 0,
@@ -257,19 +259,11 @@ export default function AddEvent() {
         is_floor:
           formData?.floorplan === "no" ? 0 : formData?.floorplan === "yes" && 1,
         domain_url: formData?.domain,
-<<<<<<< HEAD
 
         // :::::::::::::::::::::: !! write submit here
         floorplanMode: localFloorMode,
         floorplanImage: formattedFloorImage,
         floorplanLayout: localFloorMode === 0? localFloorItems : localFloorCategories
-=======
-        google_map: formData?.googleMap,
-        event_type: formData?.ticketType,
-        floor_plan_layout: formData?.planLayout,
-        floor_plan_mode: formData?.planMode,
-        floor_plan_Image: formData?.planImage,
->>>>>>> d4c8d43ed0a8bbecb0c6e751f1e905fc5a04946e
       };
       try {
         setLoading(true);
@@ -372,7 +366,6 @@ export default function AddEvent() {
                 <Grid item xs={12} md={6}>
                   <Grid container spacing={4}>
                     <Grid item xs={12}>
-<<<<<<< HEAD
                       <input
                         type="file"
                         accept="image/*"
@@ -448,8 +441,6 @@ export default function AddEvent() {
                     </Grid>
 
                     <Grid item xs={12}>
-=======
->>>>>>> d4c8d43ed0a8bbecb0c6e751f1e905fc5a04946e
                       <TextField
                         required
                         fullWidth
