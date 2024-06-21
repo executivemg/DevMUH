@@ -1,39 +1,60 @@
-"use client"
+"use client";
 
 import { useRouter } from 'next/navigation';
 import axios from '../../../axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from "react-hot-toast";
+import { PropagateLoader } from 'react-spinners';
 
 export default function Page({ params }) {
-    const [token, setToken] = useState("")
-    const route = useRouter()
+    const [token, setToken] = useState("");
+    const [loading, setLoading] = useState(false);
+    const route = useRouter();
+
     useEffect(() => {
-        const { id } = params;
         if (typeof window !== "undefined") {
             let getToken = localStorage.getItem("token");
-            if (!token) {
+            if (!getToken) {
                 throw new Error("Token not found");
             }
-            setToken(getToken)
+            setToken(getToken);
         }
+    }, [params]);
 
-        (async () => {
-            const res = await axios.post(`/update-status/order/${id}`, { status: 2 }, {
-                headers: {
-                    Accept: "*/*",
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                }
-            })
-            if (res?.data?.status == 200) {
-                toast.success(res?.data?.message)
-                route.push("/")
-                return
+    useEffect(() => {
+        const { id } = params;
+        try {
+            if (token) {
+                (async () => {
+                    setLoading(true)
+                    const res = await axios.get(`/update-status/order/${id}`, {
+                        params: {
+                            status: 2,
+                        }
+                    }, {
+                        headers: {
+                            Accept: "*/*",
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        }
+                    });
+                    if (res?.data?.status == 200) {
+                        toast.success(res?.data?.message);
+                        setLoading(false)
+                        route.push("/");
+                        return;
+                    }
+                })();
             }
-            console.log(res?.data);
-        })()
+        } catch (error) {
+            console.log(error);
+        }
+    }, [token, params]);
 
-    }, [params])
-    return <Toaster />
+    return <>
+        <Toaster />
+        {loading && <div className='h-screen w-screen flex justify-center items-center'>
+            <PropagateLoader color='#2C3BFA' />
+        </div>}
+    </>
 }

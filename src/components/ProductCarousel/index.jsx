@@ -48,9 +48,10 @@ const EventCard = ({ item }) => {
             <p className="uppercase text-2xl font-bold line-clamp-1">
               {item?.name}
             </p>
-            <p className="mt-1 text-lg text-gray-500 line-clamp-3">
-              {item?.description}
-            </p>
+            <div
+              className="mt-1 text-lg text-gray-500 line-clamp-3"
+              dangerouslySetInnerHTML={{ __html: item?.ticket_desc }}
+            />
           </div>
         </div>
         <Link href={`/${item.domain_url}`}>

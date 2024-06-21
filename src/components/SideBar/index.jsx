@@ -3,7 +3,6 @@ import { Fragment, useEffect, useState, } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, updateQuantity } from "@/store/slices/cartSlice";
 import { Divider } from "@mui/material";

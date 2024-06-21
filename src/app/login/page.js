@@ -59,7 +59,7 @@ export default function Login() {
             return;
           }
         } else if (res?.data?.status === 400) {
-          console.log(res);
+          console.log(res?.data);
           toast.error(res?.data?.message);
         }
         setLoading(false);
@@ -126,14 +126,12 @@ export default function Login() {
                 helperText={formErrors.password}
               />
               {loading ? (
-                <div className="h-[100vh] flex justify-center items-center">
-                  <PropagateLoader
-                    color="#2C3BFA"
-                    cssOverride={{}}
-                    loading
-                    size={10}
-                  />
-                </div>
+                <PropagateLoader
+                  color="#2C3BFA"
+                  cssOverride={{}}
+                  loading
+                  size={10}
+                />
               ) : (
                 <Button
                   type="submit"

@@ -99,6 +99,7 @@ const Events = () => {
         })
         if (res?.data?.data !== undefined) {
           setEvents(res?.data?.data)
+          console.log(res?.data?.data);
         }
       } catch (error) {
         console.log(error);

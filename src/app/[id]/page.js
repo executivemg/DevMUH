@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Add, LocalActivity, Remove } from "@mui/icons-material";
 import { PropagateLoader } from "react-spinners";
-import { Footer, Header } from "@/components";
+import { EmbedMap, Footer, Header } from "@/components";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/slices/cartSlice";
 
@@ -24,7 +24,7 @@ const Page = ({ params }) => {
   const [Vip, setVip] = useState(false);
   const [general, setGeneral] = useState(true);
   const [count, setCount] = useState(1);
-  const [token, setToken] = useState(null); // Set initial token to null
+  const [token, setToken] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -170,41 +170,92 @@ const Page = ({ params }) => {
                   p={val.p}
                   handleClick={handleClick}
                 />
-              ))}
+              </div>
             </div>
+            <div className="w-full">
+              <div className={`${itemCenter} gap-3 cont`}>
+                <div className="w-10 h-[2px] bg-[#2C3BFA] transition-all duration-500 wid"></div>
+                <h2 className="text-3xl font-bold text-white">Ticket</h2>
+              </div>
 
-            <div
-              className={`${itemCenter} w-full sm:justify-between justify-center sm:gap-2 gap-8 flex-wrap mt-4`}
-            >
-              <div className={`${itemCenter} gap-5`}>
+              <h1 className="text-5xl text-transparent bord font-bold mt-6">
+                {product?.name}
+              </h1>
+              <p className="text-[#BDBDBE] text-xl font-light mb-1 mt-4">
+                {format(new Date(product?.start_date), "MMMM dd yyyy")}
+              </p>
+              <p className="text-[#BDBDBE] text-xl font-light">
+                {product?.start_time} AM
+              </p>
+
+              {/* <div className="w-full border-[1.54px] border-gray-700 rounded-3xl overflow-x-hidden mt-4">
+                {[
+                  {
+                    param: "general",
+                    condition: general,
+                    h1: "General Admission",
+                    p: product?.ticket_price,
+                  },
+                  {
+                    param: "Vip",
+                    condition: Vip,
+                    h1: "VIP Experience",
+                    p: product?.ticket_price,
+                  },
+                  {
+                    param: "student",
+                    condition: student,
+                    h1: "Student Admission",
+                    p: product?.ticket_price,
+                  },
+                ]?.map((val, i) => (
+                  <PriceCmp
+                    key={i}
+                    condition={val.condition}
+                    h1={val.h1}
+                    param={val.param}
+                    p={val.p}
+                    handleClick={handleClick}
+                  />
+                ))}
+              </div> */}
+
+              <div className="flex items-center text-3xl font-bold text-white mt-4">Rs.</div>
+
+              <div
+                className={`${itemCenter} w-full sm:justify-between justify-center sm:gap-2 gap-8 flex-wrap mt-4`}
+              >
+                <div className={`${itemCenter} gap-5`}>
+                  <button
+                    className={controls}
+                    onClick={() => count > 1 && setCount(count - 1)}
+                  >
+                    <Remove />
+                  </button>
+
+                  <p className="text-white text-2xl font-semibold">{count}</p>
+
+                  <button className={controls} onClick={() => setCount(count + 1)}>
+                    <Add />
+                  </button>
+                </div>
+
                 <button
-                  className={controls}
-                  onClick={() => count > 1 && setCount(count - 1)}
+                  className={`${itemCenter} gap-2 rounded-md px-[4%] py-4 font-semibold ${active} text-xl`}
+                  onClick={handleAddToCart}
                 >
-                  <Remove />
-                </button>
-
-                <p className="text-white text-2xl font-semibold">{count}</p>
-
-                <button className={controls} onClick={() => setCount(count + 1)}>
-                  <Add />
+                  <LocalActivity className="-rotate-45" /> Add To Cart
                 </button>
               </div>
 
-              <button
-                className={`${itemCenter} gap-2 rounded-md px-[4%] py-4 font-semibold ${active} text-xl`}
-                onClick={handleAddToCart}
-              >
-                <LocalActivity className="-rotate-45" /> Add To Cart
-              </button>
-            </div>
-
-            <div className="w-full justify-center items-center flex mt-7">
-              <button className={`${active} py-6 rounded-xl w-[70%]`}>
-                Contact Organizer
-              </button>
+              <div className="w-full justify-center items-center flex mt-7">
+                <button className={`${active} py-6 rounded-xl w-[70%]`}>
+                  Contact Organizer
+                </button>
+              </div>
             </div>
           </div>
+          <EmbedMap link={product?.google_map} />
         </div>
       </section>
       <Footer />

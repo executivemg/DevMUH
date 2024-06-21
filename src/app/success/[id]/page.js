@@ -4,9 +4,11 @@ import { useRouter } from 'next/navigation';
 import axios from '../../../axios';
 import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from "react-hot-toast";
+import { PropagateLoader } from 'react-spinners';
 
 export default function Page({ params }) {
     const [token, setToken] = useState("");
+    const [loading, setLoading] = useState(false);
     const route = useRouter();
 
     useEffect(() => {
@@ -21,29 +23,38 @@ export default function Page({ params }) {
 
     useEffect(() => {
         const { id } = params;
-        if (token) {
-            (async () => {
-                console.log(token);
-                const res = await axios.get(`/update-status/order/${id}`, {
-                    params: {
-                        status: 1,
+        try {
+            if (token) {
+                (async () => {
+                    setLoading(true)
+                    const res = await axios.get(`/update-status/order/${id}`, {
+                        params: {
+                            status: 1,
+                        }
+                    }, {
+                        headers: {
+                            Accept: "*/*",
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        }
+                    });
+                    if (res?.data?.status == 200) {
+                        setLoading(false)
+                        toast.success(res?.data?.message);
+                        route.push("/");
+                        return;
                     }
-                }, {
-                    headers: {
-                        Accept: "*/*",
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    }
-                });
-                if (res?.data?.status == 200) {
-                    toast.success(res?.data?.message);
-                    route.push("/");
-                    return;
-                }
-                console.log(res?.data);
-            })();
+                })();
+            }
+        } catch (error) {
+            console.log(error);
         }
     }, [token, params]);
 
-    return <Toaster />;
+    return <>
+        <Toaster />
+        {loading && <div className='h-screen w-screen flex justify-center items-center'>
+            <PropagateLoader color='#2C3BFA' />
+        </div>}
+    </>
 }

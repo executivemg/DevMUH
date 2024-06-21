@@ -6,8 +6,49 @@
 
 @media (min-width: 640px) {
   .imp {
-      width: 80vw !important;
+    width: 80vw !important;
   }
+}
+
+.ql-toolbar path {
+  fill: #fff !important;
+}
+
+.ql-picker-label::before {
+  color: #fff !important;
+}
+svg polygon {
+  fill: #fff !important;
+}
+.ql-editor::before {
+  color: #ffffff8c !important;
+}
+.ql-blockquote svg,
+.ql-blockquote rect,
+.ql-blockquote path {
+  fill: #ffffff !important; /* Set fill color to white */
+  stroke: #ffffff !important; /* Optional: Set stroke color to white */
+}
+.ql-italic svg,
+.ql-italic line {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+}
+.ql-list svg,
+.ql-list line,
+.ql-list path {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+  fill: #ffffff !important; /* Set fill color to white with !important */
+}
+.ql-indent svg,
+.ql-indent line,
+.ql-indent polyline {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+}
+.ql-clean svg,
+.ql-clean line,
+.ql-clean rect {
+  stroke: #ffffff !important; /* Set stroke color to white with !important */
+  fill: #ffffff !important; /* Set fill color to white with !important */
 }
 
 .imp {
@@ -19,7 +60,7 @@ html {
 }
 
 body {
-  background-color: #04000A;
+  background-color: #04000a;
   overflow-x: hidden !important;
 }
 
@@ -113,15 +154,12 @@ body {
 }
 
 .bord {
-  -webkit-text-stroke: 2px #303DE2;
+  -webkit-text-stroke: 2px #303de2;
 }
 
 .bord::selection {
-  box-shadow: 0 0 20px #303DE2,
-    0 0 40px #303DE2,
-    0 0 60px #303DE2,
-    0 0 80px #303DE2,
-    0 0 100px #303DE2,
+  box-shadow: 0 0 20px #303de2, 0 0 40px #303de2, 0 0 60px #303de2,
+    0 0 80px #303de2, 0 0 100px #303de2;
 }
 
 .cont:hover .wid {
@@ -150,7 +188,6 @@ body {
   rotate: 45deg !important;
 }
 
-
 @keyframes rotate {
   from {
     transform: rotate(0deg);
@@ -166,7 +203,8 @@ body {
 }
 
 .gridCont:hover .icon {
-  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg)
+    brightness(100%) contrast(100%) !important;
 }
 
 .marquee-container {
@@ -197,7 +235,7 @@ body {
   animation-play-state: running;
 }
 
-.tableCont::-webkit-scrollbar{
+.tableCont::-webkit-scrollbar {
   height: 5px;
 }
 

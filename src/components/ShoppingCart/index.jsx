@@ -61,10 +61,6 @@ const ShoppingCart = () => {
   };
 
   useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
-
-  useEffect(() => {
     const total = cartItems.reduce((acc, obj) => {
       return acc + obj.price * obj.quantity;
     }, 0);

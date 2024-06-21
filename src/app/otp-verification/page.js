@@ -121,14 +121,12 @@ export default function OtpVerification() {
                 sx={{ mb: 2 }}
               />
               {loading ? (
-                <div className="h-[100vh] flex justify-center items-center">
                   <PropagateLoader
                     color="#2C3BFA"
                     cssOverride={{}}
                     loading
                     size={10}
                   />
-                </div>
               ) : (
                 <Button
                   type="submit"

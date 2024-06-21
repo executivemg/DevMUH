@@ -268,14 +268,12 @@ export default function SignUp() {
                   </Grid>
                 </Grid>
                 {loading ? (
-                  <div className="h-[100vh] flex justify-center items-center">
-                    <PropagateLoader
-                      color="#2C3BFA"
-                      cssOverride={{}}
-                      loading
-                      size={10}
-                    />
-                  </div>
+                  <PropagateLoader
+                    color="#2C3BFA"
+                    cssOverride={{}}
+                    loading
+                    size={10}
+                  />
                 ) : (
                   <Button
                     type="submit"

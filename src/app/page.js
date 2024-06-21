@@ -34,7 +34,7 @@ export default function Home() {
   !isBuyer && <></>
   return <>
     {isBuyer && <>
-      <Header />
+      <Header act />
       <Banner video={data.videos.video1} className={"mt-14"} />
       <div className="mt-10 overflow-x-hidden">
         <ImgBanner src="/upcomingBanner.png" className="" />
