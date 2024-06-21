@@ -17,6 +17,7 @@ import Testimonials from "./Testimonials";
 import Upcoming from "./Upcoming";
 import UpcomingEvent from "./UpcomingEvent";
 import VideoCont from "./VideoCont";
+import EventSection from './events_section';
 
 export {
   Header,
@@ -38,4 +39,5 @@ export {
   ImageUpload,
   SelectField,
   AddEvent,
+  EventSection
 };

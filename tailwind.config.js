@@ -57,6 +57,7 @@ module.exports = {
         // constant colors
         base: {
           DEFAULT: '#3674da',
+          color: '#3674da',
           hover: '#2a4fa3',
           light: '#c4e0f9',
           dark: '#0f172a',
