@@ -9,6 +9,7 @@ import {
   MarqueeTxt,
   MarqueeImgs,
   ProductCarousel,
+  EventSection,
   VideoCont,
 } from "@/components";
 import "./globals.css";
@@ -37,7 +38,8 @@ export default function Home() {
       <Banner video={data.videos.video1} className={"mt-14"} />
       <div className="mt-10 overflow-x-hidden">
         <ImgBanner src="/upcomingBanner.png" className="" />
-        <ProductCarousel className="pt-16" />
+        <EventSection className="pt-16" />
+        {/* <ProductCarousel className="pt-16" /> */}
         <ProductCarousel className="pt-20" />
 
         {/* <Upcoming /> */}

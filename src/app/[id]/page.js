@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "../../../axios";
+import axios from "../../axios";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Add, LocalActivity, Remove } from "@mui/icons-material";

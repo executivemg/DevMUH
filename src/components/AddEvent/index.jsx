@@ -34,6 +34,8 @@ import TextForm2 from './components/M2_textForm';
 import ItemAppendForm from './components/appendForm';
 import ItemAppendForm2 from './components/M2_appendForm';
 
+import Cookies from 'js-cookie';
+
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setFloorCategory, setFloorMode } from '@/store/slices/floorSlice';
@@ -205,11 +207,11 @@ export default function AddEvent() {
     const formattedFloorImage = editFloorPlan? base64ToFile(localFloorImage, 'floor-plan.jpg') : "";
 
     if (Object.keys(errors).length === 0) {
-      if (JSON.parse(localStorage.getItem("user")) === null) {
-        toast.error("Login to upload Events");
-        router.push("/login");
-        return;
-      }
+      // if (JSON.parse(localStorage.getItem("user")) === null) {
+      //   toast.error("Login to upload Events");
+      //   router.push("/login");
+      //   return;
+      // }
 
       const objToSend = {
         name: formData?.eventName,
@@ -246,14 +248,24 @@ export default function AddEvent() {
       try {
         setLoading(true);
         console.log(objToSend);
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("Token not found");
-        }
-        const res = await axios.post("/store/event", objToSend, {
+        // const token = localStorage.getItem("token");
+        // if (!token) {
+        //   throw new Error("Token not found");
+        // }
+        // :::::::::::::::: CREATE EVENT REQUEST
+        // const res = await axios.post("/store/event", objToSend, {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //     "Content-Type": "application/json",
+        //   },
+        // });
+
+        // ::::::::::::::::: TEST CREATE EVENT REQUEST
+        const csrfToken = Cookies.get('csrftoken');
+        const res = await axios.post("127.0.0.1:8000/ranaevent/create", objToSend, {
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
+            'X-CSRFToken': csrfToken, 
           },
         });
         console.log(res?.data);
